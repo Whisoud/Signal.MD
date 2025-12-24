@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Hot Today | 宇宙情报局</title>
+    <!-- 本地化静态资源，防止预览环境网络限制 -->
+    <script src="static/lib/tailwindcss.js"></script>
+    <link rel="stylesheet" href="static/lib/fontawesome.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cosmic-bg': '#050509',
+                        'glass-border': 'rgba(255, 255, 255, 0.08)',
+                        'neon-blue': '#00f2ea',
+                        'neon-purple': '#ff0050', /* 改为更激进的赛博红 */
+                        'neon-green': '#39ff14',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'scan': 'scan 3s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 强制隐藏类，防止 Tailwind 加载延迟导致布局错乱 */
+        .hidden { display: none !important; }
+        
+        /* 字体引入：Inter & JetBrains Mono */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        /* 基础重置 */
+        html, body {
+            margin: 0;
+            padding: 0;
+            background-color: #050509; /* 兜底背景色 */
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 独立背景层：彻底解决背景断层问题 */
+        #global-bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            background-color: #050509;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                radial-gradient(circle at 50% 0%, rgba(0, 242, 234, 0.15), transparent 60%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+            background-position: center top;
+        }
+
+        /* 隐藏滚动条但保留功能 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 高级玻璃拟态 */
+        .glass-nav {
+            background: rgba(5, 5, 9, 0.6);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 极光悬停效果 */
+        .hover-glow {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .hover-glow::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 0.5s;
+        }
+        .hover-glow:hover::before {
+            left: 100%;
+        }
+        .hover-glow:hover {
+            border-color: rgba(0, 242, 234, 0.3);
+            box-shadow: 0 0 25px rgba(0, 242, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* 文本选择色 */
+        ::selection {
+            background: rgba(0, 242, 234, 0.2);
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="text-slate-300">
+    <!-- 独立背景层 -->
+    <div id="global-bg-layer"></div>
+
+    <!-- 顶部导航 -->
+    <nav class="glass-nav sticky top-0 z-50 transition-all duration-500">
+        <div class="max-w-5xl mx-auto px-4 h-14 md:h-16 flex justify-between items-center">
+            <!-- Logo: 赛博风格 -->
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="relative w-8 h-8 flex items-center justify-center bg-white/5 rounded-lg border border-white/10 group-hover:border-neon-blue/50 transition-colors">
+                    <i class="fa-solid fa-earth-americas text-neon-blue text-sm group-hover:animate-spin-slow"></i>
+                    <div class="absolute inset-0 bg-neon-blue/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="text-sm font-bold tracking-[0.2em] text-white leading-none">
+                        COSMIC<span class="text-neon-blue">INTEL</span>
+                    </h1>
+                    <span class="text-[9px] font-mono text-slate-500 tracking-widest scale-90 origin-left mt-0.5">宇宙情报局</span>
+                </div>
+            </div>
+
+            <!-- 控制区：HUD 风格 -->
+            <div class="flex items-center gap-3">
+                <!-- 语言切换 -->
+                <div class="flex bg-black/40 rounded-lg p-0.5 border border-white/10 backdrop-blur-md">
+                    <button onclick="toggleLang('auto')" id="btn-lang-auto" class="px-3 py-1 text-[10px] font-bold font-mono rounded-md transition-all duration-300 tracking-wide">
+                        ORIG
+                    </button>
+                    <button onclick="toggleLang('trans')" id="btn-lang-trans" class="px-3 py-1 text-[10px] font-bold font-mono rounded-md text-slate-500 hover:text-white transition-all duration-300 tracking-wide">
+                        CN
+                    </button>
+                </div>
+                
+                <!-- 模块切换 -->
+                <div class="flex bg-black/40 rounded-lg p-0.5 border border-white/10 backdrop-blur-md">
+                    <button onclick="switchModule('live')" id="btn-live" class="w-8 h-6 flex items-center justify-center rounded-md bg-neon-blue/10 text-neon-blue border border-neon-blue/30 shadow-[0_0_8px_rgba(0,242,234,0.3)] transition-all">
+                        <i class="fa-solid fa-satellite text-xs"></i>
+                    </button>
+                    <button onclick="switchModule('brief')" id="btn-brief" class="w-8 h-6 flex items-center justify-center rounded-md text-slate-500 hover:text-white transition-all">
+                        <i class="fa-solid fa-newspaper text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主容器 -->
+    <main class="max-w-5xl mx-auto px-4 py-8 pb-0">
+
+        <!-- 模块1：实时流 -->
+        <div id="module-live" class="animate-fade-in opacity-0" style="animation: fadeIn 0.8s forwards;">
+            <!-- 仪表盘头部 -->
+            <div class="flex flex-col md:flex-row justify-between items-end md:items-center mb-8 gap-6">
+                <div class="relative">
+                    <h2 class="text-4xl font-black text-white tracking-tighter mb-1">
+                        LIVE FEED
+                    </h2>
+                    <div class="flex items-center gap-3">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-green opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-neon-green"></span>
+                        </span>
+                        <p class="text-[10px] font-mono text-neon-blue tracking-widest opacity-80">
+                            SYSTEM ONLINE // <span id="last-updated">CONNECTING...</span>
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- 筛选器：全息风格 -->
+                <div class="w-full md:w-auto overflow-x-auto no-scrollbar">
+                    <div class="flex gap-2 min-w-max p-1">
+                        <button onclick="filterNews('all')" class="filter-btn active group relative px-4 py-1.5 overflow-hidden rounded text-[11px] font-bold font-mono border border-neon-blue bg-neon-blue/10 text-neon-blue transition-all" data-category="all">
+                            <span class="relative z-10">ALL_CHANNELS</span>
+                            <div class="absolute inset-0 bg-neon-blue/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        </button>
+                        <button onclick="filterNews('36氪')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-yellow-500/50 hover:text-yellow-400 transition-all" data-category="36氪">
+                            36Kr
+                        </button>
+                        <button onclick="filterNews('机器之心')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-blue-500/50 hover:text-blue-400 transition-all" data-category="机器之心">
+                            SYNCED
+                        </button>
+                        <button onclick="filterNews('量子位')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-indigo-500/50 hover:text-indigo-400 transition-all" data-category="量子位">
+                            QBIT
+                        </button>
+                        <button onclick="filterNews('TechCrunch AI')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-green-500/50 hover:text-green-400 transition-all" data-category="TechCrunch AI">
+                            TC_AI
+                        </button>
+                        <button onclick="filterNews('Hacker News')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-orange-500/50 hover:text-orange-400 transition-all" data-category="Hacker News">
+                            HN_RSS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新闻列表网格 -->
+            <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- 骨架屏 -->
+                <div id="loading-skeleton" class="col-span-1 md:col-span-2 space-y-4">
+                    <div class="h-32 glass-card rounded-xl animate-pulse"></div>
+                    <div class="h-32 glass-card rounded-xl animate-pulse"></div>
+                    <div class="h-32 glass-card rounded-xl animate-pulse"></div>
+                </div>
+            </div>
+
+            <!-- 加载更多：全息按钮 -->
+            <div id="pagination-controls" class="text-center hidden pb-12">
+                <button onclick="loadMore()" class="mt-8 group relative px-10 py-3 bg-transparent overflow-hidden rounded border border-white/10 transition-all hover:border-neon-blue/50">
+                    <div class="absolute inset-0 w-full h-full bg-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-[10px] font-mono text-neon-blue tracking-[0.3em] mb-1">LOAD_NEXT_BATCH</span>
+                        <i class="fa-solid fa-chevron-down text-slate-500 text-xs group-hover:translate-y-1 transition-transform"></i>
+                    </div>
+                </button>
+                <p id="no-more-data" class="text-[10px] font-mono text-slate-600 mt-6 hidden tracking-widest">// END OF TRANSMISSION //</p>
+            </div>
+        </div>
+
+        <!-- 模块2：晨报 -->
+        <div id="module-brief" class="hidden animate-fade-in" style="animation: fadeIn 0.8s forwards;">
+            <div class="text-center mb-10">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full border border-neon-purple/30 bg-neon-purple/5 mb-4 shadow-[0_0_30px_rgba(255,0,80,0.15)]">
+                    <i class="fa-solid fa-satellite-dish text-neon-purple text-lg"></i>
+                </div>
+                <h2 class="text-3xl font-black text-white tracking-tight mb-2">DAILY INTELLIGENCE</h2>
+                <p class="text-[10px] font-mono text-neon-purple tracking-[0.2em]" id="brief-date">ESTABLISHING LINK...</p>
+            </div>
+            
+            <div class="glass-card p-6 md:p-12 rounded-xl border-t border-neon-purple/20 shadow-[0_0_60px_-20px_rgba(255,0,80,0.15)] min-h-[400px] relative overflow-hidden">
+                <!-- 装饰性扫描线 -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neon-purple/50 to-transparent animate-scan opacity-20 pointer-events-none"></div>
+                
+                <div id="brief-content" class="prose prose-invert prose-sm md:prose-base max-w-none text-slate-300">
+                    <div class="animate-pulse space-y-6">
+                        <div class="h-2 bg-white/5 rounded w-24 mb-8"></div>
+                        <div class="h-4 bg-white/5 rounded w-full"></div>
+                        <div class="h-4 bg-white/5 rounded w-5/6"></div>
+                        <div class="h-4 bg-white/5 rounded w-4/6"></div>
+                        <p class="text-center text-[10px] font-mono text-slate-600 pt-10 tracking-widest">DECRYPTING SECURE STREAM...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- 核心逻辑 ---
+        let allNewsData = [];
+        let filteredData = [];
+        let currentCategory = 'all';
+        let currentLangMode = 'auto';
+        let currentPage = 1;
+        const pageSize = 20;
+
+        // UI 切换逻辑
+        function switchModule(moduleName) {
+            const liveDiv = document.getElementById('module-live');
+            const briefDiv = document.getElementById('module-brief');
+            const btnLive = document.getElementById('btn-live');
+            const btnBrief = document.getElementById('btn-brief');
+
+            if (moduleName === 'live') {
+                liveDiv.classList.remove('hidden');
+                briefDiv.classList.add('hidden');
+                
+                btnLive.className = "w-8 h-6 flex items-center justify-center rounded-md bg-neon-blue/10 text-neon-blue border border-neon-blue/30 shadow-[0_0_8px_rgba(0,242,234,0.3)] transition-all";
+                btnBrief.className = "w-8 h-6 flex items-center justify-center rounded-md text-slate-500 hover:text-white transition-all";
+            } else {
+                liveDiv.classList.add('hidden');
+                briefDiv.classList.remove('hidden');
+                
+                btnBrief.className = "w-8 h-6 flex items-center justify-center rounded-md bg-neon-purple/10 text-neon-purple border border-neon-purple/30 shadow-[0_0_8px_rgba(255,0,80,0.3)] transition-all";
+                btnLive.className = "w-8 h-6 flex items-center justify-center rounded-md text-slate-500 hover:text-white transition-all";
+                
+                loadBrief();
+            }
+        }
+        
+        function toggleLang(mode) {
+            currentLangMode = mode;
+            const btnAuto = document.getElementById('btn-lang-auto');
+            const btnTrans = document.getElementById('btn-lang-trans');
+            
+            const activeClass = "px-3 py-1 text-[10px] font-bold font-mono rounded-md bg-white text-black shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-300 tracking-wide transform scale-105";
+            const inactiveClass = "px-3 py-1 text-[10px] font-bold font-mono rounded-md text-slate-500 hover:text-white transition-all duration-300 tracking-wide";
+            
+            if (mode === 'auto') {
+                btnAuto.className = activeClass;
+                btnTrans.className = inactiveClass;
+            } else {
+                btnTrans.className = activeClass;
+                btnAuto.className = inactiveClass;
+            }
+            renderNewsList(false);
+        }
+
+        function filterNews(category) {
+            currentCategory = category;
+            currentPage = 1;
+            
+            // Update UI
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const isAll = btn.dataset.category === 'all';
+                if(btn.dataset.category === category) {
+                    btn.className = "filter-btn active group relative px-4 py-1.5 overflow-hidden rounded text-[11px] font-bold font-mono border border-neon-blue bg-neon-blue/10 text-neon-blue shadow-[0_0_10px_rgba(0,242,234,0.15)] transition-all";
+                    if (isAll) {
+                         // Ensure internal div structure is correct for active state
+                         const span = btn.querySelector('span');
+                         if (!btn.querySelector('div.absolute')) {
+                             const div = document.createElement('div');
+                             div.className = "absolute inset-0 bg-neon-blue/10 opacity-0 group-hover:opacity-100 transition-opacity";
+                             btn.appendChild(div);
+                         }
+                    }
+                } else {
+                    btn.className = "filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-white/20 hover:text-white transition-all";
+                    // Remove the div if it exists to clean up
+                     const div = btn.querySelector('div.absolute');
+                     if (div) div.remove();
+                }
+            });
+
+            if (category === 'all') {
+                filteredData = allNewsData;
+            } else {
+                filteredData = allNewsData.filter(item => item.source === category);
+            }
+            renderNewsList(true);
+        }
+
+        function loadMore() {
+            currentPage++;
+            renderNewsList(false);
+        }
+
+        // Helper: Smart Time
+        function formatSmartTime(timeStr) {
+            if (!timeStr) return '';
+            const date = new Date(timeStr.replace(/-/g, '/'));
+            const now = new Date();
+            const isToday = date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+            const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
+            const isYesterday = date.getDate() === yesterday.getDate() && date.getMonth() === yesterday.getMonth() && date.getFullYear() === yesterday.getFullYear();
+            
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            
+            if (isToday) return `${hours}:${minutes}`;
+            else if (isYesterday) return `YESTERDAY ${hours}:${minutes}`;
+            else {
+                return `${(date.getMonth()+1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')} ${hours}:${minutes}`;
+            }
+        }
+
+        // Helper: Source Style Map
+        function getSourceStyle(source) {
+            const map = {
+                '36氪': { color: 'text-yellow-400', icon: 'fa-fire', border: 'group-hover:border-yellow-500/50' },
+                '机器之心': { color: 'text-blue-400', icon: 'fa-robot', border: 'group-hover:border-blue-500/50' },
+                '量子位': { color: 'text-indigo-400', icon: 'fa-microchip', border: 'group-hover:border-indigo-500/50' },
+                'TechCrunch AI': { color: 'text-green-400', icon: 'fa-code', border: 'group-hover:border-green-500/50' },
+                'Hacker News': { color: 'text-orange-400', icon: 'fa-hacker-news', border: 'group-hover:border-orange-500/50' }
+            };
+            return map[source] || { color: 'text-slate-400', icon: 'fa-rss', border: 'group-hover:border-white/30' };
+        }
+
+        // Render Logic
+        function renderNewsList(reset = true) {
+            const container = document.getElementById('news-container');
+            const controls = document.getElementById('pagination-controls');
+            const noMore = document.getElementById('no-more-data');
+            const btn = controls.querySelector('button');
+
+            if (reset) {
+                container.innerHTML = '';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                container.innerHTML = ''; 
+            }
+
+            const visibleCount = currentPage * pageSize;
+            const visibleItems = filteredData.slice(0, visibleCount);
+
+            visibleItems.forEach((item, index) => {
+                const style = getSourceStyle(item.source);
+                
+                // Language Logic
+                let displayTitle = item.title;
+                let displaySummary = item.summary;
+                let isTranslated = false;
+                
+                if (currentLangMode === 'trans') {
+                    if (item.trans_title && item.trans_title.trim() !== "") {
+                        displayTitle = item.trans_title;
+                        displaySummary = item.trans_summary || item.summary;
+                        if (item.lang && item.lang !== 'zh') isTranslated = true;
+                    }
+                }
+
+                // Card HTML
+                const card = document.createElement('div');
+                card.className = `glass-card hover-glow group rounded-xl p-5 md:p-6 ${style.border} flex flex-col justify-between h-full`;
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex items-center gap-2 text-[10px] font-mono tracking-wide opacity-70">
+                                <span class="${style.color} font-bold flex items-center gap-1.5 uppercase">
+                                    <i class="fa-solid ${style.icon}"></i> ${item.source}
+                                </span>
+                                <span class="text-slate-600">/</span>
+                                <span class="text-slate-400">${formatSmartTime(item.time)}</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-[10px] font-mono text-neon-purple/80 bg-neon-purple/5 px-2 py-0.5 rounded border border-neon-purple/20">
+                                <i class="fa-solid fa-fire-flame-curved"></i> ${item.hot_score}
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-[17px] font-bold text-slate-100 leading-snug mb-5 group-hover:text-neon-blue transition-colors tracking-tight">
+                            <a href="${item.url}" target="_blank" class="block">
+                                ${displayTitle}
+                                ${isTranslated ? '<sup class="text-[9px] text-neon-blue ml-1 opacity-80">CN</sup>' : ''}
+                            </a>
+                        </h3>
+                    </div>
+
+                    <!-- AI Take Container -->
+                    <div class="relative mt-auto pt-4 border-t border-white/5">
+                        <div class="flex items-start gap-3">
+                            <div class="mt-1 w-1 h-1 bg-neon-blue rounded-full shadow-[0_0_5px_rgba(0,242,234,0.8)] animate-pulse"></div>
+                            <div>
+                                <p class="text-[9px] font-mono text-slate-500 mb-1.5 uppercase tracking-widest opacity-60">
+                                    AI_ANALYSIS
+                                </p>
+                                <p class="text-[13px] text-slate-300 leading-relaxed line-clamp-2 font-light opacity-90">
+                                    ${displaySummary}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            // Pagination State
+            controls.classList.remove('hidden');
+            
+            if (filteredData.length === 0) {
+                 container.innerHTML = `<div class="col-span-2 text-center py-24 opacity-30 font-mono text-xs tracking-widest text-slate-500">NO SIGNAL DETECTED</div>`;
+                 controls.classList.add('hidden');
+                 return;
+            }
+
+            if (visibleCount >= filteredData.length) {
+                // 彻底重写内容，确保按钮绝对消失
+                controls.innerHTML = `<p class="text-[10px] font-mono text-slate-600 tracking-widest opacity-40 mt-6 mb-2">// END OF TRANSMISSION //</p>`;
+            } else {
+                controls.innerHTML = `
+                <button onclick="loadMore()" class="mt-8 group relative px-10 py-3 bg-transparent overflow-hidden rounded border border-white/10 transition-all hover:border-neon-blue/50">
+                    <div class="absolute inset-0 w-full h-full bg-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-[10px] font-mono text-neon-blue tracking-[0.3em] mb-1">LOAD_NEXT_BATCH</span>
+                        <i class="fa-solid fa-chevron-down text-slate-500 text-xs group-hover:translate-y-1 transition-transform"></i>
+                    </div>
+                </button>`;
+            }
+        }
+
+        // Data Loading
+        async function loadNews() {
+            try {
+                const res = await fetch('data/news.json?t=' + Date.now());
+                const data = await res.json();
+                allNewsData = data;
+                filteredData = data;
+                document.getElementById('loading-skeleton').classList.add('hidden');
+                if (data.length) document.getElementById('last-updated').innerText = formatSmartTime(data[0].time);
+                renderNewsList(true);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function loadBrief() {
+            const container = document.getElementById('brief-content');
+            if (container.dataset.loaded === 'true') return;
+            try {
+                const res = await fetch('data/daily_brief.json?t=' + Date.now());
+                const data = await res.json();
+                document.getElementById('brief-date').innerText = data.date;
+                let html = data.content
+                    .replace(/<h3>/g, '<h3 class="text-lg font-bold text-neon-purple mt-8 mb-4 flex items-center gap-3 border-b border-white/5 pb-2 tracking-wide"><i class="fa-solid fa-square text-[8px] opacity-50"></i>')
+                    .replace(/<ul>/g, '<ul class="space-y-4 list-none pl-0">')
+                    .replace(/<li>/g, '<li class="bg-white/5 p-4 rounded border-l-2 border-transparent hover:border-neon-purple hover:bg-white/10 transition-all text-slate-300 leading-relaxed text-sm group">')
+                    .replace(/<strong>/g, '<strong class="text-white font-semibold">');
+                container.innerHTML = html;
+                container.dataset.loaded = 'true';
+            } catch (e) {
+                container.innerHTML = `<div class="text-center text-red-400 font-mono text-xs py-10 tracking-widest">DATA CORRUPTED</div>`;
+            }
+        }
+
+        // Init
+        loadNews();
+    </script>
+    <style>
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</body>
+</html>
