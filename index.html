@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="antialiased">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI Hot Today | 宇宙情报局</title>
-    <!-- 本地化静态资源，防止预览环境网络限制 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signal.MD | Signal, Not Noise.</title>
     <script src="static/lib/tailwindcss.js"></script>
     <link rel="stylesheet" href="static/lib/fontawesome.css">
     <script>
@@ -12,532 +11,500 @@
             theme: {
                 extend: {
                     colors: {
-                        'cosmic-bg': '#050509',
-                        'glass-border': 'rgba(255, 255, 255, 0.08)',
-                        'neon-blue': '#00f2ea',
-                        'neon-purple': '#ff0050', /* 改为更激进的赛博红 */
-                        'neon-green': '#39ff14',
+                        'bg-primary': '#0f0f10',
+                        'bg-secondary': '#1a1a1c',
+                        'accent': '#5e6ad2', // Linear Purple
+                        'text-primary': '#e1e1e3',
+                        'text-secondary': '#8a8a8e',
+                        'border-color': '#2e2e32'
                     },
                     fontFamily: {
-                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'scan': 'scan 3s linear infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        scan: {
-                            '0%': { transform: 'translateY(-100%)' },
-                            '100%': { transform: 'translateY(100%)' }
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-6px)' },
-                        }
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
                     }
                 }
             }
         }
     </script>
     <style>
-        /* 强制隐藏类，防止 Tailwind 加载延迟导致布局错乱 */
-        .hidden { display: none !important; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
         
-        /* 字体引入：Inter & JetBrains Mono */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        body { background-color: #0f0f10; color: #e1e1e3; }
         
-        /* 基础重置 */
-        html, body {
-            margin: 0;
-            padding: 0;
-            background-color: #050509; /* 兜底背景色 */
-        }
-        
-        body { 
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            position: relative;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2e2e32; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3e3e42; }
+
+        .card-hover:hover {
+            background-color: #1a1a1c;
+            border-color: #3e3e42;
         }
 
-        /* 独立背景层：彻底解决背景断层问题 */
-        #global-bg-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-            background-color: #050509;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                radial-gradient(circle at 50% 0%, rgba(0, 242, 234, 0.15), transparent 60%);
-            background-size: 40px 40px, 40px 40px, 100% 100%;
-            background-position: center top;
-        }
-
-        /* 隐藏滚动条但保留功能 */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* 高级玻璃拟态 */
-        .glass-nav {
-            background: rgba(5, 5, 9, 0.6);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .glass-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            box-shadow: 0 4px 20px -1px rgba(0, 0, 0, 0.3);
-        }
-
-        /* 极光悬停效果 */
-        .hover-glow {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .hover-glow::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: left 0.5s;
-        }
-        .hover-glow:hover::before {
-            left: 100%;
-        }
-        .hover-glow:hover {
-            border-color: rgba(0, 242, 234, 0.3);
-            box-shadow: 0 0 25px rgba(0, 242, 234, 0.1);
-            transform: translateY(-2px);
-        }
-
-        /* 文本选择色 */
-        ::selection {
-            background: rgba(0, 242, 234, 0.2);
+        /* HTML Content Reader Styling */
+        #drawer-full-content h1, #drawer-full-content h2, #drawer-full-content h3 {
             color: #fff;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            line-height: 1.3;
+        }
+        #drawer-full-content h2 { font-size: 1.25rem; }
+        #drawer-full-content h3 { font-size: 1.1rem; }
+        #drawer-full-content p {
+            margin-bottom: 1.25em;
+            color: #b0b0b5;
+        }
+        #drawer-full-content a {
+            color: #5e6ad2;
+            text-decoration: underline;
+        }
+        #drawer-full-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1.5em 0;
+        }
+        #drawer-full-content ul, #drawer-full-content ol {
+            margin-bottom: 1.25em;
+            padding-left: 1.5em;
+            color: #b0b0b5;
+        }
+        #drawer-full-content li { margin-bottom: 0.5em; }
+        #drawer-full-content blockquote {
+            border-left: 4px solid #5e6ad2;
+            padding-left: 1em;
+            color: #8a8a8e;
+            font-style: italic;
+            margin: 1.5em 0;
         }
     </style>
 </head>
-<body class="text-slate-300">
-    <!-- 独立背景层 -->
-    <div id="global-bg-layer"></div>
+<body class="min-h-screen flex flex-col">
 
-    <!-- 顶部导航 -->
-    <nav class="glass-nav sticky top-0 z-50 transition-all duration-500">
-        <div class="max-w-5xl mx-auto px-4 h-14 md:h-16 flex justify-between items-center">
-            <!-- Logo: 赛博风格 -->
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                <div class="relative w-8 h-8 flex items-center justify-center bg-white/5 rounded-lg border border-white/10 group-hover:border-neon-blue/50 transition-colors">
-                    <i class="fa-solid fa-earth-americas text-neon-blue text-sm group-hover:animate-spin-slow"></i>
-                    <div class="absolute inset-0 bg-neon-blue/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-                <div class="flex flex-col">
-                    <h1 class="text-sm font-bold tracking-[0.2em] text-white leading-none">
-                        COSMIC<span class="text-neon-blue">INTEL</span>
-                    </h1>
-                    <span class="text-[9px] font-mono text-slate-500 tracking-widest scale-90 origin-left mt-0.5">宇宙情报局</span>
-                </div>
-            </div>
-
-            <!-- 控制区：HUD 风格 -->
+    <!-- Header: Minimalist -->
+    <header class="border-b border-border-color bg-bg-primary sticky top-0 z-50 backdrop-blur-md bg-opacity-90">
+        <div class="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <!-- 语言切换 -->
-                <div class="flex bg-black/40 rounded-lg p-0.5 border border-white/10 backdrop-blur-md">
-                    <button onclick="toggleLang('auto')" id="btn-lang-auto" class="px-3 py-1 text-[10px] font-bold font-mono rounded-md transition-all duration-300 tracking-wide">
-                        ORIG
-                    </button>
-                    <button onclick="toggleLang('trans')" id="btn-lang-trans" class="px-3 py-1 text-[10px] font-bold font-mono rounded-md text-slate-500 hover:text-white transition-all duration-300 tracking-wide">
-                        CN
-                    </button>
-                </div>
-                
-                <!-- 模块切换 -->
-                <div class="flex bg-black/40 rounded-lg p-0.5 border border-white/10 backdrop-blur-md">
-                    <button onclick="switchModule('live')" id="btn-live" class="w-8 h-6 flex items-center justify-center rounded-md bg-neon-blue/10 text-neon-blue border border-neon-blue/30 shadow-[0_0_8px_rgba(0,242,234,0.3)] transition-all">
-                        <i class="fa-solid fa-satellite text-xs"></i>
-                    </button>
-                    <button onclick="switchModule('brief')" id="btn-brief" class="w-8 h-6 flex items-center justify-center rounded-md text-slate-500 hover:text-white transition-all">
-                        <i class="fa-solid fa-newspaper text-xs"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- 主容器 -->
-    <main class="max-w-5xl mx-auto px-4 py-8 pb-0">
-
-        <!-- 模块1：实时流 -->
-        <div id="module-live" class="animate-fade-in opacity-0" style="animation: fadeIn 0.8s forwards;">
-            <!-- 仪表盘头部 -->
-            <div class="flex flex-col md:flex-row justify-between items-end md:items-center mb-8 gap-6">
-                <div class="relative">
-                    <h2 class="text-4xl font-black text-white tracking-tighter mb-1">
-                        LIVE FEED
-                    </h2>
-                    <div class="flex items-center gap-3">
-                        <span class="relative flex h-2 w-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-neon-green opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 bg-neon-green"></span>
-                        </span>
-                        <p class="text-[10px] font-mono text-neon-blue tracking-widest opacity-80">
-                            SYSTEM ONLINE // <span id="last-updated">CONNECTING...</span>
-                        </p>
-                    </div>
-                </div>
-                
-                <!-- 筛选器：全息风格 -->
-                <div class="w-full md:w-auto overflow-x-auto no-scrollbar">
-                    <div class="flex gap-2 min-w-max p-1">
-                        <button onclick="filterNews('all')" class="filter-btn active group relative px-4 py-1.5 overflow-hidden rounded text-[11px] font-bold font-mono border border-neon-blue bg-neon-blue/10 text-neon-blue transition-all" data-category="all">
-                            <span class="relative z-10">ALL_CHANNELS</span>
-                            <div class="absolute inset-0 bg-neon-blue/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        </button>
-                        <button onclick="filterNews('36氪')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-yellow-500/50 hover:text-yellow-400 transition-all" data-category="36氪">
-                            36Kr
-                        </button>
-                        <button onclick="filterNews('机器之心')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-blue-500/50 hover:text-blue-400 transition-all" data-category="机器之心">
-                            SYNCED
-                        </button>
-                        <button onclick="filterNews('量子位')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-indigo-500/50 hover:text-indigo-400 transition-all" data-category="量子位">
-                            QBIT
-                        </button>
-                        <button onclick="filterNews('TechCrunch AI')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-green-500/50 hover:text-green-400 transition-all" data-category="TechCrunch AI">
-                            TC_AI
-                        </button>
-                        <button onclick="filterNews('Hacker News')" class="filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-orange-500/50 hover:text-orange-400 transition-all" data-category="Hacker News">
-                            HN_RSS
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 新闻列表网格 -->
-            <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <!-- 骨架屏 -->
-                <div id="loading-skeleton" class="col-span-1 md:col-span-2 space-y-4">
-                    <div class="h-32 glass-card rounded-xl animate-pulse"></div>
-                    <div class="h-32 glass-card rounded-xl animate-pulse"></div>
-                    <div class="h-32 glass-card rounded-xl animate-pulse"></div>
-                </div>
-            </div>
-
-            <!-- 加载更多：全息按钮 -->
-            <div id="pagination-controls" class="text-center hidden pb-12">
-                <button onclick="loadMore()" class="mt-8 group relative px-10 py-3 bg-transparent overflow-hidden rounded border border-white/10 transition-all hover:border-neon-blue/50">
-                    <div class="absolute inset-0 w-full h-full bg-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="flex flex-col items-center">
-                        <span class="text-[10px] font-mono text-neon-blue tracking-[0.3em] mb-1">LOAD_NEXT_BATCH</span>
-                        <i class="fa-solid fa-chevron-down text-slate-500 text-xs group-hover:translate-y-1 transition-transform"></i>
-                    </div>
-                </button>
-                <p id="no-more-data" class="text-[10px] font-mono text-slate-600 mt-6 hidden tracking-widest">// END OF TRANSMISSION //</p>
-            </div>
-        </div>
-
-        <!-- 模块2：晨报 -->
-        <div id="module-brief" class="hidden animate-fade-in" style="animation: fadeIn 0.8s forwards;">
-            <div class="text-center mb-10">
-                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full border border-neon-purple/30 bg-neon-purple/5 mb-4 shadow-[0_0_30px_rgba(255,0,80,0.15)]">
-                    <i class="fa-solid fa-satellite-dish text-neon-purple text-lg"></i>
-                </div>
-                <h2 class="text-3xl font-black text-white tracking-tight mb-2">DAILY INTELLIGENCE</h2>
-                <p class="text-[10px] font-mono text-neon-purple tracking-[0.2em]" id="brief-date">ESTABLISHING LINK...</p>
+                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                <a href="index.html" class="hover:text-accent transition-colors">
+                    <h1 class="text-sm font-semibold tracking-tight">Signal.MD</h1>
+                </a>
+                <span class="text-[10px] text-text-secondary/60 font-mono hidden sm:inline-block ml-2 italic">Signal, Not Noise.</span>
             </div>
             
-            <div class="glass-card p-6 md:p-12 rounded-xl border-t border-neon-purple/20 shadow-[0_0_60px_-20px_rgba(255,0,80,0.15)] min-h-[400px] relative overflow-hidden">
-                <!-- 装饰性扫描线 -->
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-neon-purple/50 to-transparent animate-scan opacity-20 pointer-events-none"></div>
-                
-                <div id="brief-content" class="prose prose-invert prose-sm md:prose-base max-w-none text-slate-300">
-                    <div class="animate-pulse space-y-6">
-                        <div class="h-2 bg-white/5 rounded w-24 mb-8"></div>
-                        <div class="h-4 bg-white/5 rounded w-full"></div>
-                        <div class="h-4 bg-white/5 rounded w-5/6"></div>
-                        <div class="h-4 bg-white/5 rounded w-4/6"></div>
-                        <p class="text-center text-[10px] font-mono text-slate-600 pt-10 tracking-widest">DECRYPTING SECURE STREAM...</p>
-                    </div>
-                </div>
+            <div class="flex items-center gap-6 text-sm font-medium text-text-secondary">
+                <nav class="hidden md:flex items-center gap-6 mr-6 border-r border-border-color pr-6">
+                    <a href="#" class="text-white hover:text-accent transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-bolt"></i> AI 实时情报
+                    </a>
+                    <a href="playground.html" class="hover:text-white transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad"></i> AI 游乐场
+                    </a>
+                </nav>
+                <span id="last-updated" class="text-xs font-mono opacity-60">SYNCING...</span>
+                <a href="https://github.com" target="_blank" class="hover:text-white transition-colors"><i class="fa-brands fa-github"></i></a>
             </div>
         </div>
+    </header>
 
-    </main>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 max-w-5xl">
+        <!-- Dashboard Grid -->
+        <div class="grid grid-cols-1 gap-6">
+            
+            <!-- Left: Signal Feed -->
+            <div class="bg-bg-card rounded-xl border border-border-color p-5 shadow-2xl h-[800px] flex flex-col relative overflow-hidden group">
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-4 z-10">
+                    <h2 class="text-lg font-bold flex items-center gap-2 text-text-primary tracking-wide">
+                        <i class="fas fa-satellite-dish text-accent-primary animate-pulse-slow"></i> 
+                        MEDAI SIGNAL FEED
+                    </h2>
+                
+                <!-- Filter Tabs -->
+                        <div class="flex bg-bg-secondary rounded-lg p-1 gap-1" id="feed-filters">
+                            <button class="filter-btn active px-3 py-1 rounded text-[11px] font-mono text-text-secondary hover:text-white transition-colors" data-filter="all">All</button>
+                            <button class="filter-btn px-3 py-1 rounded text-[11px] font-mono text-text-secondary hover:text-white transition-colors" data-filter="Insights">💡 Insights</button>
+                            <button class="filter-btn px-3 py-1 rounded text-[11px] font-mono text-text-secondary hover:text-white transition-colors" data-filter="Product">🚀 Product</button>
+                            <button class="filter-btn px-3 py-1 rounded text-[11px] font-mono text-text-secondary hover:text-white transition-colors" data-filter="Clinical">🏥 Clinical</button>
+                            <button class="filter-btn px-3 py-1 rounded text-[11px] font-mono text-text-secondary hover:text-white transition-colors" data-filter="Market">💰 Market</button>
+                        </div>
+            </div>
+
+            <!-- Feed Container -->
+            <div id="signal-container" class="space-y-4 overflow-y-auto pr-2 custom-scrollbar flex-1 relative z-10">
+                <!-- Loading State -->
+                <div class="animate-pulse space-y-4">
+                    <div class="h-24 bg-bg-secondary rounded-lg w-full"></div>
+                    <div class="h-24 bg-bg-secondary rounded-lg w-full"></div>
+                    <div class="h-24 bg-bg-secondary rounded-lg w-full"></div>
+                </div>
+            </div>
+
+            <!-- Background Effects -->
+            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-bg-secondary/5 to-accent/5 pointer-events-none"></div>
+        </div>
+    </div>
+    <!-- Drawer Component (Hidden by default) -->
+    <div id="article-drawer" class="fixed inset-y-0 right-0 w-full md:w-1/2 bg-bg-primary border-l border-border-color shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="flex items-center justify-between p-4 border-b border-border-color bg-bg-card">
+            <div class="flex items-center gap-3">
+                <span id="drawer-category" class="text-[10px] font-semibold tracking-wider px-2 py-1 rounded border uppercase flex items-center gap-1.5 text-slate-400 bg-slate-400/10 border-slate-400/20">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>Category
+                </span>
+                <span id="drawer-source" class="text-xs text-text-muted"><i class="fas fa-globe mr-1"></i>Source</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="toggleTranslation()" id="translate-btn" class="text-xs font-mono px-3 py-1.5 rounded-md border border-border-color text-text-secondary hover:text-white hover:border-accent transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-language"></i> <span>中英互译</span>
+                </button>
+                <button onclick="closeDrawer()" class="text-text-secondary hover:text-white transition-colors p-2">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Drawer Content (Scrollable) -->
+        <div class="flex-1 overflow-y-auto p-6 custom-scrollbar bg-bg-primary">
+            <h1 id="drawer-title" class="text-2xl font-bold text-text-primary mb-4 leading-tight">Article Title</h1>
+            
+            <div class="flex items-center gap-4 text-xs text-text-muted mb-8 pb-4 border-b border-border-color/50">
+                <span id="drawer-time"><i class="far fa-clock mr-1"></i>Time</span>
+                <div id="drawer-tags" class="flex gap-2 flex-wrap">
+                    <!-- Tags will be injected here -->
+                </div>
+            </div>
+            
+            <div id="drawer-full-content" class="prose prose-invert prose-sm md:prose-base max-w-none text-text-secondary leading-relaxed mb-8">
+                <!-- Full HTML content will be injected here -->
+            </div>
+            
+            <!-- Fallback/Iframe Area -->
+            <div class="text-center py-8 border-t border-border-color/50">
+                <a id="drawer-link" href="#" target="_blank" class="inline-block bg-accent hover:bg-[#4a55b3] text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(94,106,210,0.3)]">
+                    Read Full Article <i class="fas fa-external-link-alt ml-2"></i>
+                </a>
+                <p class="text-xs text-text-muted mt-4">Opens in a new tab</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Drawer Overlay Backdrop -->
+    <div id="drawer-backdrop" onclick="closeDrawer()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300"></div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-bg-secondary border border-border-color text-white px-4 py-2 rounded-full shadow-lg transition-all duration-300 translate-y-10 opacity-0 z-[60] flex items-center gap-2 text-sm font-mono">
+        <i class="fas fa-info-circle text-accent"></i>
+        <span id="toast-msg"></span>
+    </div>
 
     <script>
-        // --- 核心逻辑 ---
-        let allNewsData = [];
-        let filteredData = [];
-        let currentCategory = 'all';
-        let currentLangMode = 'auto';
-        let currentPage = 1;
-        const pageSize = 20;
-
-        // UI 切换逻辑
-        function switchModule(moduleName) {
-            const liveDiv = document.getElementById('module-live');
-            const briefDiv = document.getElementById('module-brief');
-            const btnLive = document.getElementById('btn-live');
-            const btnBrief = document.getElementById('btn-brief');
-
-            if (moduleName === 'live') {
-                liveDiv.classList.remove('hidden');
-                briefDiv.classList.add('hidden');
-                
-                btnLive.className = "w-8 h-6 flex items-center justify-center rounded-md bg-neon-blue/10 text-neon-blue border border-neon-blue/30 shadow-[0_0_8px_rgba(0,242,234,0.3)] transition-all";
-                btnBrief.className = "w-8 h-6 flex items-center justify-center rounded-md text-slate-500 hover:text-white transition-all";
-            } else {
-                liveDiv.classList.add('hidden');
-                briefDiv.classList.remove('hidden');
-                
-                btnBrief.className = "w-8 h-6 flex items-center justify-center rounded-md bg-neon-purple/10 text-neon-purple border border-neon-purple/30 shadow-[0_0_8px_rgba(255,0,80,0.3)] transition-all";
-                btnLive.className = "w-8 h-6 flex items-center justify-center rounded-md text-slate-500 hover:text-white transition-all";
-                
-                loadBrief();
-            }
-        }
+        // Data State
+        let allData = [];
+        let currentFilter = 'all';
         
-        function toggleLang(mode) {
-            currentLangMode = mode;
-            const btnAuto = document.getElementById('btn-lang-auto');
-            const btnTrans = document.getElementById('btn-lang-trans');
-            
-            const activeClass = "px-3 py-1 text-[10px] font-bold font-mono rounded-md bg-white text-black shadow-[0_0_10px_rgba(255,255,255,0.3)] transition-all duration-300 tracking-wide transform scale-105";
-            const inactiveClass = "px-3 py-1 text-[10px] font-bold font-mono rounded-md text-slate-500 hover:text-white transition-all duration-300 tracking-wide";
-            
-            if (mode === 'auto') {
-                btnAuto.className = activeClass;
-                btnTrans.className = inactiveClass;
-            } else {
-                btnTrans.className = activeClass;
-                btnAuto.className = inactiveClass;
-            }
-            renderNewsList(false);
-        }
+        // Unread State Management
+        let lastVisitTimestamp = localStorage.getItem('aihot_last_visit');
+        const currentVisitTimestamp = new Date().getTime();
+        
+        // Update last visit time when user leaves or closes the page
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('aihot_last_visit', currentVisitTimestamp.toString());
+        });
 
-        function filterNews(category) {
-            currentCategory = category;
-            currentPage = 1;
-            
-            // Update UI
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                const isAll = btn.dataset.category === 'all';
-                if(btn.dataset.category === category) {
-                    btn.className = "filter-btn active group relative px-4 py-1.5 overflow-hidden rounded text-[11px] font-bold font-mono border border-neon-blue bg-neon-blue/10 text-neon-blue shadow-[0_0_10px_rgba(0,242,234,0.15)] transition-all";
-                    if (isAll) {
-                         // Ensure internal div structure is correct for active state
-                         const span = btn.querySelector('span');
-                         if (!btn.querySelector('div.absolute')) {
-                             const div = document.createElement('div');
-                             div.className = "absolute inset-0 bg-neon-blue/10 opacity-0 group-hover:opacity-100 transition-opacity";
-                             btn.appendChild(div);
-                         }
-                    }
-                } else {
-                    btn.className = "filter-btn px-4 py-1.5 rounded text-[11px] font-bold font-mono border border-white/5 bg-white/5 text-slate-400 hover:border-white/20 hover:text-white transition-all";
-                    // Remove the div if it exists to clean up
-                     const div = btn.querySelector('div.absolute');
-                     if (div) div.remove();
-                }
-            });
-
-            if (category === 'all') {
-                filteredData = allNewsData;
-            } else {
-                filteredData = allNewsData.filter(item => item.source === category);
-            }
-            renderNewsList(true);
-        }
-
-        function loadMore() {
-            currentPage++;
-            renderNewsList(false);
-        }
-
-        // Helper: Smart Time
-        function formatSmartTime(timeStr) {
-            if (!timeStr) return '';
-            const date = new Date(timeStr.replace(/-/g, '/'));
-            const now = new Date();
-            const isToday = date.getDate() === now.getDate() && date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-            const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
-            const isYesterday = date.getDate() === yesterday.getDate() && date.getMonth() === yesterday.getMonth() && date.getFullYear() === yesterday.getFullYear();
-            
-            const hours = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            
-            if (isToday) return `${hours}:${minutes}`;
-            else if (isYesterday) return `YESTERDAY ${hours}:${minutes}`;
-            else {
-                return `${(date.getMonth()+1).toString().padStart(2,'0')}-${date.getDate().toString().padStart(2,'0')} ${hours}:${minutes}`;
-            }
-        }
-
-        // Helper: Source Style Map
-        function getSourceStyle(source) {
-            const map = {
-                '36氪': { color: 'text-yellow-400', icon: 'fa-fire', border: 'group-hover:border-yellow-500/50' },
-                '机器之心': { color: 'text-blue-400', icon: 'fa-robot', border: 'group-hover:border-blue-500/50' },
-                '量子位': { color: 'text-indigo-400', icon: 'fa-microchip', border: 'group-hover:border-indigo-500/50' },
-                'TechCrunch AI': { color: 'text-green-400', icon: 'fa-code', border: 'group-hover:border-green-500/50' },
-                'Hacker News': { color: 'text-orange-400', icon: 'fa-hacker-news', border: 'group-hover:border-orange-500/50' }
-            };
-            return map[source] || { color: 'text-slate-400', icon: 'fa-rss', border: 'group-hover:border-white/30' };
-        }
-
-        // Render Logic
-        function renderNewsList(reset = true) {
-            const container = document.getElementById('news-container');
-            const controls = document.getElementById('pagination-controls');
-            const noMore = document.getElementById('no-more-data');
-            const btn = controls.querySelector('button');
-
-            if (reset) {
-                container.innerHTML = '';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                container.innerHTML = ''; 
-            }
-
-            const visibleCount = currentPage * pageSize;
-            const visibleItems = filteredData.slice(0, visibleCount);
-
-            visibleItems.forEach((item, index) => {
-                const style = getSourceStyle(item.source);
+        // Fetch Data
+        async function fetchData() {
+            try {
+                // In production, this would be fetch('/data/news.json')
+                // For MVP, we simulate loading or try to fetch local file
+                // Add timestamp to prevent caching
+                const response = await fetch(`data/news.json?t=${new Date().getTime()}`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                allData = await response.json();
                 
-                // Language Logic
-                let displayTitle = item.title;
-                let displaySummary = item.summary;
-                let isTranslated = false;
+                console.log("Loaded data:", allData.length, "items");
                 
-                if (currentLangMode === 'trans') {
-                    if (item.trans_title && item.trans_title.trim() !== "") {
-                        displayTitle = item.trans_title;
-                        displaySummary = item.trans_summary || item.summary;
-                        if (item.lang && item.lang !== 'zh') isTranslated = true;
-                    }
-                }
-
-                // Card HTML
-                const card = document.createElement('div');
-                card.className = `glass-card hover-glow group rounded-xl p-5 md:p-6 ${style.border} flex flex-col justify-between h-full`;
+                // Update Timestamp
+                document.getElementById('last-updated').innerText = 'UPDATED ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                 
-                card.innerHTML = `
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <div class="flex items-center gap-2 text-[10px] font-mono tracking-wide opacity-70">
-                                <span class="${style.color} font-bold flex items-center gap-1.5 uppercase">
-                                    <i class="fa-solid ${style.icon}"></i> ${item.source}
-                                </span>
-                                <span class="text-slate-600">/</span>
-                                <span class="text-slate-400">${formatSmartTime(item.time)}</span>
-                            </div>
-                            <div class="flex items-center gap-1.5 text-[10px] font-mono text-neon-purple/80 bg-neon-purple/5 px-2 py-0.5 rounded border border-neon-purple/20">
-                                <i class="fa-solid fa-fire-flame-curved"></i> ${item.hot_score}
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-[17px] font-bold text-slate-100 leading-snug mb-5 group-hover:text-neon-blue transition-colors tracking-tight">
-                            <a href="${item.url}" target="_blank" class="block">
-                                ${displayTitle}
-                                ${isTranslated ? '<sup class="text-[9px] text-neon-blue ml-1 opacity-80">CN</sup>' : ''}
-                            </a>
-                        </h3>
-                    </div>
-
-                    <!-- AI Take Container -->
-                    <div class="relative mt-auto pt-4 border-t border-white/5">
-                        <div class="flex items-start gap-3">
-                            <div class="mt-1 w-1 h-1 bg-neon-blue rounded-full shadow-[0_0_5px_rgba(0,242,234,0.8)] animate-pulse"></div>
-                            <div>
-                                <p class="text-[9px] font-mono text-slate-500 mb-1.5 uppercase tracking-widest opacity-60">
-                                    AI_ANALYSIS
-                                </p>
-                                <p class="text-[13px] text-slate-300 leading-relaxed line-clamp-2 font-light opacity-90">
-                                    ${displaySummary}
-                                </p>
-                            </div>
-                        </div>
+                render();
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('signal-container').innerHTML = `
+                    <div class="p-4 text-center text-text-secondary text-sm border border-dashed border-border-color rounded-lg">
+                        <i class="fa-solid fa-triangle-exclamation mb-2 text-accent"></i><br>
+                        Data feed unavailable. Please run python scraper.py
                     </div>
                 `;
-                container.appendChild(card);
-            });
+            }
+        }
 
-            // Pagination State
-            controls.classList.remove('hidden');
+        // Render Signal Feed
+        function render() {
+            const container = document.getElementById('signal-container');
             
-            if (filteredData.length === 0) {
-                 container.innerHTML = `<div class="col-span-2 text-center py-24 opacity-30 font-mono text-xs tracking-widest text-slate-500">NO SIGNAL DETECTED</div>`;
-                 controls.classList.add('hidden');
-                 return;
+            // Filter
+            let filtered = allData;
+            if (currentFilter !== 'all') {
+                if (currentFilter === 'Market') {
+                    // Include 'General' in Market tab for now
+                    filtered = allData.filter(item => item.category === 'Market' || item.category === 'General');
+                } else {
+                    filtered = allData.filter(item => item.category === currentFilter);
+                }
+            }
+            
+            // Sort by time (newest first)
+            filtered.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center text-text-secondary py-10 text-xs font-mono">NO SIGNALS FOUND (Filter: ${currentFilter})</div>`;
+                return;
             }
 
-            if (visibleCount >= filteredData.length) {
-                // 彻底重写内容，确保按钮绝对消失
-                controls.innerHTML = `<p class="text-[10px] font-mono text-slate-600 tracking-widest opacity-40 mt-6 mb-2">// END OF TRANSMISSION //</p>`;
-            } else {
-                controls.innerHTML = `
-                <button onclick="loadMore()" class="mt-8 group relative px-10 py-3 bg-transparent overflow-hidden rounded border border-white/10 transition-all hover:border-neon-blue/50">
-                    <div class="absolute inset-0 w-full h-full bg-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="flex flex-col items-center">
-                        <span class="text-[10px] font-mono text-neon-blue tracking-[0.3em] mb-1">LOAD_NEXT_BATCH</span>
-                        <i class="fa-solid fa-chevron-down text-slate-500 text-xs group-hover:translate-y-1 transition-transform"></i>
+            container.innerHTML = filtered.map((item, index) => {
+                const color = getCategoryColor(item.category);
+                const timeStr = formatTime(item.time);
+                
+                // Determine if article is new
+                let isNew = false;
+                if (lastVisitTimestamp) {
+                    const articleTime = new Date(item.time).getTime();
+                    if (articleTime > parseInt(lastVisitTimestamp)) {
+                        isNew = true;
+                    }
+                }
+                
+                // Render Tags
+                let tagsHtml = '';
+                if (item.tags && item.tags.length > 0) {
+                    tagsHtml = item.tags.map(tag => 
+                        `<span class="px-2 py-0.5 rounded text-[9px] font-mono border border-border-color/50 text-text-muted hover:text-accent-primary transition-colors cursor-default">#${tag}</span>`
+                    ).join('');
+                }
+
+                return `
+                <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer(${index}, '${currentFilter}')">
+                    ${isNew ? '<div class="absolute top-6 left-[-6px] w-2 h-2 rounded-full bg-[#00ff9d] animate-pulse shadow-[0_0_8px_#00ff9d]"></div>' : ''}
+                    <div class="flex justify-between items-start mb-2 gap-4">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>
+                                ${item.category}
+                            </span>
+                            <span class="text-xs text-text-muted flex items-center gap-1">
+                                ${item.source}
+                            </span>
+                        </div>
+                        <span class="text-[10px] font-mono text-text-muted whitespace-nowrap group-hover:text-accent-primary transition-colors">${timeStr}</span>
                     </div>
-                </button>`;
+                    <h3 class="text-sm md:text-base font-bold text-text-primary group-hover:text-white transition-colors leading-snug mb-2 line-clamp-2">
+                        ${item.title}
+                    </h3>
+                    <p class="text-xs text-text-secondary leading-relaxed line-clamp-2 mb-3">
+                        ${item.summary}
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        ${tagsHtml}
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        // --- Drawer Logic ---
+        function openDrawer(index, filterState) {
+            // Re-apply filter to get the correct item from the rendered list
+            let filtered = allData;
+            if (filterState !== 'all') {
+                if (filterState === 'Market') {
+                    filtered = allData.filter(item => item.category === 'Market' || item.category === 'General');
+                } else {
+                    filtered = allData.filter(item => item.category === filterState);
+                }
+            }
+            filtered.sort((a, b) => new Date(b.time) - new Date(a.time));
+            
+            const item = filtered[index];
+            if (!item) return;
+            
+            // Reset Translation state
+            isTranslated = false;
+            const tBtn = document.getElementById('translate-btn');
+            tBtn.querySelector('i').className = 'fa-solid fa-language';
+            tBtn.classList.remove('text-accent', 'border-accent');
+
+            // Populate Drawer Data
+            document.getElementById('drawer-category').textContent = item.category;
+            document.getElementById('drawer-category').className = `text-[10px] font-semibold tracking-wider px-2 py-1 rounded border uppercase flex items-center gap-1.5 ${getCategoryColor(item.category)}`;
+            document.getElementById('drawer-category').innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>${item.category}`;
+            
+            document.getElementById('drawer-source').innerHTML = `<i class="fas fa-globe mr-1"></i>${item.source}`;
+            document.getElementById('drawer-title').textContent = item.title;
+            
+            // Format time for drawer to show only YYYY-MM-DD
+            const drawerTime = item.time ? item.time.split(' ')[0] : '';
+            document.getElementById('drawer-time').innerHTML = `<i class="far fa-clock mr-1"></i>${drawerTime}`;
+            
+            // Inject Full Content if available, else fallback to summary
+            const contentContainer = document.getElementById('drawer-full-content');
+            if (item.full_content && item.full_content.trim() !== '') {
+                // If the full_content is just plain text (doesn't start with <), wrap it in paragraphs
+                let content = item.full_content;
+                if (!content.trim().startsWith('<')) {
+                    content = content.split('\n').map(p => `<p>${p}</p>`).join('');
+                }
+                contentContainer.innerHTML = content;
+            } else {
+                contentContainer.innerHTML = `<p class="italic text-text-muted">${item.summary}</p>`;
+            }
+            
+            document.getElementById('drawer-link').href = item.url;
+
+            // Render Tags in Drawer
+            const tagsContainer = document.getElementById('drawer-tags');
+            if (item.tags && item.tags.length > 0) {
+                tagsContainer.innerHTML = item.tags.map(tag => 
+                    `<span class="px-2 py-1 rounded-md text-[10px] font-mono bg-bg-secondary text-text-secondary border border-border-color">#${tag}</span>`
+                ).join('');
+            } else {
+                tagsContainer.innerHTML = '';
+            }
+
+            // Show Drawer
+            const drawer = document.getElementById('article-drawer');
+            const backdrop = document.getElementById('drawer-backdrop');
+            
+            // Scroll drawer content to top
+            const drawerScrollContainer = drawer.querySelector('.overflow-y-auto');
+            if (drawerScrollContainer) {
+                drawerScrollContainer.scrollTop = 0;
+            }
+            
+            drawer.classList.remove('translate-x-full');
+            backdrop.classList.remove('hidden');
+            // Small delay for transition
+            setTimeout(() => {
+                backdrop.classList.remove('opacity-0');
+            }, 10);
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            const drawer = document.getElementById('article-drawer');
+            const backdrop = document.getElementById('drawer-backdrop');
+            
+            drawer.classList.add('translate-x-full');
+            backdrop.classList.add('opacity-0');
+            
+            setTimeout(() => {
+                backdrop.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scroll
+            }, 300);
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('translate-y-10', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+            }, 3000);
+        }
+
+        let isTranslated = false;
+        function toggleTranslation() {
+            const btn = document.getElementById('translate-btn');
+            const icon = btn.querySelector('i');
+            
+            if (!isTranslated) {
+                // Simulate Translation Loading
+                icon.className = 'fas fa-spinner fa-spin';
+                btn.classList.add('text-accent', 'border-accent');
+                
+                setTimeout(() => {
+                    showToast("Translation requires LLM API configuration (DeepSeek/Kimi).");
+                    icon.className = 'fa-solid fa-language';
+                    btn.classList.remove('text-accent', 'border-accent');
+                }, 800);
             }
         }
 
-        // Data Loading
-        async function loadNews() {
+        // Helpers
+        function getCategoryColor(cat) {
+            const map = {
+                'Insights': 'text-amber-400 bg-amber-400/10 border-amber-400/20',
+                'Product': 'text-purple-400 bg-purple-400/10 border-purple-400/20',
+                'Clinical': 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+                'Market': 'text-orange-400 bg-orange-400/10 border-orange-400/20',
+                'General': 'text-slate-400 bg-slate-400/10 border-slate-400/20'
+            };
+            return map[cat] || map['General'];
+        }
+
+        function formatTime(timeStr) {
+            // Display friendly relative time
+            if (!timeStr) return '';
+            
             try {
-                const res = await fetch('data/news.json?t=' + Date.now());
-                const data = await res.json();
-                allNewsData = data;
-                filteredData = data;
-                document.getElementById('loading-skeleton').classList.add('hidden');
-                if (data.length) document.getElementById('last-updated').innerText = formatSmartTime(data[0].time);
-                renderNewsList(true);
+                // Parse "YYYY-MM-DD" or "YYYY-MM-DD HH:MM"
+                const datePart = timeStr.split(' ')[0];
+                const date = new Date(datePart);
+                const now = new Date();
+                const diffMs = now - date;
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                
+                if (diffDays === 0) {
+                    return 'Today';
+                } else if (diffDays === 1) {
+                    return 'Yesterday';
+                } else if (diffDays < 7) {
+                    return diffDays + ' days ago';
+                } else {
+                    return datePart; // "2026-01-19"
+                }
             } catch (e) {
-                console.error(e);
+                return timeStr;
             }
         }
 
-        async function loadBrief() {
-            const container = document.getElementById('brief-content');
-            if (container.dataset.loaded === 'true') return;
-            try {
-                const res = await fetch('data/daily_brief.json?t=' + Date.now());
-                const data = await res.json();
-                document.getElementById('brief-date').innerText = data.date;
-                let html = data.content
-                    .replace(/<h3>/g, '<h3 class="text-lg font-bold text-neon-purple mt-8 mb-4 flex items-center gap-3 border-b border-white/5 pb-2 tracking-wide"><i class="fa-solid fa-square text-[8px] opacity-50"></i>')
-                    .replace(/<ul>/g, '<ul class="space-y-4 list-none pl-0">')
-                    .replace(/<li>/g, '<li class="bg-white/5 p-4 rounded border-l-2 border-transparent hover:border-neon-purple hover:bg-white/10 transition-all text-slate-300 leading-relaxed text-sm group">')
-                    .replace(/<strong>/g, '<strong class="text-white font-semibold">');
-                container.innerHTML = html;
-                container.dataset.loaded = 'true';
-            } catch (e) {
-                container.innerHTML = `<div class="text-center text-red-400 font-mono text-xs py-10 tracking-widest">DATA CORRUPTED</div>`;
+        // Event Listeners
+        document.getElementById('feed-filters').addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                // UI
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active', 'text-white', 'bg-bg-primary'));
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.add('text-text-secondary'));
+                
+                e.target.classList.add('active', 'text-white');
+                e.target.classList.remove('text-text-secondary');
+                
+                // Logic
+                currentFilter = e.target.dataset.filter; // 'all', 'Tech', 'Biz', ...
+                render();
+                
+                // Scroll back to top smoothly for the signal container
+                const signalContainer = document.getElementById('signal-container');
+                if (signalContainer) {
+                    signalContainer.scrollTo({
+                        top: 0,
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                }
             }
-        }
+        });
 
         // Init
-        loadNews();
+        fetchData();
+        
+        // Auto refresh every 5 min
+        setInterval(fetchData, 300000);
+
     </script>
-    <style>
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
 </body>
 </html>

@@ -2,316 +2,721 @@ import json
 import datetime
 import os
 import feedparser
-import time
+import calendar
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
+from bs4 import BeautifulSoup
+from readability import Document
+import time
+import re
 
-# DeepSeek API 配置 (已注释，备用)
-# DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "sk-53873c9a105842618233836f717ecfbf")
-# DEEPSEEK_BASE_URL = "https://api.deepseek.com"
+# --- Configuration ---
+USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
-# Qwen-Max API 配置 (OpenAI 兼容)
-QWEN_API_KEY = os.getenv("QWEN_API_KEY", "sk-68cb34e771b942a397d04e1dcaadd279")
-QWEN_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
-QWEN_MODEL = "qwen-max"
-
-# 当前使用的 LLM 配置
-LLM_API_KEY = QWEN_API_KEY
-LLM_BASE_URL = QWEN_BASE_URL
-LLM_MODEL = QWEN_MODEL
-
-# 真实数据源 (RSS)
+# --- Data Sources (Product-Focused MedAI) ---
 RSS_SOURCES = {
-    "36氪": "https://36kr.com/feed", # 新增：科技创投风向
+    # 🟢 Product Cases (Industry)
+    "Google Health": "https://blog.google/technology/health/rss/",
     
-    # 国内最专业的 AI 媒体
-    "机器之心": "https://www.jiqizhixin.com/rss",
-    "量子位": "https://www.qbitai.com/feed",  # 新增：补充产业视角
+    # 🟠 Clinical Needs
+    "The Doctor Weighs In": "https://thedoctorweighsin.com/feed/",
+    "KevinMD": "https://www.kevinmd.com/feed",
     
-    # 硅谷创投风向 (AI 垂直频道)
-    "TechCrunch AI": "https://techcrunch.com/category/artificial-intelligence/feed/",
+    # 🔴 Regulation / Market
+    "FDA MedDevice": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medical-devices/rss.xml",
     
-    # 极客与开发者 (硬核信号)
-    "Hacker News": "https://hnrss.org/newest?q=AI+OR+LLM+OR+GPT+OR+DeepSeek+OR+Transformer",
+    # 🌟 Global Thought Leaders (Insights)
+    "Eric Topol": "https://erictopol.substack.com/feed",
+    "Doctor Penguin": "https://doctorpenguin.substack.com/feed",
     
-    # "Github Trending": "https://rsshub.app/github/trending/daily/python", # 暂时移除
-    # "Hugging Face": "https://rsshub.app/huggingface/daily-papers" # 暂时移除
+    # 💰 Biz / Capital (Market)
+    "MobiHealthNews": "https://www.mobihealthnews.com/feed",
+    # 36kr will be handled by direct search API now
 }
 
-# 关键词过滤库 (只要标题或摘要包含其中任意一个，就保留)
-AI_KEYWORDS = [
-    "AI", "人工智能", "大模型", "LLM", "GPT", "DeepSeek", "OpenAI", 
-    "Claude", "Gemini", "Sora", "Midjourney", "Stable Diffusion",
-    "Transformer", "算力", "芯片", "英伟达", "NVIDIA", "机器人", 
-    "Agent", "智能体", "自动驾驶", "Copilot", "机器学习", "RAG"
+# --- Search Keywords Matrix ---
+SEARCH_KEYWORDS = [
+    "医疗 AI", 
+    "AI医疗", 
+    "医疗大模型", 
+    "数字疗法", 
+    "医疗信息化", 
+    "临床诊疗",
+    "医学影像",
+    "智慧医疗"
 ]
 
-def check_is_ai_news(title, content):
-    """调用 LLM 判断这是否是一篇有价值的 AI 新闻"""
-    if not LLM_API_KEY:
-        return True # 没有 Key 就默认不过滤
-        
-    try:
-        # Qwen-Max 调用 (OpenAI 兼容接口)
-        url = f"{LLM_BASE_URL}/chat/completions"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {LLM_API_KEY}"
-        }
-        data = {
-            "model": LLM_MODEL,
-            "messages": [
-                {"role": "system", "content": "你是一个新闻过滤器。请判断用户提供的新闻是否属于“人工智能(AI)领域的有价值行业资讯”。\n如果是，请只回复“YES”；\n如果不是（例如纯娱乐、纯硬件无关AI、或者太水的内容），请只回复“NO”。\n不要解释，只回复 YES 或 NO。"},
-                {"role": "user", "content": f"标题：{title}\n摘要：{content}"}
-            ],
-            "stream": False
-        }
-        
-        response = requests.post(url, headers=headers, json=data, timeout=10)
-        if response.status_code == 200:
-            result = response.json()
-            answer = result['choices'][0]['message']['content'].strip().upper()
-            return "YES" in answer
-        return True # 接口报错默认保留
+# --- Auto-Tagging Dictionary ---
+AUTO_TAGS_DICT = {
+    "大模型": ["LLM", "GPT", "大模型", "Generative AI", "生成式", "Foundation Model", "ChatGPT"],
+    "医学影像": ["影像", "CV", "CT", "MRI", "Radiology", "X-ray", "Ultrasound", "超声"],
+    "数字疗法": ["DTx", "数字疗法", "慢病管理", "Digital Therapeutics", "Chronic Care"],
+    "电子病历": ["EMR", "EHR", "病历", "Scribe", "Documentation", "Clinical Note"],
+    "商业融资": ["融资", "Funding", "Startup", "IPO", "资本", "Acquisition", "Series A", "Series B"],
+    "可穿戴/IoT": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch"],
+    "药物研发": ["Drug Discovery", "AlphaFold", "靶点", "制药", "Pharma"],
+}
 
-        # DeepSeek 调用 (已注释备份)
-        # url = "https://api.deepseek.com/chat/completions"
-        # headers = {
-        #     "Content-Type": "application/json",
-        #     "Authorization": f"Bearer {DEEPSEEK_API_KEY}"
-        # }
-        # data = {
-        #     "model": "deepseek-chat",
-        #     "messages": [ ... ],
-        #     "stream": False
-        # }
-        # ...
-
-    except:
-        return True
-
-def generate_ai_summary(title, content):
-    """直接使用 requests 调用 LLM API (Qwen-Max)"""
-    if not LLM_API_KEY:
-        return content[:100] + "..."
+def generate_tags(title, summary, base_category):
+    """根据标题和摘要内容，自动匹配并生成结构化标签"""
+    tags = set() # Don't start with category to avoid duplication
+    combined_text = (title + " " + summary).lower()
     
-    # 如果摘要太短（可能是 RSS 限制），提示 AI 重点看标题
-    system_prompt = """You are a senior tech analyst. Analyze the news content and output JSON result.
-    
-    Rules:
-    1. 'summary': Generate a concise summary (Max 2 lines) in the **ORIGINAL language** of the news.
-    2. 'trans_title': Translate the title into **Simplified Chinese**. (If original is Chinese, keep it same).
-    3. 'trans_summary': Translate your summary into **Simplified Chinese**. (If original is Chinese, keep it same).
-    4. 'lang': Detect language ('zh' or 'en').
-    5. 'score': Rate 0-100 (90+=Breaking, 80+=Important, 70+=Normal, 60-=Low value).
-    6. NO title repetition in summary! Use 3rd person perspective.
+    for tag_name, keywords in AUTO_TAGS_DICT.items():
+        for kw in keywords:
+            if kw.lower() in combined_text:
+                tags.add(tag_name)
+                break # Move to next tag category once matched
+                
+    return list(tags)
 
-    JSON Format:
-    {
-        "summary": "Original language summary...",
-        "trans_title": "中文标题...",
-        "trans_summary": "中文摘要...",
-        "lang": "en", 
-        "score": 85
-    }
+def calculate_med_score(title, summary, source_name=""):
+    """
+    四层过滤漏斗机制 (4-Tier Cascading Funnel)
+    
+    Layer 1: 信源白名单直通车 (Source-Level Fast Track)
+    Layer 2: 前置强制交集检测 (Pre-condition Intersection)
+    Layer 3: 加权积分与密度检测 (Weighted Scoring & Density)
+    Layer 4: 时效性与防重墙 (在外部逻辑处理)
     """
     
-    if len(content) < 50: # 如果摘要本身就很短
-        system_prompt += "\nNote: Content is short, infer from title but DO NOT just repeat it."
-
-    try:
-        # Qwen-Max 调用
-        url = f"{LLM_BASE_URL}/chat/completions"
-        headers = {
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {LLM_API_KEY}"
-        }
-        data = {
-            "model": LLM_MODEL,
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": f"新闻标题：{title}\n新闻摘要：{content}"}
-            ],
-            "response_format": { "type": "json_object" }, # 强制 JSON 输出
-            "stream": False
-        }
-        
-        response = requests.post(url, headers=headers, json=data, timeout=30)
-        
-        if response.status_code == 200:
-            result = response.json()
-            content_str = result['choices'][0]['message']['content']
-            try:
-                # 解析 JSON
-                data = json.loads(content_str)
-                return data # 返回字典 {'summary': '...', 'score': 85}
-            except:
-                return {"summary": content_str, "score": 70} # 解析失败兜底
-        else:
-            print(f"API 调用失败: {response.status_code} - {response.text}")
-            return "AI 分析暂不可用"
-
-        # DeepSeek 调用 (已注释备份)
-        # url = "https://api.deepseek.com/chat/completions"
-        # headers = { ... }
-        # data = { "model": "deepseek-chat", ... }
-        # ...
+    # --- Layer 1: 信源白名单直通车 ---
+    # 这些源具有 100% 的垂直纯度，无需关键词检测
+    WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health"]
+    for wl_source in WHITELIST_SOURCES:
+        if wl_source in source_name:
+            return 10 # 满分直通
             
-    except Exception as e:
-        print(f"AI 摘要生成失败: {e}")
-        return "AI 分析暂不可用"
+    combined_text = (title + " " + summary).lower()
+    
+    # 1. 强医疗实体词 (Medical Entities)
+    STRONG_MED = [
+        "临床", "病历", "诊断", "药物", "手术", "医院", "患者", "医生", "影像", "基因", 
+        "EMR", "HIS", "FDA", "器械", "医保", "处方", "慢病", "护理", "问诊", "科室",
+        "靶点", "筛查", "疗法", "医疗", "医学", "药企", "新药"
+    ]
+    
+    # 2. 技术/动作词 (Tech Actions)
+    TECH_ACTION = [
+        "大模型", "算法", "系统", "产品", "模型", "SaaS", "商业化", "融资", "研发",
+        "GPT", "LLM", "Agent", "平台", "软件", "应用", "架构", "ai", "数据", "智能"
+    ]
+    
+    # 3. 负面降噪词 (Negative)
+    NEGATIVE = [
+        "减肥", "健身", "美容", "护肤", "睡眠", "手环", "手表", "家电", "冰箱", 
+        "空调", "生活方式", "穿搭", "美妆", "养生", "食谱", "宠物", "猫狗", "电商",
+        "外卖", "娱乐", "游戏", "网红", "主播", "带货", "旅游"
+    ]
+    
+    # --- Layer 2: 前置强制交集检测 (护照+机票) ---
+    # 必须同时包含至少一个强医疗词和至少一个技术词
+    has_med = any(kw.lower() in combined_text for kw in STRONG_MED)
+    has_tech = any(kw.lower() in combined_text for kw in TECH_ACTION)
+    
+    # 特例：如果在标题中直接出现了“医疗AI”或“AI医疗”这种超级组合词，可豁免交集
+    super_keywords = ["医疗 ai", "ai医疗", "医疗大模型", "数字疗法", "智慧医疗", "医疗信息化", "ai 医疗", "医疗ai"]
+    has_super = any(sk in combined_text for sk in super_keywords)
+    
+    if not has_super and not (has_med and has_tech):
+        return 0 # 交集失败，直接淘汰
+        
+    # --- Layer 3: 加权积分与密度检测 ---
+    score = 0
+    
+    # 增加基础分，只要满足了交集，就代表是相关领域的
+    score += 2
+    
+    for kw in STRONG_MED:
+        count = combined_text.count(kw.lower())
+        score += count * 3
+        
+    for kw in TECH_ACTION:
+        count = combined_text.count(kw.lower())
+        score += count * 1
+        
+    for kw in NEGATIVE:
+        count = combined_text.count(kw.lower())
+        score -= count * 5
+        
+    # Bonus: Title Match (Extra Weight for visibility)
+    for kw in STRONG_MED:
+        if kw.lower() in title.lower():
+            score += 5
+            break
+            
+    # 密度检测 (Length Penalty)
+    # 如果文本非常长（例如长摘要），但得分很低，说明浓度不够
+    text_length = len(combined_text)
+    if text_length > 200:
+        # 每多 100 字，要求多得 1 分
+        required_extra_score = (text_length - 200) / 100
+        if score < (5 + required_extra_score):
+            return 0 # 密度太低被淘汰
 
-def fetch_rss_news():
-    print("正在抓取真实 AI 资讯...")
+    return score
+
+def is_article_fresh(time_str, source_name):
+    """
+    分层时间窗口策略 (Hybrid Time Window)
+    - 资讯/商业 (Market): 近 90 天
+    - 论文/前沿 (Insights/Clinical): 近 180 天
+    - 深度/产品 (Product): 近 365 天
+    """
+    try:
+        # Extract just the date part YYYY-MM-DD
+        date_part = time_str.split(" ")[0]
+        dt = datetime.datetime.strptime(date_part, "%Y-%m-%d")
+        now = datetime.datetime.now()
+        days_diff = (now - dt).days
+        
+        if "36氪" in source_name or "MobiHealthNews" in source_name or "动脉网" in source_name or "FDA" in source_name:
+            return days_diff <= 90
+        elif "Eric Topol" in source_name or "Doctor Penguin" in source_name or "KevinMD" in source_name or "Weighs In" in source_name:
+            return days_diff <= 180
+        else: # Woshipm, Google, etc.
+            return days_diff <= 365
+    except Exception as e:
+        # If parsing fails, keep it to be safe
+        return True
+
+def extract_full_text(url):
+    """提取任意网页的正文内容 (Readability)"""
+    try:
+        # 针对 36kr 的特殊处理（绕过 PC 端反爬，使用移动端 API 状态提取）
+        if "36kr.com/p/" in url:
+            mobile_url = url.replace("https://36kr.com/", "https://m.36kr.com/")
+            headers = {
+                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
+            }
+            time.sleep(1)
+            response = requests.get(mobile_url, headers=headers, timeout=15)
+            if response.status_code == 200:
+                match = re.search(r'window\.initialState=(.*?)</script>', response.text, re.DOTALL)
+                if match:
+                    try:
+                        state_str = match.group(1).strip()
+                        data = json.loads(state_str)
+                        inner_data = data.get('article', {}).get('detail', {}).get('data', {})
+                        content = inner_data.get('widgetContent') or inner_data.get('content') or ""
+                        if content:
+                            # 清理一下潜在的破坏性标签
+                            soup = BeautifulSoup(content, 'html.parser')
+                            for tag in soup(["script", "style"]):
+                                tag.decompose()
+                            return str(soup)
+                    except Exception as e:
+                        print(f"    [36kr Extractor Parse Error] {url}: {e}")
+            # 如果特殊提取失败，降级使用常规模式继续执行
+        
+        # Some sites like Woshipm need special headers to not return 403
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+            "Sec-Ch-Ua": '"Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"',
+            "Sec-Ch-Ua-Mobile": "?0",
+            "Sec-Ch-Ua-Platform": '"Windows"',
+            "Sec-Fetch-Dest": "document",
+            "Sec-Fetch-Mode": "navigate",
+            "Sec-Fetch-Site": "none",
+            "Sec-Fetch-User": "?1",
+            "Upgrade-Insecure-Requests": "1"
+        }
+        
+        # Add a small delay to avoid rate limiting
+        time.sleep(1)
+        
+        response = requests.get(url, headers=headers, timeout=15)
+        
+        # If Woshipm returns 404, it might be in another category
+        if "woshipm.com" in url:
+            # Woshipm has strong anti-bot, let's try a different approach for them if 403
+            if response.status_code == 403:
+                # print(f"    [403] Trying alternative woshipm url for {url}")
+                url = url.replace("www.woshipm.com", "api.woshipm.com/api/article/detail")
+                # We can't easily parse their API without auth, so we just return empty string and fallback to summary
+                return ""
+            
+            if response.status_code == 404:
+                for cat in ["ai", "it", "med", "active", "share", "eval", "article"]:
+                    new_url = re.sub(r"woshipm\.com/[^/]+/", f"woshipm.com/{cat}/", url)
+                    response = requests.get(new_url, headers=headers, timeout=10)
+                    if response.status_code == 200:
+                        url = new_url # update url for returning
+                        break
+
+        if response.status_code == 200:
+            doc = Document(response.text)
+            html_content = doc.summary()
+            
+            # 基础清理：移除可能破坏 UI 的样式和脚本
+            soup = BeautifulSoup(html_content, 'html.parser')
+            for tag in soup(["script", "style", "nav", "header", "footer", "aside"]):
+                tag.decompose()
+            
+            # Fix relative image URLs if any
+            for img in soup.find_all('img'):
+                if img.get('src') and img['src'].startswith('//'):
+                    img['src'] = 'https:' + img['src']
+            
+            return str(soup)
+        else:
+            print(f"    [Full Text Extractor Failed] {url} returned {response.status_code}")
+    except Exception as e:
+        print(f"    [Full Text Extractor Error] {url}: {e}")
+    return ""
+
+def fetch_rss_feeds(existing_urls):
+    """抓取医疗垂直 RSS 源"""
+    print("正在抓取 MedAI Product RSS 源...")
+    items = []
     
-    news_list = []
-    
-    # 计算7天前的截止时间 (UTC+8) - 放宽限制，确保低频源也有内容
-    now = datetime.datetime.now()
-    seven_days_ago = now - datetime.timedelta(days=7)
-    print(f"🕒 时间窗口限制: 只抓取 {seven_days_ago.strftime('%Y-%m-%d %H:%M')} 之后的文章")
-    
-    for source_name, rss_url in RSS_SOURCES.items():
+    for source_name, url in RSS_SOURCES.items():
         try:
-            print(f"正在抓取: {source_name} ({rss_url})")
+            feed = feedparser.parse(url)
+            print(f"  -> {source_name}: {len(feed.entries)} entries")
+            
+            for entry in feed.entries:
+                try:
+                    title = entry.title
+                    link = entry.link
+                    
+                    if link in existing_urls:
+                        continue
+                        
+                    summary = getattr(entry, "summary", "") or getattr(entry, "description", "")
+                    # Remove HTML tags from summary for better display/scoring
+                    summary = re.sub(r'<[^>]+>', '', summary)
+                    
+                    # --- Filtering ---
+                    # Calculate score using the new 4-tier funnel
+                    med_score = calculate_med_score(title, summary, source_name)
+                    
+                    if med_score < 5: 
+                        continue
+                    
+                    # Time parsing (Standard RSS usually has parsed_published)
+                    time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                    if hasattr(entry, "published_parsed") and entry.published_parsed:
+                        time_str = datetime.datetime(*entry.published_parsed[:6]).strftime("%Y-%m-%d %H:%M")
+                    
+                    # Apply Hybrid Time Window Filtering
+                    if not is_article_fresh(time_str, source_name):
+                        continue
+                    
+                    # Category Mapping
+                    category = "Market"
+                    if "动脉网" in source_name or "MobiHealthNews" in source_name or "36氪" in source_name:
+                        category = "Market"
+                    elif "Google" in source_name or "Microsoft" in source_name or "机器之心" in source_name:
+                        category = "Product"
+                    elif "Doctor Weighs In" in source_name or "KevinMD" in source_name or "NEJM" in source_name:
+                        category = "Clinical"
+                    elif "Eric Topol" in source_name or "Doctor Penguin" in source_name:
+                        category = "Insights"
+                    elif "FDA" in source_name:
+                        category = "Market"
+                        
+                    # Auto-Tagging
+                    smart_tags = generate_tags(title, summary, category)
+                        
+                    # Check if full content is already in RSS
+                    full_html = ""
+                    if hasattr(entry, "content") and len(entry.content) > 0:
+                        full_html = entry.content[0].value
+                    else:
+                        # Full text extraction for items that only have summaries
+                        # print(f"    Fetching full text for: {title}")
+                        full_html = extract_full_text(link)
+
+                    items.append({
+                        "title": title,
+                        "source": source_name,
+                        "category": category,
+                        "tags": smart_tags,
+                        "time": time_str,
+                        "url": link,
+                        "summary": summary[:200] + "...",
+                        "full_content": full_html,
+                        "lang": "en" if "FDA" in source_name or "Google" in source_name or "Mobi" in source_name or "Topol" in source_name else "zh"
+                    })
+                    
+                except Exception as e:
+                    # print(f"Error parsing RSS entry: {e}")
+                    continue
+                    
+        except Exception as e:
+            print(f"❌ RSS {source_name} Failed: {e}")
+            
+    return items
+
+def scrape_woshipm_direct(existing_urls):
+    """
+    直接模拟官网搜索接口 POST 请求抓取
+    Target: https://api.woshipm.com/search/result.html
+    """
+    print(f"正在抓取 人人都是产品经理 (Direct POST)...")
+    items = []
+    seen_urls = set(existing_urls) # Initialize with existing to avoid re-fetching
+    
+    url = "https://api.woshipm.com/search/result.html"
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Referer": "https://www.woshipm.com/",
+        "Origin": "https://www.woshipm.com",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+    }
+    
+    for keyword in SEARCH_KEYWORDS:
+        print(f"  -> 关键词: {keyword}")
+        # Fetch 3 pages per keyword instead of 10 for a single keyword
+        for page in range(1, 4):
+            try:
+                payload = {
+                    "key": keyword,
+                    "tab": "0", # 0=文章
+                    "page": str(page),
+                    "sortType": "0", # 0=相关度 (Relevance)
+                    "idSearch": "" 
+                }
+                
+                response = requests.post(url, data=payload, headers=headers, timeout=10)
+                
+                if response.status_code != 200:
+                    continue
+                    
+                soup = BeautifulSoup(response.text, "html.parser")
+                article_nodes = soup.find_all("div", class_="course--item")
+                
+                for node in article_nodes:
+                    try:
+                        # 1. Title
+                        title_tag = node.find("a", class_="title")
+                        if not title_tag: continue
+                        title = title_tag.get_text(strip=True)
+                        
+                        # 2. URL (Extract ID)
+                        article_id = node.get("id")
+                        if not article_id: continue
+                        article_url = f"http://www.woshipm.com/pd/{article_id}.html"
+                        
+                        # Deduplication
+                        if article_url in seen_urls:
+                            continue
+                        seen_urls.add(article_url)
+                        
+                        # 3. Summary
+                        desc_tag = node.find("div", class_="desc")
+                        summary = desc_tag.get_text(strip=True) if desc_tag else ""
+                        
+                        # --- NEW: Relevance Scoring ---
+                        med_score = calculate_med_score(title, summary, "人人都是产品经理")
+                        if med_score < 5: 
+                            continue
+                            
+                        # 4. Meta (Date, Author)
+                        meta_tag = node.find("div", class_="meta")
+                        time_str = "" 
+                        author = "人人都是产品经理"
+                        
+                        if meta_tag:
+                            meta_text = meta_tag.get_text(strip=True)
+                            date_match = re.search(r"(\d{4}[-\./]\d{2}[-\./]\d{2})", meta_text)
+                            if date_match:
+                                date_part = date_match.group(1).replace("/", "-").replace(".", "-")
+                                time_str = f"{date_part} 09:00"
+                            
+                            if not time_str:
+                                 if "小时前" in meta_text:
+                                     try:
+                                         hours = int(re.search(r"(\d+)\s*小时前", meta_text).group(1))
+                                         time_str = (datetime.datetime.now() - datetime.timedelta(hours=hours)).strftime("%Y-%m-%d %H:%M")
+                                     except: pass
+                                 elif "天前" in meta_text:
+                                     try:
+                                         days = int(re.search(r"(\d+)\s*天前", meta_text).group(1))
+                                         time_str = (datetime.datetime.now() - datetime.timedelta(days=days)).strftime("%Y-%m-%d %H:%M")
+                                     except: pass
+                                 elif "分钟前" in meta_text:
+                                     time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                                     
+                        # Fallback to image path for date
+                        if not time_str:
+                            img_tag = node.find("img")
+                            if img_tag:
+                                src = img_tag.get("src", "")
+                                url_date_match = re.search(r"/(\d{4})/(\d{2})/(\d{2})/", src)
+                                if url_date_match:
+                                    y, m, d = url_date_match.groups()
+                                    time_str = f"{y}-{m}-{d} 09:00"
+
+                        if not time_str:
+                             time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+
+                        # --- Apply Hybrid Time Window Filtering ---
+                        if not is_article_fresh(time_str, "人人都是产品经理"):
+                            continue
+
+                        smart_tags = generate_tags(title, summary, "Product")
+                        full_html = extract_full_text(article_url)
+
+                        items.append({
+                            "title": title,
+                            "source": f"人人都是产品经理",
+                            "category": "Product",
+                            "tags": smart_tags,
+                            "time": time_str,
+                            "url": article_url,
+                            "summary": summary,
+                            "full_content": full_html,
+                            "lang": "zh"
+                        })
+                        
+                    except Exception as e:
+                        continue
+                        
+            except Exception as e:
+                print(f"❌ Direct POST 失败: {e}")
+                
+    return items
+
+def scrape_36kr_direct(existing_urls):
+    """直接调用 36kr 搜索 API 获取精准内容"""
+    print("正在抓取 36氪 (Direct Search API)...")
+    items = []
+    seen_urls = set(existing_urls) # Initialize with existing
+    
+    url = "https://gateway.36kr.com/api/mis/nav/search/resultbytype"
+    headers = {
+        "User-Agent": USER_AGENT,
+        "Content-Type": "application/json"
+    }
+    
+    for keyword in SEARCH_KEYWORDS:
+        print(f"  -> 关键词: {keyword}")
+        try:
+            payload = {
+                "partner_id": "web",
+                "timestamp": int(time.time() * 1000),
+                "param": {
+                    "searchType": "article",
+                    "searchWord": keyword,
+                    "sort": "date",
+                    "pageSize": 20,
+                    "pageEvent": 0,
+                    "siteId": 1,
+                    "platformId": 2
+                }
+            }
+            
+            response = requests.post(url, json=payload, headers=headers, timeout=10)
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('code') == 0:
+                    article_list = data.get('data', {}).get('itemList', [])
+                    
+                    for item in article_list:
+                        try:
+                            # 36kr API has changed: item itself now contains the fields
+                            material = item.get('templateMaterial') or item
+                            title = material.get('widgetTitle', '')
+                            # Strip HTML from title just in case
+                            title = re.sub(r'<[^>]+>', '', title)
+                            
+                            article_id = material.get('itemId')
+                            if not article_id: continue
+                            
+                            article_url = f"https://36kr.com/p/{article_id}"
+                            
+                            if article_url in seen_urls:
+                                continue
+                            seen_urls.add(article_url)
+                            
+                            summary = material.get('widgetContent') or material.get('content', '')
+                            summary = re.sub(r'<[^>]+>', '', summary)
+                            
+                            # Scoring
+                            med_score = calculate_med_score(title, summary, "36氪")
+                            if med_score < 5: 
+                                # print(f"    [Filtered] {title} (Score: {med_score})")
+                                continue
+                                
+                            # Time
+                            publish_time = material.get('publishTime', 0)
+                            if publish_time > 0:
+                                # publishTime is usually in milliseconds
+                                dt = datetime.datetime.fromtimestamp(publish_time / 1000.0)
+                                time_str = dt.strftime("%Y-%m-%d %H:%M")
+                            else:
+                                time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                                
+                            # Apply Hybrid Time Window Filtering (90 days for 36kr)
+                            if not is_article_fresh(time_str, "36氪"):
+                                continue
+                                
+                            smart_tags = generate_tags(title, summary, "Market")
+                            full_html = extract_full_text(article_url)
+                            
+                            items.append({
+                                "title": title,
+                                "source": "36氪",
+                                "category": "Market",
+                                "tags": smart_tags,
+                                "time": time_str,
+                                "url": article_url,
+                                "summary": summary,
+                                "full_content": full_html,
+                                "lang": "zh"
+                            })
+                        except Exception as e:
+                            continue
+        except Exception as e:
+            print(f"❌ 36kr API 失败: {e}")
+            
+    return items
+
+def scrape_woshipm(existing_urls):
+    """
+    抓取策略路由: 优先 Direct POST，失败降级到 RSSHub
+    """
+    # Strategy 1: Direct POST
+    data = scrape_woshipm_direct(existing_urls)
+    if data:
+        return data
+        
+    # Strategy 2: RSSHub Proxy (Fallback)
+    print("⚠️ Direct POST 没抓到数据，降级尝试 RSSHub Proxy...")
+    
+    items = []
+    
+    # ... (Original RSSHub Logic) ...
+    rss_url = "https://rsshub.app/woshipm/search/AI"
+    
+    try:
+        feed = feedparser.parse(rss_url)
+        
+        if not feed.entries:
+            print("  -> RSSHub 搜索无结果，尝试抓取'热门推荐'并本地过滤...")
+            rss_url = "https://rsshub.app/woshipm/popular/daily"
             feed = feedparser.parse(rss_url)
             
-            source_count = 0 # 当前源已抓取的有效 AI 新闻数量
+        print(f"  -> 解析到 {len(feed.entries)} 篇文章")
+        
+        count = 0
+        for entry in feed.entries:
+            # 关键词过滤 (如果是从热门列表抓取的)
+            if "search" not in rss_url:
+                content_check = (entry.title + " " + (entry.summary if hasattr(entry, 'summary') else "")).lower()
+                if "医疗" not in content_check and "ai" not in content_check:
+                    continue
             
-            # 遍历所有条目
-            for entry in feed.entries:
-                if source_count >= 20: # 每个源最多取 20 条有效内容
-                    break
-                
-                # --- 时间过滤逻辑开始 ---
-                published_dt = None
-                try:
-                    if hasattr(entry, 'published_parsed') and entry.published_parsed:
-                        # entry.published_parsed 是 UTC 时间 struct_time
-                        dt_utc = datetime.datetime.fromtimestamp(time.mktime(entry.published_parsed))
-                        published_dt = dt_utc + datetime.timedelta(hours=8) # 转为北京时间
-                    elif hasattr(entry, 'updated_parsed') and entry.updated_parsed:
-                        dt_utc = datetime.datetime.fromtimestamp(time.mktime(entry.updated_parsed))
-                        published_dt = dt_utc + datetime.timedelta(hours=8)
-                except:
-                    pass
-                
-                # 如果解析出时间，且时间早于7天前，直接跳过
-                if published_dt and published_dt < seven_days_ago:
-                    # print(f"⏳ 跳过过时文章 ({published_dt}): {entry.title}")
-                    continue
-                # --- 时间过滤逻辑结束 ---
+            if count >= 5: break
+            
+            published_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            if hasattr(entry, 'published_parsed') and entry.published_parsed:
+                    dt = datetime.datetime.fromtimestamp(calendar.timegm(entry.published_parsed))
+                    published_time = dt.strftime("%Y-%m-%d %H:%M")
+            
+            summary_raw = entry.summary if hasattr(entry, 'summary') else ""
+            summary = re.sub(r'<[^>]+>', '', summary_raw)
+            
+            smart_tags = generate_tags(entry.title, summary, "Product")
+            
+            full_html = ""
+            if hasattr(entry, "content") and len(entry.content) > 0:
+                full_html = entry.content[0].value
+            else:
+                full_html = extract_full_text(entry.link)
+            
+            items.append({
+                "title": entry.title,
+                "source": "人人都是产品经理",
+                "category": "Product",
+                "tags": smart_tags,
+                "time": published_time,
+                "url": entry.link,
+                "summary": summary[:200] + "...",
+                "full_content": full_html,
+                "lang": "zh"
+            })
+            count += 1
+            
+    except Exception as e:
+        print(f"❌ RSSHub 代理抓取失败: {e}")
+            
+    return items
 
-                # 1. 组合标题和摘要用于搜索
-                summary_raw = entry.summary if hasattr(entry, 'summary') else ""
-                # 去除 HTML 标签
-                summary_clean = summary_raw.replace('<p>', '').replace('</p>', '').replace('<br>', '')
-                
-                full_text = (entry.title + summary_clean).lower() 
-                
-                # 2. 关键词初筛 (保留这个是为了省钱，过滤掉明显无关的)
-                if not any(k.lower() in full_text for k in AI_KEYWORDS):
-                    # print(f"跳过非 AI 内容: {entry.title}") # 调试用
-                    continue 
-                
-                # 3. AI 判官终审 (新增)
-                # print(f"🔍 AI 正在审核: {entry.title[:15]}...")
-                
-                # 对于垂直 AI 媒体（如机器之心、量子位、TechCrunch），直接信任，不进行 LLM 过滤，防止误杀
-                if source_name in ["机器之心", "量子位", "TechCrunch AI"]:
-                    is_ai_related = True
-                else:
-                    summary_for_check = summary_clean[:200]
-                    is_ai_related = check_is_ai_news(entry.title, summary_for_check)
-                
-                if not is_ai_related:
-                    print(f"❌ AI 判定无关/水文，跳过: {entry.title}")
-                    continue
-
-                source_count += 1 # 有效 AI 新闻计数 +1
-
-                # 4. AI 生成摘要
-                print(f"正在 AI 总结: {entry.title[:10]}...")
-                ai_result = generate_ai_summary(entry.title, summary_clean)
-                
-                # 处理 AI 返回结果（可能是字典，也可能是出错时的字符串）
-                if isinstance(ai_result, dict):
-                    ai_summary = ai_result.get("summary", "暂无摘要")
-                    hot_score = ai_result.get("score", 70)
-                    trans_title = ai_result.get("trans_title", "")
-                    trans_summary = ai_result.get("trans_summary", "")
-                    lang = ai_result.get("lang", "zh")
-                else:
-                    ai_summary = str(ai_result)
-                    hot_score = 70 # 默认分
-                    trans_title = ""
-                    trans_summary = ""
-                    lang = "zh"
-
-                print(f"✅ 生成结果: {hot_score}分 | {ai_summary[:30]}... | Lang: {lang}") 
-
-                # 处理时间 (统一转换为北京时间 UTC+8)
-                published_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M") # 默认当前时间
-                
-                try:
-                    if hasattr(entry, 'published_parsed') and entry.published_parsed:
-                        # entry.published_parsed 是一个 UTC 的 struct_time
-                        dt_utc = datetime.datetime.fromtimestamp(time.mktime(entry.published_parsed))
-                        # 加上 8 小时变北京时间
-                        dt_bj = dt_utc + datetime.timedelta(hours=8)
-                        published_time = dt_bj.strftime("%Y-%m-%d %H:%M")
-                    elif hasattr(entry, 'updated_parsed') and entry.updated_parsed:
-                         # 有些源只有 updated 字段
-                        dt_utc = datetime.datetime.fromtimestamp(time.mktime(entry.updated_parsed))
-                        dt_bj = dt_utc + datetime.timedelta(hours=8)
-                        published_time = dt_bj.strftime("%Y-%m-%d %H:%M")
-                except Exception as e:
-                    print(f"时间解析失败: {e}")
-
-                news_list.append({
-                    "title": entry.title,
-                    "source": source_name,
-                    "time": published_time,
-                    "url": entry.link,
-                    "summary": ai_summary, # 原文摘要
-                    "trans_title": trans_title, # 翻译标题
-                    "trans_summary": trans_summary, # 翻译摘要
-                    "lang": lang, # 语言标识
-                    "hot_score": hot_score # 使用 AI 打出的评分
-                })
-                
+def load_existing_data(filepath="data/news.json"):
+    """Load existing JSON to build a stateful memory of seen URLs"""
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                urls = {item.get('url') for item in data if item.get('url')}
+                return data, urls
         except Exception as e:
-            print(f"抓取 {source_name} 失败: {e}")
+            print(f"⚠️ 无法读取已存在的数据: {e}")
+    return [], set()
 
-    # 按时间降序排序 (最新的在最前)
-    # 注意：这里的 time 格式是 "YYYY-MM-DD HH:MM"，可以直接字符串排序
-    news_list.sort(key=lambda x: x['time'], reverse=True)
+def fetch_all_data():
+    """主调度函数: 状态记忆增量抓取"""
+    print("开始执行状态记忆增量抓取任务...")
     
-    # 如果没抓到数据（防止网络问题导致页面空），保留一些模拟数据作为兜底
-    if not news_list:
-        print("警告：未抓取到任何真实数据，使用兜底数据。")
-        return get_mock_data()
-
-    return news_list
-
-def get_mock_data():
-    return [
-        {
-            "title": "（兜底数据）DeepSeek 发布 V4 模型，性能超越 GPT-5",
-            "source": "模拟源",
-            "time": datetime.datetime.now().strftime("%Y-%m-%d %H:%M"),
-            "url": "#",
-            "summary": "这是因为网络抓取失败而显示的模拟数据。",
-            "hot_score": 9999
-        }
-    ]
+    # 1. Load existing state
+    existing_news, existing_urls = load_existing_data()
+    print(f"📦 本地已存在 {len(existing_news)} 条数据，建立去重记忆池。")
+    
+    new_items = []
+    
+    # 2. RSS Feeds (Passing existing URLs)
+    rss_data = fetch_rss_feeds(existing_urls)
+    new_items.extend(rss_data)
+    
+    # 3. Woshipm - Direct Scrape with Multiple Keywords
+    print("🚀 正在执行: 人人都是产品经理 (Multiple Keywords)...")
+    woshipm_data = scrape_woshipm(existing_urls)
+    new_items.extend(woshipm_data)
+    
+    # 4. 36kr - Direct Search API
+    print("🚀 正在执行: 36氪 (Multiple Keywords)...")
+    kr_data = scrape_36kr_direct(existing_urls)
+    new_items.extend(kr_data)
+    
+    print(f"✨ 本次增量抓取共获得 {len(new_items)} 条新数据。")
+    
+    # 5. Combine and Apply Eviction Policy
+    all_news = existing_news + new_items
+    print("🧹 正在执行淘汰机制 (剔除过期数据) 并进行全局去重...")
+    
+    unique_news = []
+    seen_urls = set()
+    for item in all_news:
+        url = item.get("url", "")
+        if not url or url in seen_urls:
+            continue
+            
+        # Eviction Check
+        time_str = item.get("time", "")
+        source_name = item.get("source", "")
+        if is_article_fresh(time_str, source_name):
+            seen_urls.add(url)
+            unique_news.append(item)
+            
+    # Sort by time descending
+    unique_news.sort(key=lambda x: x.get("time", ""), reverse=True)
+    
+    print(f"✅ 最终保留 {len(unique_news)} 条有效数据 (剔除了 {len(all_news) - len(unique_news)} 条过期/重复数据)")
+    return unique_news
 
 def save_data(data):
     os.makedirs("data", exist_ok=True)
     file_path = "data/news.json"
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-    print(f"数据已保存至 {file_path} (共 {len(data)} 条)")
+    print(f"数据已保存至 {file_path}")
 
 if __name__ == "__main__":
-    news_data = fetch_rss_news()
-    save_data(news_data)
+    data = fetch_all_data()
+    save_data(data)

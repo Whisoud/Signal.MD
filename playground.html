@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AI Playground | 宇宙情报局</title>
+    <script src="static/lib/tailwindcss.js"></script>
+    <link rel="stylesheet" href="static/lib/fontawesome.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'cosmic-bg': '#050509',
+                        'neon-blue': '#00f2ea',
+                        'neon-pink': '#ff00ff',
+                        'neon-yellow': '#faff00',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;700&display=swap');
+        
+        body { background-color: #050509; color: #fff; font-family: 'Inter', sans-serif; }
+        
+        .pixel-font { font-family: 'Press Start 2P', cursive; }
+        
+        #grid-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            background-image: 
+                linear-gradient(rgba(255, 0, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            perspective: 500px;
+            transform-style: preserve-3d;
+        }
+        
+        .arcade-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .arcade-card:hover {
+            transform: scale(1.02) translateY(-5px);
+            border-color: #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.4);
+        }
+
+        .glitch-text {
+            position: relative;
+        }
+        
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        
+        .glitch-text::before {
+            left: 2px; text-shadow: -1px 0 red; clip: rect(24px, 550px, 90px, 0); animation: glitch-anim-2 3s infinite linear alternate-reverse;
+        }
+        
+        .glitch-text::after {
+            left: -2px; text-shadow: -1px 0 blue; clip: rect(85px, 550px, 140px, 0); animation: glitch-anim 2.5s infinite linear alternate-reverse;
+        }
+        
+        @keyframes glitch-anim {
+            0% { clip: rect(14px, 9999px, 122px, 0); }
+            100% { clip: rect(38px, 9999px, 57px, 0); }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <div id="grid-bg"></div>
+
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="font-bold text-xl tracking-tighter hover:text-neon-pink transition-colors">
+                    AI <span class="text-neon-pink">LABS</span>
+                </a>
+            </div>
+            <a href="index.html" class="text-xs font-mono text-slate-400 hover:text-white">
+                <i class="fa-solid fa-arrow-left mr-1"></i> EXIT
+            </a>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="pt-32 pb-20 max-w-6xl mx-auto px-4">
+        
+        <div class="text-center mb-20">
+            <h1 class="pixel-font text-3xl md:text-5xl text-neon-yellow mb-6 leading-relaxed glitch-text" data-text="READY PLAYER ONE?">
+                READY PLAYER ONE?
+            </h1>
+            <p class="text-slate-400 font-mono text-sm md:text-base max-w-xl mx-auto">
+                实验性 AI 应用游乐场。这里没有枯燥的报表，只有疯狂的 Agent 和失控的代码。
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- 项目 1: AI 狼人杀 -->
+            <div class="arcade-card rounded-xl overflow-hidden group cursor-pointer relative" onclick="alert('正在初始化游戏大厅...\n(Coming Soon)')">
+                <div class="h-40 bg-gradient-to-br from-purple-900 to-black flex items-center justify-center relative overflow-hidden">
+                    <i class="fa-solid fa-wolf-pack-battalion text-6xl text-white/20 group-hover:text-white/80 group-hover:scale-110 transition-all duration-500"></i>
+                    <div class="absolute inset-0 bg-black/50 group-hover:bg-transparent transition-colors"></div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-xl text-white group-hover:text-neon-pink transition-colors">AI 狼人杀</h3>
+                        <span class="text-[10px] font-mono bg-neon-pink/20 text-neon-pink px-2 py-1 rounded">MULTI-AGENT</span>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-6 line-clamp-2">
+                        7个 LLM 扮演村民与狼人，互飙演技。你是唯一的以太人类，能活到最后吗？
+                    </p>
+                    <div class="flex items-center gap-2 text-xs font-mono text-slate-500">
+                        <i class="fa-solid fa-gamepad"></i> <span>PvE Mode</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目 2: AI 塔罗牌 -->
+            <div class="arcade-card rounded-xl overflow-hidden group cursor-pointer" onclick="alert('正在连接宇宙能量...\n(Coming Soon)')">
+                <div class="h-40 bg-gradient-to-br from-indigo-900 to-black flex items-center justify-center relative">
+                    <i class="fa-solid fa-hand-sparkles text-6xl text-white/20 group-hover:text-neon-yellow group-hover:animate-float transition-all"></i>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-bold text-xl text-white group-hover:text-neon-yellow transition-colors">赛博算命</h3>
+                        <span class="text-[10px] font-mono bg-neon-yellow/20 text-neon-yellow px-2 py-1 rounded">RAG + MYSTIC</span>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-6 line-clamp-2">
+                        基于千亿参数大模型的命理咨询。科学算命，在线发功。
+                    </p>
+                    <div class="flex items-center gap-2 text-xs font-mono text-slate-500">
+                        <i class="fa-solid fa-crystal-ball"></i> <span>Beta v0.1</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 项目 3: 待定 -->
+            <div class="arcade-card rounded-xl overflow-hidden group cursor-pointer border-dashed border-slate-700 bg-transparent hover:border-slate-500 hover:bg-white/5">
+                <div class="h-full flex flex-col items-center justify-center p-10 text-center min-h-[300px]">
+                    <i class="fa-solid fa-plus text-4xl text-slate-600 mb-4 group-hover:text-white transition-colors"></i>
+                    <h3 class="font-bold text-lg text-slate-500 group-hover:text-white mb-2">新建项目</h3>
+                    <p class="text-xs text-slate-600 font-mono">
+                        // WAITING FOR INPUT<br>
+                        AI Debate / Code Gen / ...
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

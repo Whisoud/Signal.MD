@@ -1,2 +1,4 @@
-requests
-feedparser
+requests==2.31.0
+beautifulsoup4==4.12.3
+feedparser==6.0.11
+readability-lxml==0.8.1
