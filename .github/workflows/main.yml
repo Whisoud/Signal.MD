@@ -1,52 +1,40 @@
-name: Update AI News
+name: Signal.MD Data Ingestion Pipeline
 
 on:
   schedule:
-    # 1. 实时流：每 2 小时运行一次 (UTC 时间)
-    - cron: '0 */2 * * *'
-    # 2. 每日晨报：每天北京时间 05:00 (UTC 21:00)
-    - cron: '0 21 * * *'
-  workflow_dispatch: # 允许手动点击按钮触发
+    # 运行时间：北京时间 09:00, 12:00, 18:00, 00:00
+    # 对应 UTC 时间：01:00, 04:00, 10:00, 16:00
+    - cron: '0 1,4,10,16 * * *'
+  workflow_dispatch: # 允许手动触发
 
 jobs:
-  build:
+  scrape-and-update:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.9'
+        python-version: '3.10'
+        cache: 'pip' # 缓存 pip 依赖加速构建
     
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install requests feedparser
+        pip install -r requirements.txt
 
-    - name: Run Scraper (Live Feed)
-      env:
-        # 优先使用 GitHub Secrets 中的 Key，如果没有则代码会使用硬编码的默认值
-        QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
-        # DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }} # 暂时注释
+    - name: Run Scraper
       run: |
         python scraper.py
-
-    - name: Run Daily Brief (Morning Report)
-      # 只有在 UTC 21:00 (北京时间 05:00) 或手动触发时运行
-      if: github.event.schedule == '0 21 * * *' || github.event_name == 'workflow_dispatch'
-      env:
-        QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
-        # DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }} # 暂时注释
-      run: |
-        python daily_brief.py
 
     - name: Commit and push changes
       run: |
         git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add data/news.json data/daily_brief.json
-        git commit -m "Auto update news: $(date)" || exit 0
+        git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+        git add data/news.json
+        # 如果没有变动，commit 会失败，使用 || true 避免 workflow 报错
+        git commit -m "Auto update data: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || true
         git push
