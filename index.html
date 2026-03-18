@@ -103,9 +103,16 @@
                         <i class="fa-solid fa-gamepad"></i> AI 游乐场
                     </a>
                 </nav>
-                <span id="last-updated" class="text-xs font-mono opacity-60">SYNCING...</span>
-                <a href="https://github.com" target="_blank" class="hover:text-white transition-colors"><i class="fa-brands fa-github"></i></a>
-            </div>
+                <div class="flex items-center gap-2 sm:gap-4 text-xs font-mono text-text-secondary/80">
+                    <div class="flex items-center gap-2 px-2 py-0.5 sm:px-3 sm:py-1 bg-bg-secondary/50 rounded-full border border-border-color/50 backdrop-blur-sm">
+                        <span class="w-1.5 h-1.5 rounded-full bg-accent"></span>
+                        <span id="stat-total" class="font-medium text-text-primary text-[10px] sm:text-xs">--</span>
+                        <span class="text-border-color mx-0.5 sm:mx-1">/</span>
+                        <span id="stat-new" class="text-emerald-400 font-medium text-[10px] sm:text-xs">+-- Today</span>
+                    </div>
+                    <span id="last-updated" class="opacity-60 hidden md:inline-block">WAITING...</span>
+                    <a href="https://github.com/Whisoud/Signal.MD" target="_blank" class="hover:text-white transition-colors ml-1 sm:ml-2"><i class="fa-brands fa-github text-lg"></i></a>
+                </div>
         </div>
     </header>
 
@@ -226,8 +233,38 @@
                 
                 console.log("Loaded data:", allData.length, "items");
                 
-                // Update Timestamp
-                document.getElementById('last-updated').innerText = 'UPDATED ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                // Sort by time (newest first)
+                allData.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+                // --- Update Header Stats ---
+                // 1. Total Signals
+                document.getElementById('stat-total').innerText = `${allData.length} Signals`;
+                
+                // 2. Today's New Count (Local Time)
+                const now = new Date();
+                const todayCount = allData.filter(item => {
+                    const itemDate = new Date(item.time);
+                    return itemDate.toDateString() === now.toDateString();
+                }).length;
+                
+                const statNewEl = document.getElementById('stat-new');
+                statNewEl.innerText = `+${todayCount} Today`;
+                
+                // Highlight if there are new items
+                if (todayCount > 0) {
+                    statNewEl.classList.remove('text-text-secondary');
+                    statNewEl.classList.add('text-emerald-400');
+                } else {
+                    statNewEl.classList.remove('text-emerald-400');
+                    statNewEl.classList.add('text-text-secondary');
+                }
+                
+                // 3. Last Updated Time (From Data)
+                if (allData.length > 0) {
+                    const lastUpdateDate = new Date(allData[0].time);
+                    const timeString = lastUpdateDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    document.getElementById('last-updated').innerText = 'UPDATED ' + timeString;
+                }
                 
                 render();
             } catch (error) {
