@@ -44,7 +44,19 @@ SEARCH_KEYWORDS = [
     "医疗信息化", 
     "临床诊疗",
     "医学影像",
-    "智慧医疗"
+    "智慧医疗",
+    "医疗科技",
+    "AI制药"
+]
+
+SEARCH_KEYWORDS_EN = [
+    "Medical AI",
+    "Healthcare LLM",
+    "Clinical AI",
+    "AI in Healthcare",
+    "Generative AI Healthcare",
+    "Radiology AI",
+    "Digital Health"
 ]
 
 # --- Auto-Tagging Dictionary ---
@@ -94,13 +106,17 @@ def calculate_med_score(title, summary, source_name=""):
     STRONG_MED = [
         "临床", "病历", "诊断", "药物", "手术", "医院", "患者", "医生", "影像", "基因", 
         "EMR", "HIS", "FDA", "器械", "医保", "处方", "慢病", "护理", "问诊", "科室",
-        "靶点", "筛查", "疗法", "医疗", "医学", "药企", "新药"
+        "靶点", "筛查", "疗法", "医疗", "医学", "药企", "新药",
+        "medical", "clinical", "healthcare", "patient", "doctor", "hospital", "radiology",
+        "surgery", "drug", "pharma", "therapy", "disease", "health", "care"
     ]
     
     # 2. 技术/动作词 (Tech Actions)
     TECH_ACTION = [
         "大模型", "算法", "系统", "产品", "模型", "SaaS", "商业化", "融资", "研发",
-        "GPT", "LLM", "Agent", "平台", "软件", "应用", "架构", "ai", "数据", "智能"
+        "GPT", "LLM", "Agent", "平台", "软件", "应用", "架构", "ai", "数据", "智能",
+        "model", "algorithm", "system", "product", "software", "data", "platform",
+        "generative", "architecture", "startup", "funding"
     ]
     
     # 3. 负面降噪词 (Negative)
@@ -116,7 +132,7 @@ def calculate_med_score(title, summary, source_name=""):
     has_tech = any(kw.lower() in combined_text for kw in TECH_ACTION)
     
     # 特例：如果在标题中直接出现了“医疗AI”或“AI医疗”这种超级组合词，可豁免交集
-    super_keywords = ["医疗 ai", "ai医疗", "医疗大模型", "数字疗法", "智慧医疗", "医疗信息化", "ai 医疗", "医疗ai"]
+    super_keywords = ["医疗 ai", "ai医疗", "医疗大模型", "数字疗法", "智慧医疗", "医疗信息化", "ai 医疗", "医疗ai", "medical ai", "healthcare ai", "clinical ai", "health ai"]
     has_super = any(sk in combined_text for sk in super_keywords)
     
     if not has_super and not (has_med and has_tech):
@@ -171,10 +187,12 @@ def is_article_fresh(time_str, source_name):
         now = datetime.datetime.now()
         days_diff = (now - dt).days
         
-        if "36氪" in source_name or "MobiHealthNews" in source_name or "动脉网" in source_name or "FDA" in source_name:
+        if "36氪" in source_name or "MobiHealthNews" in source_name or "动脉网" in source_name or "FDA" in source_name or "虎嗅" in source_name:
             return days_diff <= 90
         elif "Eric Topol" in source_name or "Doctor Penguin" in source_name or "KevinMD" in source_name or "Weighs In" in source_name:
             return days_diff <= 180
+        elif "Medium" in source_name:
+            return days_diff <= 365
         else: # Woshipm, Google, etc.
             return days_diff <= 365
     except Exception as e:
@@ -648,6 +666,74 @@ def scrape_woshipm(existing_urls):
             
     return items
 
+
+def scrape_medium_tags(existing_urls):
+    """通过 Medium Tag RSS 获取文章"""
+    print("正在抓取 Medium (Tag RSS)...")
+    items = []
+    seen_urls = set(existing_urls)
+    
+    # We use RSS for tags to get pure chronologically sorted feeds. 
+    # Medium search API is protected, so this is the best alternative.
+    tags = [kw.replace(" ", "-").lower() for kw in SEARCH_KEYWORDS_EN]
+    
+    for tag in tags:
+        print(f"  -> Tag: {tag}")
+        url = f"https://medium.com/feed/tag/{tag}"
+        try:
+            feed = feedparser.parse(url)
+            for entry in feed.entries:
+                link = entry.link
+                # Normalize link to avoid tracking parameters
+                base_link = link.split("?")[0]
+                
+                if base_link in seen_urls:
+                    continue
+                seen_urls.add(base_link)
+                
+                title = entry.title
+                summary = getattr(entry, "summary", "") or getattr(entry, "description", "")
+                summary_clean = re.sub(r'<[^>]+>', '', summary)
+                
+                med_score = calculate_med_score(title, summary_clean, "Medium")
+                if med_score < 5:
+                    continue
+                    
+                time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+                if hasattr(entry, "published_parsed") and entry.published_parsed:
+                    time_str = datetime.datetime(*entry.published_parsed[:6]).strftime("%Y-%m-%d %H:%M")
+                    
+                if not is_article_fresh(time_str, "Medium"):
+                    continue
+                    
+                smart_tags = generate_tags(title, summary_clean, "Insights")
+                
+                # Medium full content is usually in content:encoded, but it might be truncated for paywall
+                full_html = ""
+                if hasattr(entry, "content") and len(entry.content) > 0:
+                    full_html = entry.content[0].value
+                
+                # Medium paywall blocks standard readability extraction.
+                # If RSS content is too short or missing, we fallback to just showing the summary in the drawer.
+                if not full_html or len(full_html) < 200:
+                    full_html = f"<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p>{summary}</p></div>"
+                    
+                items.append({
+                    "title": title,
+                    "source": "Medium",
+                    "category": "Insights", # Default to Insights
+                    "tags": smart_tags,
+                    "time": time_str,
+                    "url": base_link,
+                    "summary": summary_clean[:200] + "...",
+                    "full_content": full_html,
+                    "lang": "en"
+                })
+        except Exception as e:
+            print(f"❌ Medium RSS 失败: {e}")
+            
+    return items
+
 def load_existing_data(filepath="data/news.json"):
     """Load existing JSON to build a stateful memory of seen URLs"""
     if os.path.exists(filepath):
@@ -684,9 +770,17 @@ def fetch_all_data():
     kr_data = scrape_36kr_direct(existing_urls)
     new_items.extend(kr_data)
     
+    # 5. Huxiu - Direct Search API
+
+    
+    # 6. Medium - Tag RSS
+    print("🚀 正在执行: Medium (Tag RSS)...")
+    medium_data = scrape_medium_tags(existing_urls)
+    new_items.extend(medium_data)
+    
     print(f"✨ 本次增量抓取共获得 {len(new_items)} 条新数据。")
     
-    # 5. Combine and Apply Eviction Policy
+    # Combine and Apply Eviction Policy
     all_news = existing_news + new_items
     print("🧹 正在执行淘汰机制 (剔除过期数据) 并进行全局去重...")
     
