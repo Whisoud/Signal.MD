@@ -213,15 +213,9 @@
         let allData = [];
         let currentFilter = 'all';
         
-        // Unread State Management
-        let lastVisitTimestamp = localStorage.getItem('aihot_last_visit');
-        const currentVisitTimestamp = new Date().getTime();
+        // Unread State Management: Store read article URLs
+        let readArticles = JSON.parse(localStorage.getItem('aihot_read_articles') || 'null');
         
-        // Update last visit time when user leaves or closes the page
-        window.addEventListener('beforeunload', () => {
-            localStorage.setItem('aihot_last_visit', currentVisitTimestamp.toString());
-        });
-
         // Fetch Data
         async function fetchData() {
             try {
@@ -235,6 +229,12 @@
                 
                 // Sort by time (newest first)
                 allData.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+                // Initialize readArticles on very first visit to avoid everything being unread
+                if (readArticles === null) {
+                    readArticles = allData.map(item => item.url);
+                    localStorage.setItem('aihot_read_articles', JSON.stringify(readArticles));
+                }
 
                 // --- Update Header Stats ---
                 // 1. Total Signals
@@ -305,14 +305,8 @@
                 const color = getCategoryColor(item.category);
                 const timeStr = formatTime(item.time);
                 
-                // Determine if article is new
-                let isNew = false;
-                if (lastVisitTimestamp) {
-                    const articleTime = new Date(item.time).getTime();
-                    if (articleTime > parseInt(lastVisitTimestamp)) {
-                        isNew = true;
-                    }
-                }
+                // Determine if article is new (unread)
+                let isNew = !readArticles.includes(item.url);
                 
                 // Render Tags
                 let tagsHtml = '';
@@ -324,7 +318,7 @@
 
                 return `
                 <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer(${index}, '${currentFilter}')">
-                    ${isNew ? '<div class="absolute top-6 left-[-6px] w-2 h-2 rounded-full bg-[#00ff9d] animate-pulse shadow-[0_0_8px_#00ff9d]"></div>' : ''}
+                    ${isNew ? `<div id="dot-${index}" class="absolute top-6 left-[-6px] w-2 h-2 rounded-full bg-[#00ff9d] animate-pulse shadow-[0_0_8px_#00ff9d]"></div>` : ''}
                     <div class="flex justify-between items-start mb-2 gap-4">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5">
@@ -366,6 +360,14 @@
             
             const item = filtered[index];
             if (!item) return;
+            
+            // Mark as read
+            if (!readArticles.includes(item.url)) {
+                readArticles.push(item.url);
+                localStorage.setItem('aihot_read_articles', JSON.stringify(readArticles));
+                const dot = document.getElementById(`dot-${index}`);
+                if (dot) dot.style.display = 'none';
+            }
             
             // Reset Translation state
             isTranslated = false;
