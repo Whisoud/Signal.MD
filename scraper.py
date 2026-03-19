@@ -8,6 +8,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
 from readability import Document
+from deep_translator import GoogleTranslator
 import time
 import re
 
@@ -69,6 +70,69 @@ AUTO_TAGS_DICT = {
     "可穿戴/IoT": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch"],
     "药物研发": ["Drug Discovery", "AlphaFold", "靶点", "制药", "Pharma"],
 }
+
+# --- Translation Helpers ---
+def translate_html_safe(html_content, target='zh-CN'):
+    if not html_content: return ""
+    try:
+        translator = GoogleTranslator(source='auto', target=target)
+        if len(html_content) <= 4900:
+            return translator.translate(html_content)
+            
+        chunks = []
+        current_chunk = ""
+        parts = html_content.split('</p>')
+        for i, part in enumerate(parts):
+            if i < len(parts) - 1:
+                part += '</p>'
+            if len(current_chunk) + len(part) < 4900:
+                current_chunk += part
+            else:
+                if current_chunk:
+                    chunks.append(current_chunk)
+                current_chunk = part
+        if current_chunk:
+            chunks.append(current_chunk)
+            
+        translated_chunks = []
+        for c in chunks:
+            if len(c) > 4900:
+                translated_chunks.append(translator.translate(c[:4900]))
+            else:
+                res = translator.translate(c)
+                translated_chunks.append(res if res else c)
+        return "".join(translated_chunks)
+    except Exception as e:
+        print(f"Translation error: {e}")
+        return html_content
+
+def process_translations(items):
+    print("🌍 正在执行本地预翻译 (Backend Pre-translation)...")
+    for item in items:
+        # If the item doesn't have a title_zh yet, it means it's newly scraped or un-translated
+        if "title_zh" not in item:
+            original_lang = item.get("lang", "zh")
+            if original_lang == "en":
+                # print(f"    [EN->ZH] Translating: {item['title'][:30]}...")
+                item["title_en"] = item["title"]
+                item["summary_en"] = item["summary"]
+                item["content_en"] = item["full_content"]
+                
+                item["title_zh"] = translate_html_safe(item["title"], 'zh-CN')
+                item["summary_zh"] = translate_html_safe(item["summary"], 'zh-CN')
+                item["content_zh"] = translate_html_safe(item["full_content"], 'zh-CN')
+            else:
+                # Original is Chinese
+                item["title_zh"] = item["title"]
+                item["summary_zh"] = item["summary"]
+                item["content_zh"] = item["full_content"]
+                
+                item["title_en"] = translate_html_safe(item["title"], 'en')
+                item["summary_en"] = translate_html_safe(item["summary"], 'en')
+                # Content translation for ZH to EN is often too heavy and might hit rate limits fast,
+                # but let's try it since user wants "中英互译"
+                item["content_en"] = translate_html_safe(item["full_content"], 'en')
+    return items
 
 def generate_tags(title, summary, base_category):
     """根据标题和摘要内容，自动匹配并生成结构化标签"""
@@ -800,6 +864,9 @@ def fetch_all_data():
             
     # Sort by time descending
     unique_news.sort(key=lambda x: x.get("time", ""), reverse=True)
+    
+    # 7. Apply Translations
+    unique_news = process_translations(unique_news)
     
     print(f"✅ 最终保留 {len(unique_news)} 条有效数据 (剔除了 {len(all_news) - len(unique_news)} 条过期/重复数据)")
     return unique_news

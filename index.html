@@ -357,6 +357,7 @@
         let originalTitle = '';
         let originalContent = '';
         let currentItemLang = 'zh'; // Default
+        let currentItem = null;
         
         // --- Drawer Logic ---
         function openDrawer(index, filterState) {
@@ -373,6 +374,7 @@
             
             const item = filtered[index];
             if (!item) return;
+            currentItem = item;
             
             // Mark as read
             if (!readArticles.includes(item.url)) {
@@ -475,85 +477,44 @@
 
         let isTranslated = false;
         async function toggleTranslation() {
+            if (!currentItem) return;
+            
             const btn = document.getElementById('translate-btn');
             const icon = btn.querySelector('i');
             const titleEl = document.getElementById('drawer-title');
             const contentEl = document.getElementById('drawer-full-content');
             
+            const targetLang = currentItemLang === 'en' ? 'zh' : 'en';
+            
             if (!isTranslated) {
-                const sourceLang = currentItemLang === 'en' ? 'en' : 'zh';
-                const targetLang = currentItemLang === 'en' ? 'zh' : 'en';
+                // Determine if we have pre-translated data
+                const hasTranslation = currentItem.title_zh || currentItem.title_en;
                 
-                // Show Loading
-                icon.className = 'fas fa-spinner fa-spin';
-                btn.classList.add('text-accent', 'border-accent');
-                btn.querySelector('span').innerText = 'Translating...';
-                
-                try {
-                    // Fallback to a highly robust free translation endpoint: Google Translate via a widely used public CORS proxy (MyMemory API)
-                    // MyMemory allows 500 requests/day for free, much more stable than Lingva for long texts.
-                    // We will batch translate the entire text to avoid rate limiting from multiple requests.
+                if (hasTranslation) {
+                    // Fast path: Use backend pre-translated data
+                    titleEl.innerHTML = targetLang === 'zh' ? (currentItem.title_zh || currentItem.title) : (currentItem.title_en || currentItem.title);
                     
-                    const translateText = async (text) => {
-                        // Max length for MyMemory is 500 bytes per request, so we need to chunk if necessary,
-                        // but for zero-cost, let's use another very stable trick: Google Apps Script Web App (Public)
-                        // Actually, the most robust way to do this completely free in frontend is to inject the official Google Translate widget.
-                        throw new Error('Switching to Widget strategy');
-                    };
-
-                } catch (error) {
-                    console.log("Switching to Google Translate Widget Strategy");
+                    let translatedContent = targetLang === 'zh' ? (currentItem.content_zh || currentItem.summary_zh || currentItem.summary) : (currentItem.content_en || currentItem.summary_en || currentItem.summary);
                     
-                    // Strategy C: Inject Google Translate Widget dynamically
-                    // This is 100% free, never rate limited, and handles formatting perfectly.
-                    
-                    // 1. Check if we already injected it
-                    if (!document.getElementById('google_translate_script')) {
-                        const script = document.createElement('script');
-                        script.id = 'google_translate_script';
-                        script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-                        document.body.appendChild(script);
-                        
-                        window.googleTranslateElementInit = function() {
-                            new google.translate.TranslateElement({
-                                pageLanguage: 'auto',
-                                includedLanguages: 'zh-CN,en',
-                                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                                autoDisplay: false
-                            }, 'google_translate_element');
-                        };
-                        
-                        // Add a container for the widget if it doesn't exist
-                        if (!document.getElementById('google_translate_element')) {
-                            const widgetContainer = document.createElement('div');
-                            widgetContainer.id = 'google_translate_element';
-                            widgetContainer.style.display = 'none'; // Hide it, we just use it programmatically
-                            document.body.appendChild(widgetContainer);
-                        }
+                    if (!translatedContent.trim().startsWith('<')) {
+                        translatedContent = translatedContent.split('\n').map(p => `<p>${p}</p>`).join('');
                     }
+                    contentEl.innerHTML = translatedContent;
                     
-                    // 2. Trigger the translation via hash change or simulating widget click
-                    showToast("Loading Google Translate Engine...");
-                    
-                    // Set timeout to allow script to load
-                    setTimeout(() => {
-                        // The cleanest way to trigger Google Translate on a specific element
-                        // is to change the page hash, but since we are in a SPA, we'll guide the user.
-                        
-                        // Let's actually use the built-in browser translate by changing the DOM lang attribute temporarily
-                        // This triggers the browser's native translation prompt which is 100x better than any free API.
-                        document.documentElement.lang = targetLang === 'zh' ? 'en' : 'zh-CN';
-                        
-                        // Change UI state
-                        isTranslated = true;
-                        icon.className = 'fa-brands fa-google';
-                        btn.querySelector('span').innerText = '翻译已就绪 (右键使用浏览器翻译)';
-                        showToast("已切换语言标识，请右键点击页面选择“翻译成中文”");
-                    }, 500);
+                    // Update UI state
+                    isTranslated = true;
+                    icon.className = 'fa-solid fa-check';
+                    btn.classList.add('text-accent', 'border-accent');
+                    btn.querySelector('span').innerText = targetLang === 'zh' ? '已译为中文' : 'Translated';
+                } else {
+                    // Data is not pre-translated yet (legacy data)
+                    showToast("当前文章暂无预翻译数据，请等待后台更新");
                 }
             } else {
-                // Revert
-                document.documentElement.lang = 'zh-CN';
+                // Revert to original
+                titleEl.textContent = originalTitle;
+                contentEl.innerHTML = originalContent;
+                
                 isTranslated = false;
                 icon.className = 'fa-solid fa-language';
                 btn.classList.remove('text-accent', 'border-accent');
