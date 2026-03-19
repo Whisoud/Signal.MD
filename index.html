@@ -139,15 +139,13 @@
                     </h2>
                 
                 <!-- Filter Tabs -->
-                <div class="transition-transform duration-300 z-40 bg-bg-card w-full" id="feed-filters-container">
-                    <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar w-full snap-x" id="feed-filters">
-                        <button class="filter-btn active px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="all">All</button>
-                        <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Insights">💡 Insights</button>
-                        <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Product">🚀 Product</button>
-                        <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Clinical">🏥 Clinical</button>
-                        <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Market">💰 Market</button>
-                    </div>
-                </div>
+                        <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
+                            <button class="filter-btn active px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="all">All</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Insights">💡 Insights</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Product">🚀 Product</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Clinical">🏥 Clinical</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Market">💰 Market</button>
+                        </div>
                 </div>
 
             <!-- Feed Container -->
@@ -593,46 +591,6 @@
         
         // Auto refresh every 5 min
         setInterval(fetchData, 300000);
-
-        // Mobile Top Bar Scroll Logic
-        const signalContainer = document.getElementById('signal-container');
-        const feedFiltersContainer = document.getElementById('feed-filters-container');
-        let lastScrollTop = 0;
-
-        if (signalContainer && feedFiltersContainer) {
-            signalContainer.addEventListener('scroll', () => {
-                // Only apply on mobile (window width < 768px)
-                if (window.innerWidth >= 768) {
-                    feedFiltersContainer.style.transform = 'translateY(0)';
-                    feedFiltersContainer.style.height = 'auto';
-                    feedFiltersContainer.style.opacity = '1';
-                    feedFiltersContainer.style.marginBottom = '1rem';
-                    return;
-                }
-                
-                let scrollTop = signalContainer.scrollTop;
-                if (scrollTop > lastScrollTop && scrollTop > 50) {
-                    // Scroll Down - Hide smoothly
-                    feedFiltersContainer.style.transform = 'translateY(-100%)';
-                    feedFiltersContainer.style.height = '0';
-                    feedFiltersContainer.style.opacity = '0';
-                    feedFiltersContainer.style.marginBottom = '0';
-                    feedFiltersContainer.style.overflow = 'hidden';
-                } else {
-                    // Scroll Up - Show smoothly
-                    feedFiltersContainer.style.transform = 'translateY(0)';
-                    feedFiltersContainer.style.height = 'auto';
-                    feedFiltersContainer.style.opacity = '1';
-                    feedFiltersContainer.style.marginBottom = '0.75rem';
-                    setTimeout(() => {
-                        if(feedFiltersContainer.style.transform === 'translateY(0px)' || feedFiltersContainer.style.transform === 'translateY(0)') {
-                            feedFiltersContainer.style.overflow = 'visible';
-                        }
-                    }, 300);
-                }
-                lastScrollTop = scrollTop;
-            });
-        }
 
     </script>
 </body>
