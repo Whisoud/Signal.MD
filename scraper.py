@@ -326,17 +326,18 @@ def calculate_med_score(title, summary, source_name=""):
     
     STRONG_MED_PHRASES = [
         "临床决策支持", "病历生成", "辅助诊断", "数字疗法", "多学科会诊", "互联网医院", "医疗数据治理",
-        "临床试验", "医保控费", "靶点发现", "电子病历", "智慧医院",
+        "临床试验", "医保控费", "靶点发现", "电子病历", "智慧医院", "分级诊疗", "DRG/DIP", "医疗质量",
         "clinical workflow", "medical scribe", "ambient ai", "clinical documentation", 
-        "drug discovery", "care pathway"
+        "drug discovery", "care pathway", "electronic health record"
     ]
     
     STRONG_MED = [
         "临床", "病历", "诊断", "药物", "手术", "医院", "患者", "医生", "影像", "基因", 
         "EMR", "HIS", "FDA", "器械", "医保", "处方", "慢病", "护理", "问诊", "科室",
         "靶点", "筛查", "疗法", "医疗", "医学", "药企", "新药", "卫健委", "医保局",
+        "挂号", "就诊", "门诊", "住院", "体检", "随访", "药房", "药监局", "NMPA", "院感",
         "medical", "clinical", "healthcare", "patient", "doctor", "hospital", "radiology",
-        "surgery", "drug", "pharma", "therapy", "disease", "health", "care"
+        "surgery", "drug", "pharma", "therapy", "disease", "health", "care", "prescription", "triage"
     ]
     
     TECH_PHRASES = [
