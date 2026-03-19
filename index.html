@@ -304,11 +304,6 @@
                 const color = getCategoryColor(item.category);
                 const timeStr = formatTime(item.time);
                 
-                // Determine if article is new (Align exactly with +X Today logic)
-                const itemDate = new Date(item.time);
-                const now = new Date();
-                let isNew = itemDate.toDateString() === now.toDateString();
-                
                 // Render Tags
                 let tagsHtml = '';
                 if (item.tags && item.tags.length > 0) {
@@ -319,7 +314,6 @@
 
                 return `
                 <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer(${index}, '${currentFilter}')">
-                    ${isNew ? `<div id="dot-${index}" class="absolute top-6 left-[-6px] w-2 h-2 rounded-full bg-[#00ff9d] animate-pulse shadow-[0_0_8px_#00ff9d]"></div>` : ''}
                     <div class="flex justify-between items-start mb-2 gap-4">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5">
