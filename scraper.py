@@ -498,8 +498,13 @@ def extract_full_text(url):
                 "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
             }
             time.sleep(1)
-            response = requests.get(mobile_url, headers=headers, timeout=15)
-            if response.status_code == 200:
+            try:
+                response = requests.get(mobile_url, headers=headers, timeout=(5, 15))
+            except Exception as e:
+                print(f"    [36kr Mobile Extractor Error] {url}: {e}")
+                response = None
+                
+            if response and response.status_code == 200:
                 match = re.search(r'window\.initialState=(.*?)</script>', response.text, re.DOTALL)
                 if match:
                     try:
@@ -535,7 +540,11 @@ def extract_full_text(url):
         # Add a small delay to avoid rate limiting
         time.sleep(1)
         
-        response = requests.get(url, headers=headers, timeout=15)
+        try:
+            response = requests.get(url, headers=headers, timeout=(10, 30))
+        except Exception as e:
+            print(f"    [Full Text Extractor Network Error] {url}: {e}")
+            return ""
         
         # If Woshipm returns 404, it might be in another category
         if "woshipm.com" in url:
@@ -549,10 +558,13 @@ def extract_full_text(url):
             if response.status_code == 404:
                 for cat in ["ai", "it", "med", "active", "share", "eval", "article"]:
                     new_url = re.sub(r"woshipm\.com/[^/]+/", f"woshipm.com/{cat}/", url)
-                    response = requests.get(new_url, headers=headers, timeout=10)
-                    if response.status_code == 200:
-                        url = new_url # update url for returning
-                        break
+                    try:
+                        response = requests.get(new_url, headers=headers, timeout=(5, 15))
+                        if response.status_code == 200:
+                            url = new_url # update url for returning
+                            break
+                    except Exception:
+                        continue
 
         if response.status_code == 200:
             doc = Document(response.text)
