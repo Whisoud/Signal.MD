@@ -132,21 +132,21 @@
             <!-- Left: Signal Feed -->
             <div class="bg-bg-card rounded-xl border border-border-color p-4 md:p-5 shadow-2xl h-full md:h-[800px] flex flex-col relative overflow-hidden group">
                 <!-- Header -->
-                <div class="flex justify-between items-center mb-4 z-10">
-                    <h2 class="text-base md:text-lg font-bold flex items-center gap-2 text-text-primary tracking-wide">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 md:mb-4 z-10 bg-bg-card md:static pt-0 pb-0">
+                    <h2 class="hidden md:flex text-base md:text-lg font-bold items-center gap-2 text-text-primary tracking-wide">
                         <i class="fas fa-satellite-dish text-accent-primary animate-pulse-slow"></i> 
                         MEDAI SIGNAL FEED
                     </h2>
                 
                 <!-- Filter Tabs -->
-                        <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar max-w-[60%] md:max-w-none" id="feed-filters">
-                            <button class="filter-btn active px-2 md:px-3 py-1 rounded text-[10px] md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap" data-filter="all">All</button>
-                            <button class="filter-btn px-2 md:px-3 py-1 rounded text-[10px] md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap" data-filter="Insights">💡 Insights</button>
-                            <button class="filter-btn px-2 md:px-3 py-1 rounded text-[10px] md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap" data-filter="Product">🚀 Product</button>
-                            <button class="filter-btn px-2 md:px-3 py-1 rounded text-[10px] md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap" data-filter="Clinical">🏥 Clinical</button>
-                            <button class="filter-btn px-2 md:px-3 py-1 rounded text-[10px] md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap" data-filter="Market">💰 Market</button>
+                        <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
+                            <button class="filter-btn active px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="all">All</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Insights">💡 Insights</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Product">🚀 Product</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Clinical">🏥 Clinical</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Market">💰 Market</button>
                         </div>
-            </div>
+                </div>
 
             <!-- Feed Container -->
             <div id="signal-container" class="space-y-4 overflow-y-auto pr-2 custom-scrollbar flex-1 relative z-10">
