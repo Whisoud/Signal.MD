@@ -11,7 +11,6 @@ from readability import Document
 from deep_translator import GoogleTranslator
 import time
 import re
-import random
 
 # --- Configuration ---
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -44,105 +43,107 @@ SEARCH_KEYWORDS = [
     "医疗大模型", 
     "数字疗法", 
     "医疗信息化", 
-    "临床诊疗",
-    "医学影像",
-    "智慧医疗",
-    "医疗科技",
-    "AI制药",
     
-    # 临床诊疗
-    "辅助诊断",
-    "临床决策支持系统",
-    "CDSS",
-    "智能分诊",
-    "问诊机器人",
-    "病历生成",
-    "电子病历质控",
-    "病历结构化",
-    "临床路径",
-    "多学科会诊 MDT",
-    "随访管理",
-    "复诊管理",
-    "用药推荐",
-    "处方审核",
-    "合理用药",
+    # --- 暂时注释掉大部分关键词，用于测试防卡死 ---
+    # "临床诊疗",
+    # "医学影像",
+    # "智慧医疗",
+    # "医疗科技",
+    # "AI制药",
+    
+    # # 临床诊疗
+    # "辅助诊断",
+    # "临床决策支持系统",
+    # "CDSS",
+    # "智能分诊",
+    # "问诊机器人",
+    # "病历生成",
+    # "电子病历质控",
+    # "病历结构化",
+    # "临床路径",
+    # "多学科会诊 MDT",
+    # "随访管理",
+    # "复诊管理",
+    # "用药推荐",
+    # "处方审核",
+    # "合理用药",
 
-    # 医院信息化
-    "HIS系统",
-    "EMR系统",
-    "EHR系统",
-    "PACS系统",
-    "LIS系统",
-    "RIS系统",
-    "临床数据中心 CDR",
-    "医疗数据治理",
-    "医疗数据标准",
-    "FHIR",
-    "互联互通",
-    "电子病历评级",
-    "智慧医院评级",
+    # # 医院信息化
+    # "HIS系统",
+    # "EMR系统",
+    # "EHR系统",
+    # "PACS系统",
+    # "LIS系统",
+    # "RIS系统",
+    # "临床数据中心 CDR",
+    # "医疗数据治理",
+    # "医疗数据标准",
+    # "FHIR",
+    # "互联互通",
+    # "电子病历评级",
+    # "智慧医院评级",
 
-    # 医院运营
-    "DRG",
-    "DIP",
-    "医保控费",
-    "医院绩效管理",
-    "病案首页质控",
-    "医疗质量控制",
-    "院感管理",
-    "护理管理",
-    "床位管理",
-    "手术排程",
+    # # 医院运营
+    # "DRG",
+    # "DIP",
+    # "医保控费",
+    # "医院绩效管理",
+    # "病案首页质控",
+    # "医疗质量控制",
+    # "院感管理",
+    # "护理管理",
+    # "床位管理",
+    # "手术排程",
 
-    # 患者服务
-    "互联网医院",
-    "在线问诊",
-    "患者随访",
-    "患者教育",
-    "健康管理",
-    "慢病管理",
-    "远程医疗",
-    "居家监测",
-    "家庭医生",
+    # # 患者服务
+    # "互联网医院",
+    # "在线问诊",
+    # "患者随访",
+    # "患者教育",
+    # "健康管理",
+    # "慢病管理",
+    # "远程医疗",
+    # "居家监测",
+    # "家庭医生",
 
-    # AI技术
-    "医疗NLP",
-    "医学知识图谱",
-    "语音识别 医疗",
-    "语音转写 Scribe",
-    "医学OCR",
-    "多模态医疗AI",
-    "联邦学习 医疗",
-    "隐私计算 医疗",
-    "因果推断 医疗",
+    # # AI技术
+    # "医疗NLP",
+    # "医学知识图谱",
+    # "语音识别 医疗",
+    # "语音转写 Scribe",
+    # "医学OCR",
+    # "多模态医疗AI",
+    # "联邦学习 医疗",
+    # "隐私计算 医疗",
+    # "因果推断 医疗",
 
-    # 医学影像细化
-    "影像分割",
-    "影像诊断",
-    "病灶检测",
-    "肺结节",
-    "乳腺筛查",
-    "脑卒中影像",
-    "心脏影像",
-    "数字病理",
+    # # 医学影像细化
+    # "影像分割",
+    # "影像诊断",
+    # "病灶检测",
+    # "肺结节",
+    # "乳腺筛查",
+    # "脑卒中影像",
+    # "心脏影像",
+    # "数字病理",
 
-    # 药物研发
-    "AI药物研发",
-    "分子生成",
-    "靶点发现",
-    "临床试验优化",
-    "真实世界研究",
-    "药物警戒",
-    "精准医疗",
-    "基因测序",
+    # # 药物研发
+    # "AI药物研发",
+    # "分子生成",
+    # "靶点发现",
+    # "临床试验优化",
+    # "真实世界研究",
+    # "药物警戒",
+    # "精准医疗",
+    # "基因测序",
 
-    # 意图增强（关键）
-    "医疗AI案例",
-    "医疗AI落地",
-    "医疗AI实践",
-    "医疗AI解决方案",
-    "医疗AI应用场景",
-    "医疗AI效果评估"
+    # # 意图增强（关键）
+    # "医疗AI案例",
+    # "医疗AI落地",
+    # "医疗AI实践",
+    # "医疗AI解决方案",
+    # "医疗AI应用场景",
+    # "医疗AI效果评估"
 ]
 
 # --- Search Keywords Matrix (Expanded EN) ---
@@ -152,65 +153,67 @@ SEARCH_KEYWORDS_EN = [
     "Clinical AI",
     "AI in Healthcare",
     "Generative AI Healthcare",
-    "Radiology AI",
-    "Digital Health",
     
-    # Clinical
-    "Clinical Decision Support System",
-    "CDSS healthcare",
-    "AI Diagnosis",
-    "AI Triage",
-    "Medical Scribe",
-    "Clinical Documentation AI",
-    "Ambient AI Healthcare",
-    "Clinical Workflow AI",
-    "Care Pathway Optimization",
+    # --- 暂时注释掉大部分关键词，用于测试防卡死 ---
+    # "Radiology AI",
+    # "Digital Health",
+    
+    # # Clinical
+    # "Clinical Decision Support System",
+    # "CDSS healthcare",
+    # "AI Diagnosis",
+    # "AI Triage",
+    # "Medical Scribe",
+    # "Clinical Documentation AI",
+    # "Ambient AI Healthcare",
+    # "Clinical Workflow AI",
+    # "Care Pathway Optimization",
 
-    # Systems
-    "Hospital Information System",
-    "Electronic Medical Record",
-    "Electronic Health Record",
-    "FHIR Interoperability",
-    "Healthcare Data Platform",
-    "Clinical Data Repository",
-    "Healthcare Data Governance",
+    # # Systems
+    # "Hospital Information System",
+    # "Electronic Medical Record",
+    # "Electronic Health Record",
+    # "FHIR Interoperability",
+    # "Healthcare Data Platform",
+    # "Clinical Data Repository",
+    # "Healthcare Data Governance",
 
-    # Workflow AI
-    "AI Copilot for Doctors",
-    "Physician Workflow Automation",
-    "Clinical Productivity AI",
-    "Healthcare Automation",
-    "AI assisted charting",
+    # # Workflow AI
+    # "AI Copilot for Doctors",
+    # "Physician Workflow Automation",
+    # "Clinical Productivity AI",
+    # "Healthcare Automation",
+    # "AI assisted charting",
 
-    # Imaging
-    "Computer Vision Healthcare",
-    "Radiology AI",
-    "Pathology AI",
-    "Digital Pathology",
-    "AI Screening",
-    "Lesion Detection",
+    # # Imaging
+    # "Computer Vision Healthcare",
+    # "Radiology AI",
+    # "Pathology AI",
+    # "Digital Pathology",
+    # "AI Screening",
+    # "Lesion Detection",
 
-    # Pharma
-    "AI Drug Discovery",
-    "Computational Biology",
-    "Genomics AI",
-    "Precision Medicine",
-    "Real World Evidence",
-    "Clinical Trial AI",
+    # # Pharma
+    # "AI Drug Discovery",
+    # "Computational Biology",
+    # "Genomics AI",
+    # "Precision Medicine",
+    # "Real World Evidence",
+    # "Clinical Trial AI",
 
-    # Business
-    "HealthTech Startup",
-    "Healthcare Funding",
-    "Digital Health Investment",
-    "MedTech IPO",
-    "Healthcare M&A",
+    # # Business
+    # "HealthTech Startup",
+    # "Healthcare Funding",
+    # "Digital Health Investment",
+    # "MedTech IPO",
+    # "Healthcare M&A",
 
-    # Intent (重要)
-    "case study healthcare AI",
-    "AI healthcare deployment",
-    "AI healthcare implementation",
-    "best practices healthcare AI",
-    "ROI healthcare AI"
+    # # Intent (重要)
+    # "case study healthcare AI",
+    # "AI healthcare deployment",
+    # "AI healthcare implementation",
+    # "best practices healthcare AI",
+    # "ROI healthcare AI"
 ]
 
 # --- Auto-Tagging Dictionary (Expanded) ---
@@ -498,13 +501,8 @@ def extract_full_text(url):
                 "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
             }
             time.sleep(1)
-            try:
-                response = requests.get(mobile_url, headers=headers, timeout=(5, 15))
-            except Exception as e:
-                print(f"    [36kr Mobile Extractor Error] {url}: {e}")
-                response = None
-                
-            if response and response.status_code == 200:
+            response = requests.get(mobile_url, headers=headers, timeout=15)
+            if response.status_code == 200:
                 match = re.search(r'window\.initialState=(.*?)</script>', response.text, re.DOTALL)
                 if match:
                     try:
@@ -540,11 +538,7 @@ def extract_full_text(url):
         # Add a small delay to avoid rate limiting
         time.sleep(1)
         
-        try:
-            response = requests.get(url, headers=headers, timeout=(10, 30))
-        except Exception as e:
-            print(f"    [Full Text Extractor Network Error] {url}: {e}")
-            return ""
+        response = requests.get(url, headers=headers, timeout=15)
         
         # If Woshipm returns 404, it might be in another category
         if "woshipm.com" in url:
@@ -558,13 +552,10 @@ def extract_full_text(url):
             if response.status_code == 404:
                 for cat in ["ai", "it", "med", "active", "share", "eval", "article"]:
                     new_url = re.sub(r"woshipm\.com/[^/]+/", f"woshipm.com/{cat}/", url)
-                    try:
-                        response = requests.get(new_url, headers=headers, timeout=(5, 15))
-                        if response.status_code == 200:
-                            url = new_url # update url for returning
-                            break
-                    except Exception:
-                        continue
+                    response = requests.get(new_url, headers=headers, timeout=10)
+                    if response.status_code == 200:
+                        url = new_url # update url for returning
+                        break
 
         if response.status_code == 200:
             doc = Document(response.text)
@@ -586,20 +577,6 @@ def extract_full_text(url):
     except Exception as e:
         print(f"    [Full Text Extractor Error] {url}: {e}")
     return ""
-
-def get_requests_session():
-    """创建一个带有重试机制和强力 Timeout 的 Requests Session"""
-    session = requests.Session()
-    retry = Retry(
-        total=3,  # 总共重试 3 次
-        backoff_factor=1,  # 遇到错误后，重试的等待时间会指数级增加 (1s, 2s, 4s)
-        status_forcelist=[429, 500, 502, 503, 504],  # 这些状态码会触发重试
-        allowed_methods=["HEAD", "GET", "OPTIONS", "POST"] # 允许 POST 重试
-    )
-    adapter = HTTPAdapter(max_retries=retry)
-    session.mount("http://", adapter)
-    session.mount("https://", adapter)
-    return session
 
 def fetch_rss_feeds(existing_urls):
     """抓取医疗垂直 RSS 源"""
@@ -704,12 +681,7 @@ def scrape_woshipm_direct(existing_urls):
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }
     
-    session = get_requests_session()
-    
-    # 每次运行随机抽取 15 个关键词进行搜索，避免单次请求过多被封 IP
-    sampled_keywords = random.sample(SEARCH_KEYWORDS, min(15, len(SEARCH_KEYWORDS)))
-    
-    for keyword in sampled_keywords:
+    for keyword in SEARCH_KEYWORDS:
         print(f"  -> 关键词: {keyword}")
         # Fetch 3 pages per keyword instead of 10 for a single keyword
         for page in range(1, 4):
@@ -722,18 +694,7 @@ def scrape_woshipm_direct(existing_urls):
                     "idSearch": "" 
                 }
                 
-                # 引入随机休眠，防反爬
-                time.sleep(random.uniform(2, 5))
-                
-                # 增加更长更强健的 timeout: (connect_timeout, read_timeout)
-                try:
-                    response = session.post(url, data=payload, headers=headers, timeout=(10, 30))
-                except requests.exceptions.Timeout:
-                    print(f"    [Timeout] 人人都是产品经理 keyword '{keyword}' page {page} timed out. Skipping.")
-                    continue
-                except requests.exceptions.RequestException as e:
-                    print(f"    [Network Error] 人人都是产品经理 request failed: {e}. Skipping.")
-                    continue
+                response = requests.post(url, data=payload, headers=headers, timeout=10)
                 
                 if response.status_code != 200:
                     continue
@@ -847,12 +808,7 @@ def scrape_36kr_direct(existing_urls):
         "Content-Type": "application/json"
     }
     
-    session = get_requests_session()
-    
-    # 每次运行随机抽取 15 个关键词进行搜索，避免触发限流
-    sampled_keywords = random.sample(SEARCH_KEYWORDS, min(15, len(SEARCH_KEYWORDS)))
-    
-    for keyword in sampled_keywords:
+    for keyword in SEARCH_KEYWORDS:
         print(f"  -> 关键词: {keyword}")
         try:
             payload = {
@@ -869,18 +825,7 @@ def scrape_36kr_direct(existing_urls):
                 }
             }
             
-            # 引入随机休眠
-            time.sleep(random.uniform(1, 3))
-            
-            # 增加 timeout 设置
-            try:
-                response = session.post(url, json=payload, headers=headers, timeout=(10, 30))
-            except requests.exceptions.Timeout:
-                print(f"    [Timeout] 36kr keyword '{keyword}' timed out. Skipping.")
-                continue
-            except requests.exceptions.RequestException as e:
-                print(f"    [Network Error] 36kr request failed: {e}. Skipping.")
-                continue
+            response = requests.post(url, json=payload, headers=headers, timeout=10)
             if response.status_code == 200:
                 data = response.json()
                 if data.get('code') == 0:
