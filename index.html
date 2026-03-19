@@ -138,18 +138,18 @@
                         MEDAI SIGNAL FEED
                     </h2>
                 
-                <!-- Filter Tabs -->
-                        <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
-                            <button class="filter-btn active px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="all">All</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Insights">💡 Insights</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Product">🚀 Product</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Clinical">🏥 Clinical</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Market">💰 Market</button>
+                <!-- Filter Tabs (Floating Pill on Mobile) -->
+                        <div class="flex fixed bottom-6 left-1/2 -translate-x-1/2 z-40 bg-bg-secondary/90 backdrop-blur-md rounded-full p-1.5 gap-1 overflow-x-auto no-scrollbar w-max max-w-[95vw] border border-border-color/50 shadow-2xl transition-transform duration-300 md:static md:translate-x-0 md:bg-bg-secondary md:rounded-lg md:p-1 md:w-auto md:max-w-none md:border-0 md:shadow-none snap-x" id="feed-filters">
+                            <button class="filter-btn active px-4 md:px-3 py-2 md:py-1 rounded-full md:rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="all">All</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded-full md:rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Insights">💡 Insights</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded-full md:rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Product">🚀 Product</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded-full md:rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Clinical">🏥 Clinical</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded-full md:rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Market">💰 Market</button>
                         </div>
                 </div>
 
             <!-- Feed Container -->
-            <div id="signal-container" class="space-y-4 overflow-y-auto pr-2 custom-scrollbar flex-1 relative z-10">
+            <div id="signal-container" class="space-y-4 overflow-y-auto pr-2 pb-24 md:pb-0 custom-scrollbar flex-1 relative z-10">
                 <!-- Loading State -->
                 <div class="animate-pulse space-y-4">
                     <div class="h-24 bg-bg-secondary rounded-lg w-full"></div>
@@ -591,6 +591,31 @@
         
         // Auto refresh every 5 min
         setInterval(fetchData, 300000);
+
+        // Mobile Floating Pill Scroll Logic
+        const signalContainer = document.getElementById('signal-container');
+        const feedFilters = document.getElementById('feed-filters');
+        let lastScrollTop = 0;
+
+        if (signalContainer && feedFilters) {
+            signalContainer.addEventListener('scroll', () => {
+                // Only apply on mobile (window width < 768px)
+                if (window.innerWidth >= 768) {
+                    feedFilters.classList.remove('translate-y-24');
+                    return;
+                }
+                
+                let scrollTop = signalContainer.scrollTop;
+                if (scrollTop > lastScrollTop && scrollTop > 50) {
+                    // Scroll Down - Hide
+                    feedFilters.classList.add('translate-y-24');
+                } else {
+                    // Scroll Up - Show
+                    feedFilters.classList.remove('translate-y-24');
+                }
+                lastScrollTop = scrollTop;
+            });
+        }
 
     </script>
 </body>
