@@ -221,9 +221,6 @@
         let allData = [];
         let currentFilter = 'all';
         
-        // Unread State Management: Store read article URLs
-        let readArticles = JSON.parse(localStorage.getItem('aihot_read_articles') || 'null');
-        
         // Fetch Data
         async function fetchData() {
             try {
@@ -237,12 +234,6 @@
                 
                 // Sort by time (newest first)
                 allData.sort((a, b) => new Date(b.time) - new Date(a.time));
-
-                // Initialize readArticles on very first visit to avoid everything being unread
-                if (readArticles === null) {
-                    readArticles = allData.map(item => item.url);
-                    localStorage.setItem('aihot_read_articles', JSON.stringify(readArticles));
-                }
 
                 // --- Update Header Stats ---
                 // 1. Total Signals
@@ -313,8 +304,11 @@
                 const color = getCategoryColor(item.category);
                 const timeStr = formatTime(item.time);
                 
-                // Determine if article is new (unread)
-                let isNew = !readArticles.includes(item.url);
+                // Determine if article is new (published within last 24 hours)
+                const itemDate = new Date(item.time);
+                const now = new Date();
+                const diffHours = (now - itemDate) / (1000 * 60 * 60);
+                let isNew = diffHours <= 24;
                 
                 // Render Tags
                 let tagsHtml = '';
@@ -375,14 +369,6 @@
             const item = filtered[index];
             if (!item) return;
             currentItem = item;
-            
-            // Mark as read
-            if (!readArticles.includes(item.url)) {
-                readArticles.push(item.url);
-                localStorage.setItem('aihot_read_articles', JSON.stringify(readArticles));
-                const dot = document.getElementById(`dot-${index}`);
-                if (dot) dot.style.display = 'none';
-            }
             
             // Reset Translation state
             isTranslated = false;
