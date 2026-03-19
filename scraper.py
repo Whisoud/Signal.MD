@@ -714,7 +714,14 @@ def scrape_woshipm_direct(existing_urls):
                 time.sleep(random.uniform(2, 5))
                 
                 # 增加更长更强健的 timeout: (connect_timeout, read_timeout)
-                response = session.post(url, data=payload, headers=headers, timeout=(10, 30))
+                try:
+                    response = session.post(url, data=payload, headers=headers, timeout=(10, 30))
+                except requests.exceptions.Timeout:
+                    print(f"    [Timeout] 人人都是产品经理 keyword '{keyword}' page {page} timed out. Skipping.")
+                    continue
+                except requests.exceptions.RequestException as e:
+                    print(f"    [Network Error] 人人都是产品经理 request failed: {e}. Skipping.")
+                    continue
                 
                 if response.status_code != 200:
                     continue
@@ -854,7 +861,14 @@ def scrape_36kr_direct(existing_urls):
             time.sleep(random.uniform(1, 3))
             
             # 增加 timeout 设置
-            response = session.post(url, json=payload, headers=headers, timeout=(10, 30))
+            try:
+                response = session.post(url, json=payload, headers=headers, timeout=(10, 30))
+            except requests.exceptions.Timeout:
+                print(f"    [Timeout] 36kr keyword '{keyword}' timed out. Skipping.")
+                continue
+            except requests.exceptions.RequestException as e:
+                print(f"    [Network Error] 36kr request failed: {e}. Skipping.")
+                continue
             if response.status_code == 200:
                 data = response.json()
                 if data.get('code') == 0:
