@@ -11,6 +11,7 @@ from readability import Document
 from deep_translator import GoogleTranslator
 import time
 import re
+import random
 
 # --- Configuration ---
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -677,7 +678,10 @@ def scrape_woshipm_direct(existing_urls):
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }
     
-    for keyword in SEARCH_KEYWORDS:
+    # 每次运行随机抽取 15 个关键词进行搜索，避免单次请求过多被封 IP
+    sampled_keywords = random.sample(SEARCH_KEYWORDS, min(15, len(SEARCH_KEYWORDS)))
+    
+    for keyword in sampled_keywords:
         print(f"  -> 关键词: {keyword}")
         # Fetch 3 pages per keyword instead of 10 for a single keyword
         for page in range(1, 4):
@@ -689,6 +693,9 @@ def scrape_woshipm_direct(existing_urls):
                     "sortType": "0", # 0=相关度 (Relevance)
                     "idSearch": "" 
                 }
+                
+                # 引入随机休眠，防反爬
+                time.sleep(random.uniform(2, 5))
                 
                 response = requests.post(url, data=payload, headers=headers, timeout=10)
                 
@@ -804,7 +811,10 @@ def scrape_36kr_direct(existing_urls):
         "Content-Type": "application/json"
     }
     
-    for keyword in SEARCH_KEYWORDS:
+    # 每次运行随机抽取 15 个关键词进行搜索，避免触发限流
+    sampled_keywords = random.sample(SEARCH_KEYWORDS, min(15, len(SEARCH_KEYWORDS)))
+    
+    for keyword in sampled_keywords:
         print(f"  -> 关键词: {keyword}")
         try:
             payload = {
@@ -820,6 +830,9 @@ def scrape_36kr_direct(existing_urls):
                     "platformId": 2
                 }
             }
+            
+            # 引入随机休眠
+            time.sleep(random.uniform(1, 3))
             
             response = requests.post(url, json=payload, headers=headers, timeout=10)
             if response.status_code == 200:
