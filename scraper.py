@@ -309,93 +309,156 @@ def generate_tags(title, summary, base_category):
 
 def calculate_med_score(title, summary, source_name=""):
     """
-    四层过滤漏斗机制 (4-Tier Cascading Funnel)
-    
-    Layer 1: 信源白名单直通车 (Source-Level Fast Track)
-    Layer 2: 前置强制交集检测 (Pre-condition Intersection)
-    Layer 3: 加权积分与密度检测 (Weighted Scoring & Density)
-    Layer 4: 时效性与防重墙 (在外部逻辑处理)
+    新四层过滤漏斗机制 (The New 4-Tier Funnel)
+    输出：
+        {
+            "score": 总分,
+            "level": S/A/B/C,
+            "tags": [],
+            "detail": {...}
+        }
     """
+    text = (title + " " + summary).lower()
+    title_lower = title.lower()
     
-    # --- Layer 1: 信源白名单直通车 ---
-    # 这些源具有 100% 的垂直纯度，无需关键词检测
-    WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health"]
-    for wl_source in WHITELIST_SOURCES:
-        if wl_source in source_name:
-            return 10 # 满分直通
-            
-    combined_text = (title + " " + summary).lower()
+    # --- 词库定义 ---
+    WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health", "Mayo Clinic", "NEJM"]
     
-    # 1. 强医疗实体词 (Medical Entities)
+    STRONG_MED_PHRASES = [
+        "临床决策支持", "病历生成", "辅助诊断", "数字疗法", "多学科会诊", "互联网医院", "医疗数据治理",
+        "临床试验", "医保控费", "靶点发现", "电子病历", "智慧医院",
+        "clinical workflow", "medical scribe", "ambient ai", "clinical documentation", 
+        "drug discovery", "care pathway"
+    ]
+    
     STRONG_MED = [
         "临床", "病历", "诊断", "药物", "手术", "医院", "患者", "医生", "影像", "基因", 
         "EMR", "HIS", "FDA", "器械", "医保", "处方", "慢病", "护理", "问诊", "科室",
-        "靶点", "筛查", "疗法", "医疗", "医学", "药企", "新药",
+        "靶点", "筛查", "疗法", "医疗", "医学", "药企", "新药", "卫健委", "医保局",
         "medical", "clinical", "healthcare", "patient", "doctor", "hospital", "radiology",
         "surgery", "drug", "pharma", "therapy", "disease", "health", "care"
     ]
     
-    # 2. 技术/动作词 (Tech Actions)
-    TECH_ACTION = [
-        "大模型", "算法", "系统", "产品", "模型", "SaaS", "商业化", "融资", "研发",
-        "GPT", "LLM", "Agent", "平台", "软件", "应用", "架构", "ai", "数据", "智能",
+    TECH_PHRASES = [
+        "医疗大模型", "ai制药", "医疗ai", "ai医疗", "radiology ai", "healthcare copilot"
+    ]
+    
+    TECH = [
+        "大模型", "算法", "系统", "产品", "模型", "saas", "研发", "自动化",
+        "gpt", "llm", "agent", "平台", "软件", "应用", "架构", "ai", "数据", "智能", "算力",
         "model", "algorithm", "system", "product", "software", "data", "platform",
-        "generative", "architecture", "startup", "funding"
+        "generative", "architecture", "copilot", "automation"
     ]
     
-    # 3. 负面降噪词 (Negative)
-    NEGATIVE = [
-        "减肥", "健身", "美容", "护肤", "睡眠", "手环", "手表", "家电", "冰箱", 
-        "空调", "生活方式", "穿搭", "美妆", "养生", "食谱", "宠物", "猫狗", "电商",
-        "外卖", "娱乐", "游戏", "网红", "主播", "带货", "旅游"
-    ]
-    
-    # --- Layer 2: 前置强制交集检测 (护照+机票) ---
-    # 必须同时包含至少一个强医疗词和至少一个技术词
-    has_med = any(kw.lower() in combined_text for kw in STRONG_MED)
-    has_tech = any(kw.lower() in combined_text for kw in TECH_ACTION)
-    
-    # 特例：如果在标题中直接出现了“医疗AI”或“AI医疗”这种超级组合词，可豁免交集
-    super_keywords = ["医疗 ai", "ai医疗", "医疗大模型", "数字疗法", "智慧医疗", "医疗信息化", "ai 医疗", "医疗ai", "medical ai", "healthcare ai", "clinical ai", "health ai"]
-    has_super = any(sk in combined_text for sk in super_keywords)
-    
-    if not has_super and not (has_med and has_tech):
-        return 0 # 交集失败，直接淘汰
-        
-    # --- Layer 3: 加权积分与密度检测 ---
+    INTENT = ["发布", "上线", "推出", "研究", "试验", "结果", "获批", "launch", "deploy", "announce", "study", "trial", "result", "approved"]
+    BUSINESS = ["融资", "商业化", "收入", "降本增效", "收购", "ipo", "funding", "startup", "revenue", "roi", "efficiency", "cost", "acquisition"]
+    ENTITIES = ["openai", "google", "microsoft", "nvidia", "mayo clinic", "cleveland clinic", "辉瑞", "阿斯利康", "联影", "迈瑞", "卫宁"]
+    NEGATIVE = ["减肥", "美容", "护肤", "健身", "穿搭", "娱乐", "游戏", "旅游", "网红", "主播", "带货", "食谱", "宠物"]
+    PAN_TECH = ["互联网", "大厂", "出海", "字节", "腾讯", "阿里", "电商", "社交", "元宇宙", "web3"]
+
     score = 0
+    tags = set()
     
-    # 增加基础分，只要满足了交集，就代表是相关领域的
-    score += 2
+    # --- Layer 1: 医疗纯度入场券 (The Medical Purity Gate) ---
+    med_purity_score = 0
     
-    for kw in STRONG_MED:
-        count = combined_text.count(kw.lower())
-        score += count * 3
-        
-    for kw in TECH_ACTION:
-        count = combined_text.count(kw.lower())
-        score += count * 1
-        
-    for kw in NEGATIVE:
-        count = combined_text.count(kw.lower())
-        score -= count * 5
-        
-    # Bonus: Title Match (Extra Weight for visibility)
-    for kw in STRONG_MED:
-        if kw.lower() in title.lower():
-            score += 5
+    # 1. 命中大招（医疗短语/实体）
+    for p in STRONG_MED_PHRASES + ENTITIES:
+        if p in text:
+            med_purity_score += 8
+            tags.add("核心医疗")
             break
             
-    # 密度检测 (Length Penalty)
-    # 如果文本非常长（例如长摘要），但得分很低，说明浓度不够
-    text_length = len(combined_text)
-    if text_length > 200:
-        # 每多 100 字，要求多得 1 分
-        required_extra_score = (text_length - 200) / 100
-        if score < (5 + required_extra_score):
-            return 0 # 密度太低被淘汰
+    # 2. 平A命中（基础医疗词累加）
+    med_hits = sum(1 for kw in STRONG_MED if kw in text)
+    med_purity_score += med_hits * 2
+    
+    # 3. 蹭热点惩罚（稀释惩罚）
+    pan_tech_hits = sum(1 for kw in PAN_TECH if kw in text)
+    if pan_tech_hits > 2 and med_hits <= 2:
+        med_purity_score -= 10 # 严重稀释，很可能是蹭热点
+        
+    if med_purity_score < 5:
+        return {"score": 0, "level": "C", "tags": [], "detail": {"reason": "Low medical purity"}}
+        
+    score += med_purity_score
+    
+    # --- Layer 2: 黄金标题权重 (The Title Boost) ---
+    for kw in STRONG_MED + STRONG_MED_PHRASES:
+        if kw in title_lower:
+            score += 6
+            tags.add("强医疗相关")
+            break
 
-    return score
+    # --- Layer 3: 增益叠加层 (The Multiplier Boosts) ---
+    ai_boost_score = 0
+    
+    # AI 增益
+    for p in TECH_PHRASES:
+        if p in text:
+            ai_boost_score += 8
+            tags.add("AI核心场景")
+            break
+            
+    tech_hits = sum(1 for kw in TECH if kw in text)
+    ai_boost_score += tech_hits * 1.5
+    
+    if ai_boost_score > 0:
+        score += ai_boost_score
+        tags.add("AI增益")
+        
+    # 商业与意图增益
+    for kw in BUSINESS:
+        if kw in text:
+            score += 4
+            tags.add("商业动态")
+            break
+            
+    for kw in INTENT:
+        if kw in text:
+            score += 3
+            tags.add("前沿资讯")
+            break
+            
+    # 白名单光环
+    whitelist_hit = any(w.lower() in source_name.lower() for w in WHITELIST_SOURCES)
+    if whitelist_hit:
+        score += 5
+        tags.add("高可信信源")
+        
+    # --- Layer 4: 降噪与分级判定 (Noise Reduction & Grading) ---
+    # 负面降噪
+    for kw in NEGATIVE:
+        if kw in text:
+            score -= 5
+            
+    # 密度惩罚
+    length = len(text)
+    if length > 300:
+        density = score / (length / 100)
+        if density < 2: # 要求每100字至少有2分
+            score -= 4
+            
+    # 最终评级
+    if score >= 25:
+        level = "S"
+    elif score >= 15:
+        level = "A"
+    elif score >= 8:
+        level = "B"
+    else:
+        level = "C"
+        
+    return {
+        "score": score,
+        "level": level,
+        "tags": list(tags),
+        "detail": {
+            "med_purity_score": med_purity_score,
+            "ai_boost_score": ai_boost_score,
+            "is_pure_medical": ai_boost_score == 0
+        }
+    }
 
 def is_article_fresh(time_str, source_name):
     """
@@ -534,9 +597,9 @@ def fetch_rss_feeds(existing_urls):
                     
                     # --- Filtering ---
                     # Calculate score using the new 4-tier funnel
-                    med_score = calculate_med_score(title, summary, source_name)
+                    eval_result = calculate_med_score(title, summary, source_name)
                     
-                    if med_score < 5: 
+                    if eval_result["level"] == "C": 
                         continue
                     
                     # Time parsing (Standard RSS usually has parsed_published)
@@ -563,6 +626,7 @@ def fetch_rss_feeds(existing_urls):
                         
                     # Auto-Tagging
                     smart_tags = generate_tags(title, summary, category)
+                    final_tags = list(set(smart_tags + eval_result.get("tags", [])))
                         
                     # Check if full content is already in RSS
                     full_html = ""
@@ -577,7 +641,8 @@ def fetch_rss_feeds(existing_urls):
                         "title": title,
                         "source": source_name,
                         "category": category,
-                        "tags": smart_tags,
+                        "level": eval_result["level"],
+                        "tags": final_tags,
                         "time": time_str,
                         "url": link,
                         "summary": summary[:200] + "...",
@@ -654,8 +719,8 @@ def scrape_woshipm_direct(existing_urls):
                         summary = desc_tag.get_text(strip=True) if desc_tag else ""
                         
                         # --- NEW: Relevance Scoring ---
-                        med_score = calculate_med_score(title, summary, "人人都是产品经理")
-                        if med_score < 5: 
+                        eval_result = calculate_med_score(title, summary, "人人都是产品经理")
+                        if eval_result["level"] == "C": 
                             continue
                             
                         # 4. Meta (Date, Author)
@@ -702,13 +767,15 @@ def scrape_woshipm_direct(existing_urls):
                             continue
 
                         smart_tags = generate_tags(title, summary, "Product")
+                        final_tags = list(set(smart_tags + eval_result.get("tags", [])))
                         full_html = extract_full_text(article_url)
 
                         items.append({
                             "title": title,
                             "source": f"人人都是产品经理",
                             "category": "Product",
-                            "tags": smart_tags,
+                            "level": eval_result["level"],
+                            "tags": final_tags,
                             "time": time_str,
                             "url": article_url,
                             "summary": summary,
@@ -780,9 +847,9 @@ def scrape_36kr_direct(existing_urls):
                             summary = re.sub(r'<[^>]+>', '', summary)
                             
                             # Scoring
-                            med_score = calculate_med_score(title, summary, "36氪")
-                            if med_score < 5: 
-                                # print(f"    [Filtered] {title} (Score: {med_score})")
+                            eval_result = calculate_med_score(title, summary, "36氪")
+                            if eval_result["level"] == "C": 
+                                # print(f"    [Filtered] {title} (Score: {eval_result['score']})")
                                 continue
                                 
                             # Time
@@ -799,13 +866,15 @@ def scrape_36kr_direct(existing_urls):
                                 continue
                                 
                             smart_tags = generate_tags(title, summary, "Market")
+                            final_tags = list(set(smart_tags + eval_result.get("tags", [])))
                             full_html = extract_full_text(article_url)
                             
                             items.append({
                                 "title": title,
                                 "source": "36氪",
                                 "category": "Market",
-                                "tags": smart_tags,
+                                "level": eval_result["level"],
+                                "tags": final_tags,
                                 "time": time_str,
                                 "url": article_url,
                                 "summary": summary,
@@ -919,8 +988,8 @@ def scrape_medium_tags(existing_urls):
                 summary = getattr(entry, "summary", "") or getattr(entry, "description", "")
                 summary_clean = re.sub(r'<[^>]+>', '', summary)
                 
-                med_score = calculate_med_score(title, summary_clean, "Medium")
-                if med_score < 5:
+                eval_result = calculate_med_score(title, summary_clean, "Medium")
+                if eval_result["level"] == "C": 
                     continue
                     
                 time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -931,6 +1000,7 @@ def scrape_medium_tags(existing_urls):
                     continue
                     
                 smart_tags = generate_tags(title, summary_clean, "Insights")
+                final_tags = list(set(smart_tags + eval_result.get("tags", [])))
                 
                 # Medium full content is usually in content:encoded, but it might be truncated for paywall
                 full_html = ""
@@ -946,7 +1016,8 @@ def scrape_medium_tags(existing_urls):
                     "title": title,
                     "source": "Medium",
                     "category": "Insights", # Default to Insights
-                    "tags": smart_tags,
+                    "level": eval_result["level"],
+                    "tags": final_tags,
                     "time": time_str,
                     "url": base_link,
                     "summary": summary_clean[:200] + "...",

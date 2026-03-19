@@ -311,6 +311,14 @@
                         `<span class="px-2 py-0.5 rounded text-[9px] font-mono border border-border-color/50 text-text-muted hover:text-accent-primary transition-colors cursor-default">#${tag}</span>`
                     ).join('');
                 }
+                
+                // Render Level Badge
+                let levelBadge = '';
+                if (item.level === 'S') {
+                    levelBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 ml-2">🔥 S 级精选</span>`;
+                } else if (item.level === 'A') {
+                    levelBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30 ml-2">A 级优质</span>`;
+                }
 
                 return `
                 <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer(${index}, '${currentFilter}')">
@@ -320,6 +328,7 @@
                                 <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>
                                 ${item.category}
                             </span>
+                            ${levelBadge}
                             <span class="text-xs text-text-muted flex items-center gap-1">
                                 ${item.source}
                             </span>
