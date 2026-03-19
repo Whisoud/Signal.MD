@@ -304,11 +304,10 @@
                 const color = getCategoryColor(item.category);
                 const timeStr = formatTime(item.time);
                 
-                // Determine if article is new (published within last 24 hours)
+                // Determine if article is new (Align exactly with +X Today logic)
                 const itemDate = new Date(item.time);
                 const now = new Date();
-                const diffHours = (now - itemDate) / (1000 * 60 * 60);
-                let isNew = diffHours <= 24;
+                let isNew = itemDate.toDateString() === now.toDateString();
                 
                 // Render Tags
                 let tagsHtml = '';
