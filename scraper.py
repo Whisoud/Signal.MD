@@ -575,6 +575,20 @@ def extract_full_text(url):
         print(f"    [Full Text Extractor Error] {url}: {e}")
     return ""
 
+def get_requests_session():
+    """创建一个带有重试机制和强力 Timeout 的 Requests Session"""
+    session = requests.Session()
+    retry = Retry(
+        total=3,  # 总共重试 3 次
+        backoff_factor=1,  # 遇到错误后，重试的等待时间会指数级增加 (1s, 2s, 4s)
+        status_forcelist=[429, 500, 502, 503, 504],  # 这些状态码会触发重试
+        allowed_methods=["HEAD", "GET", "OPTIONS", "POST"] # 允许 POST 重试
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    return session
+
 def fetch_rss_feeds(existing_urls):
     """抓取医疗垂直 RSS 源"""
     print("正在抓取 MedAI Product RSS 源...")
@@ -678,6 +692,8 @@ def scrape_woshipm_direct(existing_urls):
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }
     
+    session = get_requests_session()
+    
     # 每次运行随机抽取 15 个关键词进行搜索，避免单次请求过多被封 IP
     sampled_keywords = random.sample(SEARCH_KEYWORDS, min(15, len(SEARCH_KEYWORDS)))
     
@@ -697,7 +713,8 @@ def scrape_woshipm_direct(existing_urls):
                 # 引入随机休眠，防反爬
                 time.sleep(random.uniform(2, 5))
                 
-                response = requests.post(url, data=payload, headers=headers, timeout=10)
+                # 增加更长更强健的 timeout: (connect_timeout, read_timeout)
+                response = session.post(url, data=payload, headers=headers, timeout=(10, 30))
                 
                 if response.status_code != 200:
                     continue
@@ -811,6 +828,8 @@ def scrape_36kr_direct(existing_urls):
         "Content-Type": "application/json"
     }
     
+    session = get_requests_session()
+    
     # 每次运行随机抽取 15 个关键词进行搜索，避免触发限流
     sampled_keywords = random.sample(SEARCH_KEYWORDS, min(15, len(SEARCH_KEYWORDS)))
     
@@ -834,7 +853,8 @@ def scrape_36kr_direct(existing_urls):
             # 引入随机休眠
             time.sleep(random.uniform(1, 3))
             
-            response = requests.post(url, json=payload, headers=headers, timeout=10)
+            # 增加 timeout 设置
+            response = session.post(url, json=payload, headers=headers, timeout=(10, 30))
             if response.status_code == 200:
                 data = response.json()
                 if data.get('code') == 0:
