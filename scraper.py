@@ -36,7 +36,7 @@ RSS_SOURCES = {
     # 36kr will be handled by direct search API now
 }
 
-# --- Search Keywords Matrix ---
+# --- Search Keywords Matrix (Expanded CN) ---
 SEARCH_KEYWORDS = [
     "医疗 AI", 
     "AI医疗", 
@@ -47,9 +47,104 @@ SEARCH_KEYWORDS = [
     "医学影像",
     "智慧医疗",
     "医疗科技",
-    "AI制药"
+    "AI制药",
+    
+    # 临床诊疗
+    "辅助诊断",
+    "临床决策支持系统",
+    "CDSS",
+    "智能分诊",
+    "问诊机器人",
+    "病历生成",
+    "电子病历质控",
+    "病历结构化",
+    "临床路径",
+    "多学科会诊 MDT",
+    "随访管理",
+    "复诊管理",
+    "用药推荐",
+    "处方审核",
+    "合理用药",
+
+    # 医院信息化
+    "HIS系统",
+    "EMR系统",
+    "EHR系统",
+    "PACS系统",
+    "LIS系统",
+    "RIS系统",
+    "临床数据中心 CDR",
+    "医疗数据治理",
+    "医疗数据标准",
+    "FHIR",
+    "互联互通",
+    "电子病历评级",
+    "智慧医院评级",
+
+    # 医院运营
+    "DRG",
+    "DIP",
+    "医保控费",
+    "医院绩效管理",
+    "病案首页质控",
+    "医疗质量控制",
+    "院感管理",
+    "护理管理",
+    "床位管理",
+    "手术排程",
+
+    # 患者服务
+    "互联网医院",
+    "在线问诊",
+    "患者随访",
+    "患者教育",
+    "健康管理",
+    "慢病管理",
+    "远程医疗",
+    "居家监测",
+    "家庭医生",
+
+    # AI技术
+    "医疗NLP",
+    "医学知识图谱",
+    "语音识别 医疗",
+    "语音转写 Scribe",
+    "医学OCR",
+    "多模态医疗AI",
+    "联邦学习 医疗",
+    "隐私计算 医疗",
+    "因果推断 医疗",
+
+    # 医学影像细化
+    "影像分割",
+    "影像诊断",
+    "病灶检测",
+    "肺结节",
+    "乳腺筛查",
+    "脑卒中影像",
+    "心脏影像",
+    "数字病理",
+
+    # 药物研发
+    "AI药物研发",
+    "分子生成",
+    "靶点发现",
+    "临床试验优化",
+    "真实世界研究",
+    "药物警戒",
+    "精准医疗",
+    "基因测序",
+
+    # 意图增强（关键）
+    "医疗AI案例",
+    "医疗AI落地",
+    "医疗AI实践",
+    "医疗AI解决方案",
+    "医疗AI应用场景",
+    "医疗AI效果评估"
 ]
 
+# --- Search Keywords Matrix (Expanded EN) ---
 SEARCH_KEYWORDS_EN = [
     "Medical AI",
     "Healthcare LLM",
@@ -57,10 +152,67 @@ SEARCH_KEYWORDS_EN = [
     "AI in Healthcare",
     "Generative AI Healthcare",
     "Radiology AI",
-    "Digital Health"
+    "Digital Health",
+    
+    # Clinical
+    "Clinical Decision Support System",
+    "CDSS healthcare",
+    "AI Diagnosis",
+    "AI Triage",
+    "Medical Scribe",
+    "Clinical Documentation AI",
+    "Ambient AI Healthcare",
+    "Clinical Workflow AI",
+    "Care Pathway Optimization",
+
+    # Systems
+    "Hospital Information System",
+    "Electronic Medical Record",
+    "Electronic Health Record",
+    "FHIR Interoperability",
+    "Healthcare Data Platform",
+    "Clinical Data Repository",
+    "Healthcare Data Governance",
+
+    # Workflow AI
+    "AI Copilot for Doctors",
+    "Physician Workflow Automation",
+    "Clinical Productivity AI",
+    "Healthcare Automation",
+    "AI assisted charting",
+
+    # Imaging
+    "Computer Vision Healthcare",
+    "Radiology AI",
+    "Pathology AI",
+    "Digital Pathology",
+    "AI Screening",
+    "Lesion Detection",
+
+    # Pharma
+    "AI Drug Discovery",
+    "Computational Biology",
+    "Genomics AI",
+    "Precision Medicine",
+    "Real World Evidence",
+    "Clinical Trial AI",
+
+    # Business
+    "HealthTech Startup",
+    "Healthcare Funding",
+    "Digital Health Investment",
+    "MedTech IPO",
+    "Healthcare M&A",
+
+    # Intent (重要)
+    "case study healthcare AI",
+    "AI healthcare deployment",
+    "AI healthcare implementation",
+    "best practices healthcare AI",
+    "ROI healthcare AI"
 ]
 
-# --- Auto-Tagging Dictionary ---
+# --- Auto-Tagging Dictionary (Expanded) ---
 AUTO_TAGS_DICT = {
     "大模型": ["LLM", "GPT", "大模型", "Generative AI", "生成式", "Foundation Model", "ChatGPT"],
     "医学影像": ["影像", "CV", "CT", "MRI", "Radiology", "X-ray", "Ultrasound", "超声"],
@@ -69,6 +221,14 @@ AUTO_TAGS_DICT = {
     "商业融资": ["融资", "Funding", "Startup", "IPO", "资本", "Acquisition", "Series A", "Series B"],
     "可穿戴/IoT": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch"],
     "药物研发": ["Drug Discovery", "AlphaFold", "靶点", "制药", "Pharma"],
+    
+    # 新增
+    "医院运营": ["DRG", "DIP", "医保", "控费", "绩效", "运营分析"],
+    "临床流程": ["分诊", "问诊", "诊断", "随访", "复诊"],
+    "AI工作流": ["Copilot", "Workflow", "Automation", "Scribe"],
+    "数据治理": ["FHIR", "数据标准", "互联互通", "数据中台"],
+    "监管合规": ["FDA", "NMPA", "CE", "审批", "合规"],
+    "商业模式": ["SaaS", "订阅", "按次收费", "解决方案"]
 }
 
 # --- Translation Helpers ---
