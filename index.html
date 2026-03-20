@@ -304,6 +304,22 @@
                 const color = getCategoryColor(item.category);
                 const timeStr = formatTime(item.time);
                 
+                // 判断是否为最近 24 小时内的新增内容
+                let isNew = false;
+                if (item.time) {
+                    try {
+                        const itemDate = new Date(item.time.replace(/-/g, '/')); // 兼容 Safari
+                        const now = new Date();
+                        const diffHours = (now - itemDate) / (1000 * 60 * 60);
+                        if (diffHours >= 0 && diffHours <= 24) {
+                            isNew = true;
+                        }
+                    } catch(e) {}
+                }
+                
+                // 呼吸绿点 UI
+                const newBadge = isNew ? `<div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="New Update"></div>` : '';
+                
                 // Render Tags
                 let tagsHtml = '';
                 if (item.tags && item.tags.length > 0) {
@@ -316,6 +332,7 @@
                 <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer(${index}, '${currentFilter}')">
                     <div class="flex justify-between items-start mb-2 gap-4">
                         <div class="flex items-center gap-2 flex-wrap">
+                            ${newBadge}
                             <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5">
                                 <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>
                                 ${item.category}
