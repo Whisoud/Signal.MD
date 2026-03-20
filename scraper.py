@@ -11,13 +11,29 @@ from readability import Document
 import time
 import random
 import re
+import sys
 
 # --- Configuration ---
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
 # Global timeout configuration
 GLOBAL_START_TIME = time.time()
-MAX_EXECUTION_TIME = 8 * 60  # 8 minutes hard stop
+MODE = "backfill" if "--backfill" in sys.argv else "normal"
+MAX_EXECUTION_TIME = 3 * 60 * 60 if MODE == "backfill" else 8 * 60
+
+BACKFILL_TIER2_ENABLED = "--backfill-tier2" in sys.argv
+
+def _get_cli_int(prefix, default_value):
+    for arg in sys.argv:
+        if arg.startswith(prefix):
+            try:
+                return int(arg.split("=", 1)[1])
+            except Exception:
+                return default_value
+    return default_value
+
+BACKFILL_TIER2_BATCH_COUNT = _get_cli_int("--backfill-batch-count=", 6)
+BACKFILL_TIER2_BATCH_INDEX = _get_cli_int("--backfill-batch-index=", -1)
 
 def check_timeout():
     if time.time() - GLOBAL_START_TIME > MAX_EXECUTION_TIME:
@@ -678,7 +694,7 @@ def fetch_rss_feeds(existing_urls):
             
     return items
 
-def scrape_woshipm_direct(existing_urls):
+def scrape_woshipm_direct(existing_urls, keywords=None, urls_need_enrich=None):
     """
     直接模拟官网搜索接口 POST 请求抓取
     Target: https://api.woshipm.com/search/result.html
@@ -686,6 +702,7 @@ def scrape_woshipm_direct(existing_urls):
     print(f"正在抓取 人人都是产品经理 (Direct POST)...")
     items = []
     seen_urls = set(existing_urls) # Initialize with existing to avoid re-fetching
+    urls_need_enrich = set(urls_need_enrich or set())
     
     url = "https://api.woshipm.com/search/result.html"
     headers = {
@@ -695,19 +712,25 @@ def scrape_woshipm_direct(existing_urls):
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
     }
     
-    for keyword in SEARCH_KEYWORDS:
+    if keywords is None:
+        if MODE == "backfill":
+            keywords = list(dict.fromkeys(TIER_1_KEYWORDS + ["医疗", "AI"]))
+        else:
+            keywords = SEARCH_KEYWORDS
+
+    for keyword in keywords:
         if check_timeout(): break
         print(f"  -> 关键词: {keyword}")
         
         # 智能早停标记
         continuous_old_count = 0 
         
-        # Fetch 3 pages per keyword instead of 10 for a single keyword
-        for page in range(1, 4):
+        max_pages = 60 if MODE == "backfill" else 3
+        for page in range(1, max_pages + 1):
             if check_timeout(): break
             
             # 如果上一页已经连续遇到老数据，提前结束当前关键词的翻页
-            if continuous_old_count >= 5:
+            if MODE != "backfill" and continuous_old_count >= 5:
                 print(f"     [Early Stop] {keyword} 遇到过多历史数据，停止翻页")
                 break
                 
@@ -716,7 +739,7 @@ def scrape_woshipm_direct(existing_urls):
                     "key": keyword,
                     "tab": "0", # 0=文章
                     "page": str(page),
-                    "sortType": "0", # 0=相关度 (Relevance)
+                    "sortType": "1" if MODE == "backfill" else "0",
                     "idSearch": "" 
                 }
                 
@@ -727,6 +750,10 @@ def scrape_woshipm_direct(existing_urls):
                     
                 soup = BeautifulSoup(response.text, "html.parser")
                 article_nodes = soup.find_all("div", class_="course--item")
+                if not article_nodes:
+                    break
+
+                page_old_count = 0
                 
                 for node in article_nodes:
                     try:
@@ -741,12 +768,14 @@ def scrape_woshipm_direct(existing_urls):
                         article_url = f"http://www.woshipm.com/pd/{article_id}.html"
                         
                         # Deduplication & Early Stop signal
-                        if article_url in seen_urls:
-                            continuous_old_count += 1
+                        if article_url in seen_urls and article_url not in urls_need_enrich:
+                            if MODE != "backfill":
+                                continuous_old_count += 1
                             continue
                             
                         # Reset if we find a new one
-                        continuous_old_count = 0
+                        if MODE != "backfill":
+                            continuous_old_count = 0
                         seen_urls.add(article_url)
                         
                         # 3. Summary
@@ -799,6 +828,8 @@ def scrape_woshipm_direct(existing_urls):
 
                         # --- Apply Hybrid Time Window Filtering ---
                         if not is_article_fresh(time_str, "人人都是产品经理"):
+                            if MODE == "backfill":
+                                page_old_count += 1
                             continue
 
                         smart_tags = generate_tags(title, summary, "Product")
@@ -817,9 +848,14 @@ def scrape_woshipm_direct(existing_urls):
                             "full_content": full_html,
                             "lang": "zh"
                         })
+                        if article_url in urls_need_enrich:
+                            urls_need_enrich.discard(article_url)
                         
                     except Exception as e:
                         continue
+
+                if MODE == "backfill" and page_old_count >= len(article_nodes):
+                    break
                         
             except Exception as e:
                 print(f"❌ Direct POST 失败: {e}")
@@ -1087,6 +1123,43 @@ def load_existing_data(filepath="data/news.json"):
             print(f"⚠️ 无法读取已存在的数据: {e}")
     return [], set()
 
+def merge_news(existing_news, new_items):
+    level_rank = {"S": 3, "A": 2, "B": 1, "C": 0}
+    by_url = {}
+    for item in existing_news:
+        url = item.get("url")
+        if url:
+            by_url[url] = item
+    for item in new_items:
+        url = item.get("url")
+        if not url:
+            continue
+        if url in by_url:
+            old = by_url[url]
+            old_full = (old.get("full_content") or "").strip()
+            new_full = (item.get("full_content") or "").strip()
+            if not old_full and new_full:
+                old["full_content"] = item.get("full_content")
+            old_summary = (old.get("summary") or "").strip()
+            new_summary = (item.get("summary") or "").strip()
+            if not old_summary and new_summary:
+                old["summary"] = item.get("summary")
+            old_tags = set(old.get("tags") or [])
+            new_tags = set(item.get("tags") or [])
+            if old_tags or new_tags:
+                old["tags"] = list(old_tags | new_tags)
+            old_level = old.get("level")
+            new_level = item.get("level")
+            if new_level and level_rank.get(new_level, -1) > level_rank.get(old_level, -1):
+                old["level"] = new_level
+            old_time = old.get("time") or ""
+            new_time = item.get("time") or ""
+            if new_time and new_time > old_time:
+                old["time"] = new_time
+        else:
+            by_url[url] = item
+    return list(by_url.values())
+
 def fetch_all_data():
     """主调度函数: 状态记忆增量抓取"""
     print("开始执行状态记忆增量抓取任务...")
@@ -1096,28 +1169,78 @@ def fetch_all_data():
     print(f"📦 本地已存在 {len(existing_news)} 条数据，建立去重记忆池。")
     
     new_items = []
-    
-    # 2. RSS Feeds (Passing existing URLs)
-    rss_data = fetch_rss_feeds(existing_urls)
-    new_items.extend(rss_data)
-    
-    # 3. Woshipm - Direct Scrape with Multiple Keywords
-    print("🚀 正在执行: 人人都是产品经理 (Multiple Keywords)...")
-    woshipm_data = scrape_woshipm(existing_urls)
-    new_items.extend(woshipm_data)
-    
-    # 4. 36kr - Direct Search API
-    print("🚀 正在执行: 36氪 (Multiple Keywords)...")
-    kr_data = scrape_36kr_direct(existing_urls)
-    new_items.extend(kr_data)
-    
-    # 5. Huxiu - Direct Search API
 
+    if MODE == "backfill":
+        urls_need_enrich = {item.get("url") for item in existing_news if item.get("url") and not (item.get("full_content") or "").strip()}
+        sorted_tier2 = sorted(TIER_2_KEYWORDS)
+        batch_count = max(1, BACKFILL_TIER2_BATCH_COUNT)
+        batch_size = max(1, len(sorted_tier2) // batch_count)
+
+        batch_indices = [BACKFILL_TIER2_BATCH_INDEX] if BACKFILL_TIER2_BATCH_INDEX >= 0 else list(range(batch_count))
+
+        if BACKFILL_TIER2_ENABLED:
+            print("🚀 正在执行: 人人都是产品经理 (Backfill Tier2 by Time)...")
+        else:
+            print("🚀 正在执行: 人人都是产品经理 (Backfill by Time)...")
+
+        for batch_index in batch_indices:
+            if check_timeout():
+                break
+            if batch_index < 0 or batch_index >= batch_count:
+                continue
+
+            start_idx = batch_index * batch_size
+            end_idx = (batch_index + 1) * batch_size if batch_index < batch_count - 1 else len(sorted_tier2)
+            tier2_slice = sorted_tier2[start_idx:end_idx] if BACKFILL_TIER2_ENABLED else []
+
+            keywords = list(dict.fromkeys(TIER_1_KEYWORDS + ["医疗", "AI"] + tier2_slice))
+            print(f"🎯 Backfill 批次 {batch_index + 1}/{batch_count} | 关键词 {len(keywords)} 个")
+
+            woshipm_data = scrape_woshipm_direct(existing_urls, keywords=keywords, urls_need_enrich=urls_need_enrich)
+            new_items.extend(woshipm_data)
+
+            existing_news = merge_news(existing_news, woshipm_data)
+            existing_urls = {item.get("url") for item in existing_news if item.get("url")}
+            urls_need_enrich = {item.get("url") for item in existing_news if item.get("url") and not (item.get("full_content") or "").strip()}
+
+            all_news = existing_news
+            unique_news = []
+            seen_urls = set()
+            for item in all_news:
+                url = item.get("url", "")
+                if not url or url in seen_urls:
+                    continue
+                time_str = item.get("time", "")
+                source_name = item.get("source", "")
+                if is_article_fresh(time_str, source_name):
+                    seen_urls.add(url)
+                    unique_news.append(item)
+            unique_news.sort(key=lambda x: x.get("time", ""), reverse=True)
+            save_data(unique_news)
+            existing_news = unique_news
+    else:
     
-    # 6. Medium - Tag RSS
-    print("🚀 正在执行: Medium (Tag RSS)...")
-    medium_data = scrape_medium_tags(existing_urls)
-    new_items.extend(medium_data)
+        # 2. RSS Feeds (Passing existing URLs)
+        rss_data = fetch_rss_feeds(existing_urls)
+        new_items.extend(rss_data)
+        
+        # 3. Woshipm - Direct Scrape with Multiple Keywords
+        print("🚀 正在执行: 人人都是产品经理 (Multiple Keywords)...")
+        woshipm_data = scrape_woshipm(existing_urls)
+        new_items.extend(woshipm_data)
+        
+        # 4. 36kr - Direct Search API
+        print("🚀 正在执行: 36氪 (Multiple Keywords)...")
+        kr_data = scrape_36kr_direct(existing_urls)
+        new_items.extend(kr_data)
+        
+        # 5. Huxiu - Direct Search API
+
+        
+        # 6. Medium - Tag RSS
+        print("🚀 正在执行: Medium (Tag RSS)...")
+        medium_data = scrape_medium_tags(existing_urls)
+        new_items.extend(medium_data)
     
     print(f"✨ 本次增量抓取共获得 {len(new_items)} 条新数据。")
     
