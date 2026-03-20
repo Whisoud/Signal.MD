@@ -328,7 +328,10 @@
                 // Render Tags
                 let tagsHtml = '';
                 if (item.tags && item.tags.length > 0) {
-                    tagsHtml = item.tags.map(tag => 
+                    const debugTags = ['强医疗相关', 'AI增益', 'AI核心场景', '商业动态', '前沿资讯', '高可信信源'];
+                    const validTags = item.tags.filter(tag => !debugTags.includes(tag));
+                    
+                    tagsHtml = validTags.slice(0, 3).map(tag => 
                         `<span class="px-2 py-0.5 rounded text-[9px] font-mono border border-border-color/50 text-text-muted hover:text-accent-primary transition-colors cursor-default">#${tag}</span>`
                     ).join('');
                 }
@@ -426,7 +429,10 @@
             // Render Tags in Drawer
             const tagsContainer = document.getElementById('drawer-tags');
             if (item.tags && item.tags.length > 0) {
-                tagsContainer.innerHTML = item.tags.map(tag => 
+                const debugTags = ['强医疗相关', 'AI增益', 'AI核心场景', '商业动态', '前沿资讯', '高可信信源'];
+                const validTags = item.tags.filter(tag => !debugTags.includes(tag));
+                
+                tagsContainer.innerHTML = validTags.slice(0, 5).map(tag => 
                     `<span class="px-2 py-1 rounded-md text-[10px] font-mono bg-bg-secondary text-text-secondary border border-border-color">#${tag}</span>`
                 ).join('');
             } else {
