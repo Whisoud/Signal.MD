@@ -391,7 +391,6 @@ def calculate_med_score(title, summary, source_name=""):
     for p in STRONG_MED_PHRASES + ENTITIES:
         if p in text:
             med_purity_score += 8
-            tags.add("核心医疗")
             break
             
     # 2. 平A命中（基础医疗词累加）
@@ -412,7 +411,6 @@ def calculate_med_score(title, summary, source_name=""):
     for kw in STRONG_MED + STRONG_MED_PHRASES:
         if kw in title_lower:
             score += 6
-            tags.add("强医疗相关")
             break
 
     # --- Layer 3: 增益叠加层 (The Multiplier Boosts) ---
@@ -422,7 +420,6 @@ def calculate_med_score(title, summary, source_name=""):
     for p in TECH_PHRASES:
         if p in text:
             ai_boost_score += 8
-            tags.add("AI核心场景")
             break
             
     tech_hits = sum(1 for kw in TECH if kw in text)
@@ -430,26 +427,22 @@ def calculate_med_score(title, summary, source_name=""):
     
     if ai_boost_score > 0:
         score += ai_boost_score
-        tags.add("AI增益")
         
     # 商业与意图增益
     for kw in BUSINESS:
         if kw in text:
             score += 4
-            tags.add("商业动态")
             break
             
     for kw in INTENT:
         if kw in text:
             score += 3
-            tags.add("前沿资讯")
             break
             
     # 白名单光环
     whitelist_hit = any(w.lower() in source_name.lower() for w in WHITELIST_SOURCES)
     if whitelist_hit:
         score += 5
-        tags.add("高可信信源")
         
     # --- Layer 4: 降噪与分级判定 (Noise Reduction & Grading) ---
     # 负面降噪
