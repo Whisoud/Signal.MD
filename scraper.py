@@ -297,6 +297,42 @@ def calculate_med_score(title, summary, source_name=""):
     # --- 词库定义 ---
     WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health", "Mayo Clinic", "NEJM"]
     
+    # 【新增】第一关：医疗一票否决白名单 (必须包含其中之一才允许进入打分)
+    CORE_MEDICAL_WORDS = [
+        # 宏观与基础
+        "医疗", "医药", "医学", "医生", "医院", "患者", "病患", "诊疗", "健康", "卫健委", "医保", "医改",
+        "medical", "medicine", "healthcare", "doctor", "physician", "hospital", "patient", "clinical", "health",
+        # 临床与诊断
+        "临床", "诊断", "问诊", "随访", "处方", "病历", "电子病历", "查房", "影像", "放射", "超声", "CT", "MRI", 
+        "肿瘤", "癌症", "慢性病", "慢病", "康复", "护理", "体检", "科室", "门诊", "住院",
+        "diagnosis", "radiology", "oncology", "pathology", "EMR", "EHR", "surgery", "therapy", "disease", "imaging",
+        # 药企与研发
+        "药企", "制药", "药物研发", "新药", "靶点", "临床试验", "真实世界研究", "基因测序", "蛋白质", "分子生成", "药监局", "NMPA", "FDA",
+        "pharma", "pharmaceutical", "drug discovery", "clinical trial", "genomics", "protein",
+        # 医疗信息化与运营
+        "智慧医院", "HIS", "PACS", "LIS", "CDSS", "临床决策支持", "分诊", "挂号", "医保控费", "DRG", "DIP", "互联互通", "互联网医院", "院感",
+        "triage", "interoperability", "FHIR",
+        # 医疗垂直 AI
+        "数字疗法", "医疗大模型", "AI制药", "医学知识图谱", "AI问诊", "病历生成", "医疗AI",
+        "DTx", "digital therapeutics", "medical scribe", "ambient ai"
+    ]
+    
+    # 【新增】负面降噪黑名单 (纯科技/商业噪音)
+    PAN_TECH_NOISE = [
+        # 纯互联网与硬件业务
+        "手机", "汽车", "游戏", "自动驾驶", "智能驾驶", "造车", "芯片评测", "显卡", "社交软件", "电商", "直播带货", "元宇宙", "web3",
+        # 纯编程与开发
+        "代码生成", "Python", "前端", "后端", "程序员", "编程助手", "开源社区", "Github",
+        # 泛商业与八卦
+        "广告业务", "财报电话会", "离职", "裁员", "八卦", "网红", "主播", "带货"
+    ]
+
+    # --- 第一关：一票否决 ---
+    is_core_medical = any(kw.lower() in text for kw in CORE_MEDICAL_WORDS)
+    if not is_core_medical:
+        # 如果连一个核心医疗词都没提到，直接枪毙
+        return {"score": 0, "level": "C", "tags": [], "detail": {"reason": "Vetoed: No core medical keywords found"}}
+
     STRONG_MED_PHRASES = [
         "临床决策支持", "病历生成", "辅助诊断", "数字疗法", "多学科会诊", "互联网医院", "医疗数据治理",
         "临床试验", "医保控费", "靶点发现", "电子病历", "智慧医院", "分级诊疗", "DRG/DIP", "医疗质量",
@@ -352,7 +388,12 @@ def calculate_med_score(title, summary, source_name=""):
     if pan_tech_hits > 2 and med_hits <= 2:
         med_purity_score -= 10 # 严重稀释，很可能是蹭热点
         
-    if med_purity_score < 5:
+    # 【新增】强噪音扣分机制
+    noise_hits = sum(1 for kw in PAN_TECH_NOISE if kw.lower() in text)
+    if noise_hits > 0:
+        score -= (noise_hits * 10) # 命中强噪音词，重罚
+        
+    if med_purity_score < 5 and score < 10:
         return {"score": 0, "level": "C", "tags": [], "detail": {"reason": "Low medical purity"}}
         
     score += med_purity_score
