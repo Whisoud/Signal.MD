@@ -304,17 +304,22 @@
                 const color = getCategoryColor(item.category);
                 const timeStr = formatTime(item.time);
                 
-                // 判断是否为最近 24 小时内的新增内容
+                // 判断是否为最近 24 小时内的新增内容 (对齐右上角 +x Today 逻辑)
                 let isNew = false;
                 if (item.time) {
                     try {
-                        const itemDate = new Date(item.time.replace(/-/g, '/')); // 兼容 Safari
+                        // 统一时间格式解析，处理 "YYYY-MM-DD HH:MM" 或 "YYYY-MM-DD"
+                        let timeString = item.time.replace(/-/g, '/');
+                        const itemDate = new Date(timeString);
                         const now = new Date();
-                        const diffHours = (now - itemDate) / (1000 * 60 * 60);
-                        if (diffHours >= 0 && diffHours <= 24) {
+                        
+                        // 只要发布日期和今天日期是同一天，就认为是新的（和顶部 +x Today 对齐）
+                        if (itemDate.toDateString() === now.toDateString()) {
                             isNew = true;
                         }
-                    } catch(e) {}
+                    } catch(e) {
+                        console.error("Time parse error:", e);
+                    }
                 }
                 
                 // 呼吸绿点 UI
