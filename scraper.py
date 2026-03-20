@@ -8,12 +8,22 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 from bs4 import BeautifulSoup
 from readability import Document
-from deep_translator import GoogleTranslator
 import time
+import random
 import re
 
 # --- Configuration ---
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+
+# Global timeout configuration
+GLOBAL_START_TIME = time.time()
+MAX_EXECUTION_TIME = 8 * 60  # 8 minutes hard stop
+
+def check_timeout():
+    if time.time() - GLOBAL_START_TIME > MAX_EXECUTION_TIME:
+        print("⚠️ [Global Timeout] 抓取任务接近时间上限，正在执行优雅停机...")
+        return True
+    return False
 
 # --- Data Sources (Product-Focused MedAI) ---
 RSS_SOURCES = {
@@ -37,114 +47,130 @@ RSS_SOURCES = {
 }
 
 # --- Search Keywords Matrix (Expanded CN) ---
-SEARCH_KEYWORDS = [
+# Tier 1: 核心高频关键词 (每次必跑)
+TIER_1_KEYWORDS = [
     "医疗 AI", 
     "AI医疗", 
     "医疗大模型", 
     "数字疗法", 
-    "医疗信息化", 
-    
-    # --- 暂时注释掉大部分关键词，用于测试防卡死 ---
-    # "临床诊疗",
-    # "医学影像",
-    # "智慧医疗",
-    # "医疗科技",
-    # "AI制药",
-    
-    # # 临床诊疗
-    # "辅助诊断",
-    # "临床决策支持系统",
-    # "CDSS",
-    # "智能分诊",
-    # "问诊机器人",
-    # "病历生成",
-    # "电子病历质控",
-    # "病历结构化",
-    # "临床路径",
-    # "多学科会诊 MDT",
-    # "随访管理",
-    # "复诊管理",
-    # "用药推荐",
-    # "处方审核",
-    # "合理用药",
-
-    # # 医院信息化
-    # "HIS系统",
-    # "EMR系统",
-    # "EHR系统",
-    # "PACS系统",
-    # "LIS系统",
-    # "RIS系统",
-    # "临床数据中心 CDR",
-    # "医疗数据治理",
-    # "医疗数据标准",
-    # "FHIR",
-    # "互联互通",
-    # "电子病历评级",
-    # "智慧医院评级",
-
-    # # 医院运营
-    # "DRG",
-    # "DIP",
-    # "医保控费",
-    # "医院绩效管理",
-    # "病案首页质控",
-    # "医疗质量控制",
-    # "院感管理",
-    # "护理管理",
-    # "床位管理",
-    # "手术排程",
-
-    # # 患者服务
-    # "互联网医院",
-    # "在线问诊",
-    # "患者随访",
-    # "患者教育",
-    # "健康管理",
-    # "慢病管理",
-    # "远程医疗",
-    # "居家监测",
-    # "家庭医生",
-
-    # # AI技术
-    # "医疗NLP",
-    # "医学知识图谱",
-    # "语音识别 医疗",
-    # "语音转写 Scribe",
-    # "医学OCR",
-    # "多模态医疗AI",
-    # "联邦学习 医疗",
-    # "隐私计算 医疗",
-    # "因果推断 医疗",
-
-    # # 医学影像细化
-    # "影像分割",
-    # "影像诊断",
-    # "病灶检测",
-    # "肺结节",
-    # "乳腺筛查",
-    # "脑卒中影像",
-    # "心脏影像",
-    # "数字病理",
-
-    # # 药物研发
-    # "AI药物研发",
-    # "分子生成",
-    # "靶点发现",
-    # "临床试验优化",
-    # "真实世界研究",
-    # "药物警戒",
-    # "精准医疗",
-    # "基因测序",
-
-    # # 意图增强（关键）
-    # "医疗AI案例",
-    # "医疗AI落地",
-    # "医疗AI实践",
-    # "医疗AI解决方案",
-    # "医疗AI应用场景",
-    # "医疗AI效果评估"
+    "AI制药",
+    "医疗AI案例",
+    "医疗AI商业化"
 ]
+
+# Tier 2: 探索与细分关键词 (每次随机抽取部分)
+TIER_2_KEYWORDS = [
+    "医疗信息化", 
+    "临床诊疗",
+    "医学影像",
+    "智慧医疗",
+    "医疗科技",
+    
+    # 临床诊疗
+    "辅助诊断",
+    "临床决策支持系统",
+    "CDSS",
+    "智能分诊",
+    "问诊机器人",
+    "病历生成",
+    "电子病历质控",
+    "病历结构化",
+    "临床路径",
+    "多学科会诊 MDT",
+    "随访管理",
+    "复诊管理",
+    "用药推荐",
+    "处方审核",
+    "合理用药",
+
+    # 医院信息化
+    "HIS系统",
+    "EMR系统",
+    "EHR系统",
+    "PACS系统",
+    "LIS系统",
+    "RIS系统",
+    "临床数据中心 CDR",
+    "医疗数据治理",
+    "医疗数据标准",
+    "FHIR",
+    "互联互通",
+    "电子病历评级",
+    "智慧医院评级",
+
+    # 医院运营
+    "DRG",
+    "DIP",
+    "医保控费",
+    "医院绩效管理",
+    "病案首页质控",
+    "医疗质量控制",
+    "院感管理",
+    "护理管理",
+    "床位管理",
+    "手术排程",
+
+    # 患者服务
+    "互联网医院",
+    "在线问诊",
+    "患者随访",
+    "患者教育",
+    "健康管理",
+    "慢病管理",
+    "远程医疗",
+    "居家监测",
+    "家庭医生",
+
+    # AI技术
+    "医疗NLP",
+    "医学知识图谱",
+    "语音识别 医疗",
+    "语音转写 Scribe",
+    "医学OCR",
+    "多模态医疗AI",
+    "联邦学习 医疗",
+    "隐私计算 医疗",
+    "因果推断 医疗",
+
+    # 医学影像细化
+    "影像分割",
+    "影像诊断",
+    "病灶检测",
+    "肺结节",
+    "乳腺筛查",
+    "脑卒中影像",
+    "心脏影像",
+    "数字病理",
+
+    # 药物研发
+    "AI药物研发",
+    "分子生成",
+    "靶点发现",
+    "临床试验优化",
+    "真实世界研究",
+    "药物警戒",
+    "精准医疗",
+    "基因测序",
+
+    # 意图增强
+    "医疗AI落地",
+    "医疗AI实践",
+    "医疗AI解决方案",
+    "医疗AI应用场景",
+    "医疗AI效果评估"
+]
+
+def get_current_run_keywords():
+    """动态生成本次运行的关键词：核心词 + 随机 5-8 个探索词"""
+    sampled_tier2 = random.sample(TIER_2_KEYWORDS, min(8, len(TIER_2_KEYWORDS)))
+    selected_keywords = TIER_1_KEYWORDS + sampled_tier2
+    print(f"🎯 本次调度关键词共 {len(selected_keywords)} 个")
+    print(f"   Tier 1 (必跑): {len(TIER_1_KEYWORDS)} 个")
+    print(f"   Tier 2 (随机): {sampled_tier2}")
+    return selected_keywords
+
+# Dynamically populate for legacy functions that might use it
+SEARCH_KEYWORDS = get_current_run_keywords()
 
 # --- Search Keywords Matrix (Expanded EN) ---
 SEARCH_KEYWORDS_EN = [
@@ -236,66 +262,9 @@ AUTO_TAGS_DICT = {
 }
 
 # --- Translation Helpers ---
-def translate_html_safe(html_content, target='zh-CN'):
-    if not html_content: return ""
-    try:
-        translator = GoogleTranslator(source='auto', target=target)
-        if len(html_content) <= 4900:
-            return translator.translate(html_content)
-            
-        chunks = []
-        current_chunk = ""
-        parts = html_content.split('</p>')
-        for i, part in enumerate(parts):
-            if i < len(parts) - 1:
-                part += '</p>'
-            if len(current_chunk) + len(part) < 4900:
-                current_chunk += part
-            else:
-                if current_chunk:
-                    chunks.append(current_chunk)
-                current_chunk = part
-        if current_chunk:
-            chunks.append(current_chunk)
-            
-        translated_chunks = []
-        for c in chunks:
-            if len(c) > 4900:
-                translated_chunks.append(translator.translate(c[:4900]))
-            else:
-                res = translator.translate(c)
-                translated_chunks.append(res if res else c)
-        return "".join(translated_chunks)
-    except Exception as e:
-        print(f"Translation error: {e}")
-        return html_content
-
 def process_translations(items):
-    print("🌍 正在执行本地预翻译 (Backend Pre-translation)...")
-    for item in items:
-        # If the item doesn't have a title_zh yet, it means it's newly scraped or un-translated
-        if "title_zh" not in item:
-            original_lang = item.get("lang", "zh")
-            if original_lang == "en":
-                # print(f"    [EN->ZH] Translating: {item['title'][:30]}...")
-                item["title_en"] = item["title"]
-                item["summary_en"] = item["summary"]
-                item["content_en"] = item["full_content"]
-                
-                item["title_zh"] = translate_html_safe(item["title"], 'zh-CN')
-                item["summary_zh"] = translate_html_safe(item["summary"], 'zh-CN')
-                item["content_zh"] = translate_html_safe(item["full_content"], 'zh-CN')
-            else:
-                # Original is Chinese
-                item["title_zh"] = item["title"]
-                item["summary_zh"] = item["summary"]
-                item["content_zh"] = item["full_content"]
-                
-                item["title_en"] = translate_html_safe(item["title"], 'en')
-                item["summary_en"] = translate_html_safe(item["summary"], 'en')
-                # Content translation for ZH to EN is often too heavy and might hit rate limits fast,
-                # but let's try it since user wants "中英互译"
-                item["content_en"] = translate_html_safe(item["full_content"], 'en')
+    # 翻译功能已移除，直接返回原数据
+    print("🌍 翻译功能已禁用，跳过翻译步骤...")
     return items
 
 def generate_tags(title, summary, base_category):
@@ -501,7 +470,7 @@ def extract_full_text(url):
                 "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1"
             }
             time.sleep(1)
-            response = requests.get(mobile_url, headers=headers, timeout=15)
+            response = requests.get(mobile_url, headers=headers, timeout=(5, 10))
             if response.status_code == 200:
                 match = re.search(r'window\.initialState=(.*?)</script>', response.text, re.DOTALL)
                 if match:
@@ -538,7 +507,7 @@ def extract_full_text(url):
         # Add a small delay to avoid rate limiting
         time.sleep(1)
         
-        response = requests.get(url, headers=headers, timeout=15)
+        response = requests.get(url, headers=headers, timeout=(5, 10))
         
         # If Woshipm returns 404, it might be in another category
         if "woshipm.com" in url:
@@ -552,7 +521,7 @@ def extract_full_text(url):
             if response.status_code == 404:
                 for cat in ["ai", "it", "med", "active", "share", "eval", "article"]:
                     new_url = re.sub(r"woshipm\.com/[^/]+/", f"woshipm.com/{cat}/", url)
-                    response = requests.get(new_url, headers=headers, timeout=10)
+                    response = requests.get(new_url, headers=headers, timeout=(5, 10))
                     if response.status_code == 200:
                         url = new_url # update url for returning
                         break
@@ -584,6 +553,7 @@ def fetch_rss_feeds(existing_urls):
     items = []
     
     for source_name, url in RSS_SOURCES.items():
+        if check_timeout(): break
         try:
             feed = feedparser.parse(url)
             print(f"  -> {source_name}: {len(feed.entries)} entries")
@@ -682,9 +652,11 @@ def scrape_woshipm_direct(existing_urls):
     }
     
     for keyword in SEARCH_KEYWORDS:
+        if check_timeout(): break
         print(f"  -> 关键词: {keyword}")
         # Fetch 3 pages per keyword instead of 10 for a single keyword
         for page in range(1, 4):
+            if check_timeout(): break
             try:
                 payload = {
                     "key": keyword,
@@ -694,7 +666,7 @@ def scrape_woshipm_direct(existing_urls):
                     "idSearch": "" 
                 }
                 
-                response = requests.post(url, data=payload, headers=headers, timeout=10)
+                response = requests.post(url, data=payload, headers=headers, timeout=(5, 10))
                 
                 if response.status_code != 200:
                     continue
@@ -809,6 +781,7 @@ def scrape_36kr_direct(existing_urls):
     }
     
     for keyword in SEARCH_KEYWORDS:
+        if check_timeout(): break
         print(f"  -> 关键词: {keyword}")
         try:
             payload = {
@@ -825,7 +798,7 @@ def scrape_36kr_direct(existing_urls):
                 }
             }
             
-            response = requests.post(url, json=payload, headers=headers, timeout=10)
+            response = requests.post(url, json=payload, headers=headers, timeout=(5, 10))
             if response.status_code == 200:
                 data = response.json()
                 if data.get('code') == 0:
