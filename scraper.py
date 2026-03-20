@@ -161,12 +161,34 @@ TIER_2_KEYWORDS = [
 ]
 
 def get_current_run_keywords():
-    """动态生成本次运行的关键词：核心词 + 随机 5-8 个探索词"""
-    sampled_tier2 = random.sample(TIER_2_KEYWORDS, min(8, len(TIER_2_KEYWORDS)))
-    selected_keywords = TIER_1_KEYWORDS + sampled_tier2
-    print(f"🎯 本次调度关键词共 {len(selected_keywords)} 个")
+    """动态生成本次运行的关键词：核心词 + 基于时间的切片轮询"""
+    # 核心词每次必跑
+    selected_keywords = list(TIER_1_KEYWORDS)
+    
+    # 获取 UTC 当前小时数
+    current_hour = datetime.datetime.utcnow().hour
+    
+    # 假设每 4 小时跑一次 (GitHub Action Cron: 0 */4 * * *)
+    # 把 TIER_2 分成 6 个批次 (每批大约 10-12 个词)
+    batch_count = 6
+    batch_index = (current_hour // 4) % batch_count
+    
+    # 对 TIER_2_KEYWORDS 进行固定的哈希/排序，确保每次切片稳定
+    sorted_tier2 = sorted(TIER_2_KEYWORDS)
+    
+    # 计算切片起始和结束位置
+    batch_size = len(sorted_tier2) // batch_count
+    start_idx = batch_index * batch_size
+    # 最后一个批次包揽剩余的所有词
+    end_idx = (batch_index + 1) * batch_size if batch_index < batch_count - 1 else len(sorted_tier2)
+    
+    sampled_tier2 = sorted_tier2[start_idx:end_idx]
+    
+    selected_keywords.extend(sampled_tier2)
+    
+    print(f"🎯 本次调度关键词共 {len(selected_keywords)} 个 (Batch {batch_index + 1}/{batch_count})")
     print(f"   Tier 1 (必跑): {len(TIER_1_KEYWORDS)} 个")
-    print(f"   Tier 2 (随机): {sampled_tier2}")
+    print(f"   Tier 2 (轮询): {sampled_tier2}")
     return selected_keywords
 
 # Dynamically populate for legacy functions that might use it
@@ -297,7 +319,7 @@ def calculate_med_score(title, summary, source_name=""):
     # --- 词库定义 ---
     WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health", "Mayo Clinic", "NEJM"]
     
-    # 【新增】第一关：医疗一票否决白名单 (必须包含其中之一才允许进入打分)
+    # 【第一关：医疗一票否决白名单】 (必须包含其中之一才允许进入打分)
     CORE_MEDICAL_WORDS = [
         # 宏观与基础
         "医疗", "医药", "医学", "医生", "医院", "患者", "病患", "诊疗", "健康", "卫健委", "医保", "医改",
@@ -317,15 +339,8 @@ def calculate_med_score(title, summary, source_name=""):
         "DTx", "digital therapeutics", "medical scribe", "ambient ai"
     ]
     
-    # 【新增】负面降噪黑名单 (纯科技/商业噪音)
-    PAN_TECH_NOISE = [
-        # 纯互联网与硬件业务
-        "手机", "汽车", "游戏", "自动驾驶", "智能驾驶", "造车", "芯片评测", "显卡", "社交软件", "电商", "直播带货", "元宇宙", "web3",
-        # 纯编程与开发
-        "代码生成", "Python", "前端", "后端", "程序员", "编程助手", "开源社区", "Github",
-        # 泛商业与八卦
-        "广告业务", "财报电话会", "离职", "裁员", "八卦", "网红", "主播", "带货"
-    ]
+    # 【已废除】PAN_TECH_NOISE：不再进行强惩罚，完全信任 CORE_MEDICAL_WORDS 的过滤能力。
+    # 只要命中了核心医疗词，即使提到 Python/汽车，也大概率是高价值跨界信号。
 
     # --- 第一关：一票否决 ---
     is_core_medical = any(kw.lower() in text for kw in CORE_MEDICAL_WORDS)
@@ -387,11 +402,6 @@ def calculate_med_score(title, summary, source_name=""):
     pan_tech_hits = sum(1 for kw in PAN_TECH if kw in text)
     if pan_tech_hits > 2 and med_hits <= 2:
         med_purity_score -= 10 # 严重稀释，很可能是蹭热点
-        
-    # 【新增】强噪音扣分机制
-    noise_hits = sum(1 for kw in PAN_TECH_NOISE if kw.lower() in text)
-    if noise_hits > 0:
-        score -= (noise_hits * 10) # 命中强噪音词，重罚
         
     if med_purity_score < 5 and score < 10:
         return {"score": 0, "level": "C", "tags": [], "detail": {"reason": "Low medical purity"}}
@@ -695,9 +705,19 @@ def scrape_woshipm_direct(existing_urls):
     for keyword in SEARCH_KEYWORDS:
         if check_timeout(): break
         print(f"  -> 关键词: {keyword}")
+        
+        # 智能早停标记
+        continuous_old_count = 0 
+        
         # Fetch 3 pages per keyword instead of 10 for a single keyword
         for page in range(1, 4):
             if check_timeout(): break
+            
+            # 如果上一页已经连续遇到老数据，提前结束当前关键词的翻页
+            if continuous_old_count >= 5:
+                print(f"     [Early Stop] {keyword} 遇到过多历史数据，停止翻页")
+                break
+                
             try:
                 payload = {
                     "key": keyword,
@@ -727,9 +747,13 @@ def scrape_woshipm_direct(existing_urls):
                         if not article_id: continue
                         article_url = f"http://www.woshipm.com/pd/{article_id}.html"
                         
-                        # Deduplication
+                        # Deduplication & Early Stop signal
                         if article_url in seen_urls:
+                            continuous_old_count += 1
                             continue
+                            
+                        # Reset if we find a new one
+                        continuous_old_count = 0
                         seen_urls.add(article_url)
                         
                         # 3. Summary
@@ -824,6 +848,9 @@ def scrape_36kr_direct(existing_urls):
     for keyword in SEARCH_KEYWORDS:
         if check_timeout(): break
         print(f"  -> 关键词: {keyword}")
+        
+        continuous_old_count = 0
+        
         try:
             payload = {
                 "partner_id": "web",
@@ -859,7 +886,14 @@ def scrape_36kr_direct(existing_urls):
                             article_url = f"https://36kr.com/p/{article_id}"
                             
                             if article_url in seen_urls:
+                                continuous_old_count += 1
+                                # 36kr 是单页大列表，如果连续遇到 5 个已抓取的，直接结束该关键词
+                                if continuous_old_count >= 5:
+                                    print(f"     [Early Stop] {keyword} 遇到过多历史数据，跳过后续解析")
+                                    break
                                 continue
+                                
+                            continuous_old_count = 0
                             seen_urls.add(article_url)
                             
                             summary = material.get('widgetContent') or material.get('content', '')
