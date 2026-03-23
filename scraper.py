@@ -20,6 +20,7 @@ USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
 GLOBAL_START_TIME = time.time()
 MODE = "backfill" if "--backfill" in sys.argv else "normal"
 MAX_EXECUTION_TIME = 3 * 60 * 60 if MODE == "backfill" else 8 * 60
+BACKFILL_GET_FULL_CONTENT = True # For backfill mode, always try to get full content as per user request
 
 BACKFILL_TIER2_ENABLED = "--backfill-tier2" in sys.argv
 
