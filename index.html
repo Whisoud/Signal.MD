@@ -444,7 +444,7 @@
                 }
                 
                 // 呼吸绿点 UI (Moved next to Today)
-                const newBadge = isNew ? `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block mr-1"></span>` : '';
+                const newBadge = isNew ? `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block mr-1 flex-shrink-0"></span>` : '';
                 
                 // Render Tags
                 let tagsHtml = '';
@@ -460,16 +460,16 @@
                 return `
                 <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" data-url="${item.url}" onclick="openDrawerByUrl(this.getAttribute('data-url'))">
                     <div class="flex justify-between items-start mb-2 gap-4">
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5">
+                        <div class="flex items-center gap-2 flex-wrap flex-1">
+                            <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5 flex-shrink-0">
                                 <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>
                                 ${item.category}
                             </span>
-                            <span class="text-xs text-text-muted flex items-center gap-1">
+                            <span class="text-xs text-text-muted flex items-center gap-1 line-clamp-1">
                                 ${item.source}
                             </span>
                         </div>
-                        <span class="text-[10px] font-mono flex items-center ${isNew ? 'text-emerald-400/90' : 'text-text-muted'} whitespace-nowrap group-hover:text-accent-primary transition-colors">
+                        <span class="text-[10px] font-mono flex items-center ${isNew ? 'text-emerald-400/90' : 'text-text-muted'} whitespace-nowrap group-hover:text-accent-primary transition-colors flex-shrink-0 ml-2">
                             ${newBadge}${timeStr}
                         </span>
                     </div>
