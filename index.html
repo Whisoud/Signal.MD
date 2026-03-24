@@ -535,7 +535,22 @@
             document.getElementById('drawer-title').textContent = item.title;
             
             // Format time for drawer to show only YYYY-MM-DD
-            const drawerTime = item.time ? item.time.split(' ')[0] : '';
+            let drawerTime = item.time || '';
+            try {
+                if (drawerTime) {
+                    const d = new Date(drawerTime);
+                    if (!isNaN(d.getTime())) {
+                        const year = d.getFullYear();
+                        const month = String(d.getMonth() + 1).padStart(2, '0');
+                        const day = String(d.getDate()).padStart(2, '0');
+                        drawerTime = `${year}-${month}-${day}`;
+                    } else {
+                        drawerTime = drawerTime.split('T')[0].split(' ')[0];
+                    }
+                }
+            } catch (e) {
+                drawerTime = drawerTime.split('T')[0].split(' ')[0];
+            }
             document.getElementById('drawer-time').innerHTML = `<i class="far fa-clock mr-1"></i>${drawerTime}`;
             
             // Inject Full Content if available, else fallback to summary
