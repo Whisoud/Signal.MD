@@ -499,10 +499,13 @@
         let currentItem = null;
         
         // --- Drawer Logic ---
-        function openDrawerByUrl(url) {
+        window.openDrawerByUrl = function(url) {
             // Find the item by url (safest unique key across DB and local JSON)
             const item = allData.find(d => d.url === url);
-            if (!item) return;
+            if (!item) {
+                console.error("Item not found for url:", url);
+                return;
+            }
             currentItem = item;
             
             // Reset Translation state
