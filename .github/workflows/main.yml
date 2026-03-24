@@ -40,4 +40,6 @@ jobs:
         git add data/news.json
         # 如果没有变动，commit 会失败，使用 || true 避免 workflow 报错
         git commit -m "Auto update data: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || true
+        # 强制拉取最新的远程代码进行合并，防止我们在本地修改代码后导致 Actions 推送失败
+        git pull --rebase origin main || true
         git push
