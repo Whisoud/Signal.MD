@@ -298,23 +298,26 @@ SEARCH_KEYWORDS_EN = [
     # "ROI healthcare AI"
 ]
 
-# --- Auto-Tagging Dictionary (Expanded) ---
+# --- Auto-Tagging Dictionary (Expanded with Weights) ---
 AUTO_TAGS_DICT = {
-    "大模型": ["LLM", "GPT", "大模型", "Generative AI", "生成式", "Foundation Model", "ChatGPT"],
-    "医学影像": ["影像", "CV", "CT", "MRI", "Radiology", "X-ray", "Ultrasound", "超声"],
-    "数字疗法": ["DTx", "数字疗法", "慢病管理", "Digital Therapeutics", "Chronic Care"],
-    "电子病历": ["EMR", "EHR", "病历", "Scribe", "Documentation", "Clinical Note"],
-    "商业融资": ["融资", "Funding", "Startup", "IPO", "资本", "Acquisition", "Series A", "Series B"],
-    "可穿戴/IoT": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch"],
-    "药物研发": ["Drug Discovery", "AlphaFold", "靶点", "制药", "Pharma"],
+    # 核心技术标签 (权重高)
+    "大模型": {"keywords": ["LLM", "GPT", "大模型", "Generative AI", "生成式", "Foundation Model", "ChatGPT"], "weight": 10},
+    "医学影像": {"keywords": ["影像", "CV", "CT", "MRI", "Radiology", "X-ray", "Ultrasound", "超声", "计算机视觉"], "weight": 9},
+    "药物研发": {"keywords": ["Drug Discovery", "AlphaFold", "靶点", "制药", "Pharma", "蛋白质", "分子生成"], "weight": 9},
+    "数字疗法": {"keywords": ["DTx", "数字疗法", "慢病管理", "Digital Therapeutics", "Chronic Care"], "weight": 8},
     
-    # 新增
-    "医院运营": ["DRG", "DIP", "医保", "控费", "绩效", "运营分析"],
-    "临床流程": ["分诊", "问诊", "诊断", "随访", "复诊"],
-    "AI工作流": ["Copilot", "Workflow", "Automation", "Scribe"],
-    "数据治理": ["FHIR", "数据标准", "互联互通", "数据中台"],
-    "监管合规": ["FDA", "NMPA", "CE", "审批", "合规"],
-    "商业模式": ["SaaS", "订阅", "按次收费", "解决方案"]
+    # 应用场景标签 (权重中等)
+    "AI工作流": {"keywords": ["Copilot", "Workflow", "Automation", "Scribe", "病历生成", "辅助诊断"], "weight": 7},
+    "临床流程": {"keywords": ["分诊", "问诊", "诊断", "随访", "复诊", "手术", "院感"], "weight": 6},
+    "医院运营": {"keywords": ["DRG", "DIP", "医保", "控费", "绩效", "运营分析", "HIS", "智慧医院"], "weight": 6},
+    "数据治理": {"keywords": ["FHIR", "数据标准", "互联互通", "数据中台", "脱敏"], "weight": 5},
+    "电子病历": {"keywords": ["EMR", "EHR", "病历", "Documentation", "Clinical Note"], "weight": 5},
+    "可穿戴/IoT": {"keywords": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch"], "weight": 4},
+    
+    # 商业与宏观标签 (权重较低，作为补充)
+    "商业融资": {"keywords": ["融资", "Funding", "Startup", "IPO", "资本", "Acquisition", "Series A", "Series B", "投资"], "weight": 3},
+    "监管合规": {"keywords": ["FDA", "NMPA", "CE", "审批", "合规", "监管", "指南"], "weight": 3},
+    "商业模式": {"keywords": ["SaaS", "订阅", "按次收费", "解决方案", "出海", "商业化"], "weight": 2}
 }
 
 # --- Translation Helpers ---
@@ -324,17 +327,32 @@ def process_translations(items):
     return items
 
 def generate_tags(title, summary, base_category):
-    """根据标题和摘要内容，自动匹配并生成结构化标签"""
-    tags = set() # Don't start with category to avoid duplication
+    """根据标题和摘要内容，基于权重打分，最多返回 3 个最核心的标签"""
     combined_text = (title + " " + summary).lower()
+    tag_scores = {}
     
-    for tag_name, keywords in AUTO_TAGS_DICT.items():
-        for kw in keywords:
+    for tag_name, config in AUTO_TAGS_DICT.items():
+        hits = 0
+        for kw in config["keywords"]:
             if kw.lower() in combined_text:
-                tags.add(tag_name)
-                break # Move to next tag category once matched
-                
-    return list(tags)
+                # 如果关键词在标题中出现，权重翻倍
+                if kw.lower() in title.lower():
+                    hits += 2
+                else:
+                    hits += 1
+                    
+        if hits > 0:
+            # 最终得分 = 基础权重 + (命中次数 * 2)
+            tag_scores[tag_name] = config["weight"] + (hits * 2)
+            
+    # 根据得分从高到低排序
+    sorted_tags = sorted(tag_scores.items(), key=lambda x: x[1], reverse=True)
+    
+    # 提取前 2-3 个最高分的标签
+    max_tags = 3
+    final_tags = [tag[0] for tag in sorted_tags[:max_tags]]
+    
+    return final_tags
 
 def calculate_med_score(title, summary, source_name=""):
     """
