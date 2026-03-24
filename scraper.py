@@ -321,7 +321,7 @@ AUTO_TAGS_DICT = {
 # --- Translation Helpers ---
 def process_translations(items):
     # 翻译功能已移除，直接返回原数据
-    print("🌍 翻译功能已禁用，跳过翻译步骤...")
+    # print("🌍 翻译功能已禁用，跳过翻译步骤...")
     return items
 
 def generate_tags(title, summary, base_category):
@@ -1157,42 +1157,7 @@ def load_existing_urls(filepath="data/news.json"):
             print(f"⚠️ 无法读取本地数据: {e}")
     return urls
 
-def merge_news(existing_news, new_items):
-    level_rank = {"S": 3, "A": 2, "B": 1, "C": 0}
-    by_url = {}
-    for item in existing_news:
-        url = item.get("url")
-        if url:
-            by_url[url] = item
-    for item in new_items:
-        url = item.get("url")
-        if not url:
-            continue
-        if url in by_url:
-            old = by_url[url]
-            old_full = (old.get("full_content") or "").strip()
-            new_full = (item.get("full_content") or "").strip()
-            if not old_full and new_full:
-                old["full_content"] = item.get("full_content")
-            old_summary = (old.get("summary") or "").strip()
-            new_summary = (item.get("summary") or "").strip()
-            if not old_summary and new_summary:
-                old["summary"] = item.get("summary")
-            old_tags = set(old.get("tags") or [])
-            new_tags = set(item.get("tags") or [])
-            if old_tags or new_tags:
-                old["tags"] = list(old_tags | new_tags)
-            old_level = old.get("level")
-            new_level = item.get("level")
-            if new_level and level_rank.get(new_level, -1) > level_rank.get(old_level, -1):
-                old["level"] = new_level
-            old_time = old.get("time") or ""
-            new_time = item.get("time") or ""
-            if new_time and new_time > old_time:
-                old["time"] = new_time
-        else:
-            by_url[url] = item
-    return list(by_url.values())
+
 
 def fetch_all_data():
     """主调度函数: 状态记忆增量抓取"""
