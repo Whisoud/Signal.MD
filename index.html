@@ -290,17 +290,15 @@
                 if (error) throw error;
 
                 // Update state with deduplication
+                let newItems = data;
                 if (isAppend) {
-                    // Deduplicate by id before appending to avoid any overlapping items
-                    const existingIds = new Set(allData.map(item => item.id));
-                    const uniqueNewData = data.filter(item => !existingIds.has(item.id));
-                    allData = [...allData, ...uniqueNewData];
+                    // Deduplicate by url before appending to avoid any overlapping items
+                    const existingUrls = new Set(allData.map(item => item.url));
+                    newItems = data.filter(item => !existingUrls.has(item.url));
+                    allData = [...allData, ...newItems];
                 } else {
                     allData = data;
                 }
-                
-                // Force a client-side sort just in case Supabase's time field has slight timezone offset issues during query
-                allData.sort((a, b) => new Date(b.time) - new Date(a.time));
                 
                 hasMore = data.length === PAGE_SIZE;
 
@@ -334,7 +332,7 @@
                     }
                 }
                 
-                render(isAppend);
+                render(isAppend ? newItems : allData, isAppend);
             } catch (error) {
                 console.warn('Supabase fetch failed, falling back to local JSON:', error);
                 await fetchLocalFallback();
@@ -371,7 +369,7 @@
                 hasMore = false; // No pagination in fallback
                 
                 document.getElementById('stat-total').innerText = `${allData.length} Signals (Local)`;
-                render(false);
+                render(allData, false);
             } catch (e) {
                 document.getElementById('signal-container').innerHTML = `
                     <div class="p-4 text-center text-text-secondary text-sm border border-dashed border-border-color rounded-lg">
@@ -383,15 +381,15 @@
         }
 
         // Render Signal Feed
-        function render(isAppend = false) {
+        function render(itemsToRender, isAppend = false) {
             const container = document.getElementById('signal-container');
             
-            if (allData.length === 0) {
+            if (!isAppend && itemsToRender.length === 0) {
                 container.innerHTML = `<div class="text-center text-text-secondary py-10 text-xs font-mono">NO SIGNALS FOUND</div>`;
                 return;
             }
 
-            const html = allData.map((item, index) => {
+            const html = itemsToRender.map((item) => {
                 const color = getCategoryColor(item.category);
                 const timeStr = formatTime(item.time);
                 
@@ -428,7 +426,7 @@
                 }
 
                 return `
-                <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer('${item.id}')">
+                <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" data-url="${item.url}" onclick="openDrawerByUrl(this.getAttribute('data-url'))">
                     <div class="flex justify-between items-start mb-2 gap-4">
                         <div class="flex items-center gap-2 flex-wrap">
                             ${newBadge}
@@ -501,9 +499,9 @@
         let currentItem = null;
         
         // --- Drawer Logic ---
-        function openDrawer(id) {
-            // Find the item by id (since we use pagination, index is not reliable)
-            const item = allData.find(d => d.id === id);
+        function openDrawerByUrl(url) {
+            // Find the item by url (safest unique key across DB and local JSON)
+            const item = allData.find(d => d.url === url);
             if (!item) return;
             currentItem = item;
             
