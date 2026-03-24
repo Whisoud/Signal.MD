@@ -508,12 +508,6 @@
             }
             currentItem = item;
             
-            // Reset Translation state
-            isTranslated = false;
-            const tBtn = document.getElementById('translate-btn');
-            tBtn.querySelector('i').className = 'fa-solid fa-language';
-            tBtn.classList.remove('text-accent', 'border-accent');
-
             // Populate Drawer Data
             originalTitle = item.title;
             currentItemLang = item.lang || 'zh';
