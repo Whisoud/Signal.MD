@@ -107,13 +107,6 @@
                 <!-- Vertical Divider (Desktop Only) -->
                 <div class="hidden md:block h-5 w-px bg-border-color mx-2"></div>
 
-                <!-- Mobile Nav Search Icon (Spotlight Trigger) -->
-                <div class="md:hidden">
-                    <button onclick="toggleMobileSearch()" class="text-text-secondary hover:text-white transition-colors p-2 rounded-full hover:bg-bg-secondary/50">
-                        <i class="fa-solid fa-search text-xs"></i>
-                    </button>
-                </div>
-
                 <div class="flex items-center gap-1 md:gap-4 text-xs font-mono text-text-secondary/80">
                     <div class="flex items-center gap-1 md:gap-2 px-1.5 py-0.5 md:px-3 md:py-1 bg-bg-secondary/50 rounded-full border border-border-color/50 backdrop-blur-sm whitespace-nowrap flex-shrink-0">
                         <span class="w-1 md:w-1.5 h-1 md:h-1.5 rounded-full bg-accent"></span>
@@ -128,23 +121,6 @@
         </div>
     </header>
 
-    <!-- Mobile Spotlight Search Overlay (Hidden by default) -->
-    <div id="mobile-search-overlay" class="fixed inset-x-0 top-[3.5rem] bg-bg-card/95 backdrop-blur-xl border-b border-border-color shadow-2xl z-50 transform -translate-y-full opacity-0 transition-all duration-300 pointer-events-none md:hidden p-4 flex flex-col gap-4">
-        <div class="relative w-full">
-            <i class="fa-solid fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-text-secondary/50 text-sm"></i>
-            <input type="text" id="search-input-mobile-spotlight" placeholder="Search signals..." class="bg-bg-secondary w-full border border-border-color/50 text-text-primary text-sm rounded-xl pl-10 pr-10 py-3 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all placeholder:text-text-secondary/50 shadow-inner">
-            <button onclick="toggleMobileSearch()" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-text-secondary hover:text-white p-1">
-                <i class="fa-solid fa-times text-sm"></i>
-            </button>
-        </div>
-        <div class="flex flex-wrap gap-2 justify-center pb-2">
-            <span class="text-[10px] text-text-muted w-full text-center mb-1">Quick searches</span>
-            <button onclick="applyMobileQuickSearch('AI医疗')" class="px-3 py-1.5 rounded-full border border-border-color text-xs text-text-muted hover:text-white hover:bg-bg-secondary transition-colors">AI医疗</button>
-            <button onclick="applyMobileQuickSearch('辅助诊疗')" class="px-3 py-1.5 rounded-full border border-border-color text-xs text-text-muted hover:text-white hover:bg-bg-secondary transition-colors">辅助诊疗</button>
-            <button onclick="applyMobileQuickSearch('医疗融资')" class="px-3 py-1.5 rounded-full border border-border-color text-xs text-text-muted hover:text-white hover:bg-bg-secondary transition-colors">医疗融资</button>
-        </div>
-    </div>
-
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-4 md:py-6 max-w-5xl flex-1 flex flex-col h-[calc(100vh-3.5rem)] md:h-auto">
         <!-- Dashboard Grid -->
@@ -153,11 +129,17 @@
             <!-- Left: Signal Feed -->
             <div class="bg-bg-card rounded-xl border border-border-color p-4 md:p-5 shadow-2xl h-full md:h-[800px] flex flex-col relative overflow-hidden">
                 <!-- Header -->
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 md:mb-4 z-10 bg-bg-card md:static pt-0 pb-0">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 md:mb-4 z-10 bg-bg-card md:static pt-0 pb-0 gap-3 md:gap-0">
                     <h2 class="hidden md:flex text-base md:text-lg font-bold items-center gap-2 text-text-primary tracking-wide">
                         <i class="fas fa-satellite-dish text-accent-primary animate-pulse-slow"></i> 
                         MEDAI SIGNAL FEED
                     </h2>
+
+                    <!-- Mobile Inline Search Bar (Dashboard First Approach) -->
+                    <div class="md:hidden w-full relative">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary/50 text-xs"></i>
+                        <input type="text" id="search-input-mobile-inline" placeholder="Search signals..." class="bg-bg-secondary w-full border border-border-color/50 text-text-primary text-xs rounded-full pl-8 pr-4 py-2 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all placeholder:text-text-secondary/50">
+                    </div>
                 
                 <!-- Filter Tabs -->
                         <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
@@ -748,10 +730,10 @@
             }, 500);
         });
 
-        // Search Input Debounce (Mobile Spotlight)
-        const mobileSpotlightSearch = document.getElementById('search-input-mobile-spotlight');
-        if (mobileSpotlightSearch) {
-            mobileSpotlightSearch.addEventListener('input', (e) => {
+        // Search Input Debounce (Mobile Inline)
+        const mobileInlineSearch = document.getElementById('search-input-mobile-inline');
+        if (mobileInlineSearch) {
+            mobileInlineSearch.addEventListener('input', (e) => {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
                     searchQuery = e.target.value.trim();
@@ -759,34 +741,6 @@
                     fetchData(false);
                 }, 500);
             });
-        }
-
-        // Mobile Search Toggle Logic
-        let isMobileSearchOpen = false;
-        function toggleMobileSearch() {
-            const overlay = document.getElementById('mobile-search-overlay');
-            const input = document.getElementById('search-input-mobile-spotlight');
-            
-            isMobileSearchOpen = !isMobileSearchOpen;
-            
-            if (isMobileSearchOpen) {
-                overlay.classList.remove('-translate-y-full', 'opacity-0', 'pointer-events-none');
-                overlay.classList.add('translate-y-0', 'opacity-100');
-                setTimeout(() => input.focus(), 300); // Focus after animation
-            } else {
-                overlay.classList.remove('translate-y-0', 'opacity-100');
-                overlay.classList.add('-translate-y-full', 'opacity-0', 'pointer-events-none');
-                input.blur();
-            }
-        }
-
-        // Mobile Quick Search Helper
-        function applyMobileQuickSearch(term) {
-            const input = document.getElementById('search-input-mobile-spotlight');
-            input.value = term;
-            input.dispatchEvent(new Event('input'));
-            // Optionally close the drawer after selection, or leave it open to see results
-            // toggleMobileSearch(); 
         }
 
         // Init
