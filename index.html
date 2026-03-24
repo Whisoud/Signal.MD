@@ -119,10 +119,18 @@
             border: 1px solid transparent;
         }
         
-        /* Make sure icons keep their color even when parent is inactive, unless overridden */
+        /* Ensure icons keep their tailwind text color by forcing color inheritance from their own class */
         .filter-btn:not(.active) i {
             opacity: 0.8;
+            color: inherit;
         }
+        
+        /* Explicitly set icon colors for inactive states to prevent Tailwind text-text-secondary override */
+        .filter-btn:not(.active) i.text-amber-400 { color: #fbbf24 !important; }
+        .filter-btn:not(.active) i.text-rose-400 { color: #fb7185 !important; }
+        .filter-btn:not(.active) i.text-emerald-400 { color: #34d399 !important; }
+        .filter-btn:not(.active) i.text-yellow-400 { color: #facc15 !important; }
+        .filter-btn:not(.active) i.text-blue-400 { color: #60a5fa !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
