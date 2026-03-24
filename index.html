@@ -6,6 +6,8 @@
     <title>Signal.MD | Signal, Not Noise.</title>
     <script src="static/lib/tailwindcss.js"></script>
     <link rel="stylesheet" href="static/lib/fontawesome.css">
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -97,6 +99,10 @@
             <div class="flex items-center gap-3 md:gap-6 text-sm font-medium text-text-secondary">
                 <!-- Desktop Nav -->
                 <nav class="hidden md:flex items-center gap-6 mr-6 border-r border-border-color pr-6">
+                    <div class="relative">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary/50 text-xs"></i>
+                        <input type="text" id="search-input" placeholder="Search signals..." class="bg-bg-secondary/50 border border-border-color/50 text-text-primary text-xs rounded-full pl-8 pr-4 py-1.5 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all w-48 placeholder:text-text-secondary/50">
+                    </div>
                     <a href="#" class="text-white hover:text-accent transition-colors flex items-center gap-2">
                         <i class="fa-solid fa-bolt"></i> AI 实时情报
                     </a>
@@ -173,9 +179,6 @@
                 <span id="drawer-source" class="text-[10px] md:text-xs text-text-muted"><i class="fas fa-globe mr-1"></i>Source</span>
             </div>
             <div class="flex items-center gap-2">
-                <button onclick="toggleTranslation()" id="translate-btn" class="text-[10px] md:text-xs font-mono px-2 md:px-3 py-1.5 rounded-md border border-border-color text-text-secondary hover:text-white hover:border-accent transition-all flex items-center gap-2">
-                    <i class="fa-solid fa-language"></i> <span>中英互译</span>
-                </button>
                 <button onclick="closeDrawer()" class="text-text-secondary hover:text-white transition-colors p-2">
                     <i class="fas fa-times text-base md:text-lg"></i>
                 </button>
@@ -217,90 +220,155 @@
     </div>
 
     <script>
+        // --- Supabase Configuration ---
+        const SUPABASE_URL = 'https://odqpdvlspnscyughekyr.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_0pRwAZWLEqSCwcWj1H3-gQ_Td5m5EUe';
+        
+        let supabase = null;
+        if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+
         // Data State
         let allData = [];
         let currentFilter = 'all';
+        let searchQuery = '';
+        let currentPage = 0;
+        const PAGE_SIZE = 20;
+        let hasMore = true;
+        let isLoading = false;
         
-        // Fetch Data
-        async function fetchData() {
+        // Fetch Data from Supabase
+        async function fetchData(isAppend = false) {
+            if (isLoading || (!hasMore && isAppend)) return;
+            isLoading = true;
+            
+            const container = document.getElementById('signal-container');
+            if (!isAppend) {
+                // Show loading state for initial load
+                container.innerHTML = `
+                    <div class="animate-pulse space-y-4">
+                        <div class="h-24 bg-bg-secondary rounded-lg w-full"></div>
+                        <div class="h-24 bg-bg-secondary rounded-lg w-full"></div>
+                        <div class="h-24 bg-bg-secondary rounded-lg w-full"></div>
+                    </div>
+                `;
+            }
+
             try {
-                // Determine the correct base path for GitHub Pages
+                if (!supabase) {
+                    throw new Error("Supabase is not configured. Using fallback local JSON mode.");
+                }
+
+                let query = supabase
+                    .from('signals')
+                    .select('*', { count: 'exact' });
+
+                // Apply Search
+                if (searchQuery) {
+                    query = query.or(`title.ilike.%${searchQuery}%,summary.ilike.%${searchQuery}%`);
+                }
+
+                // Apply Category Filter
+                if (currentFilter !== 'all') {
+                    if (currentFilter === 'Market') {
+                        query = query.in('category', ['Market', 'General']);
+                    } else {
+                        query = query.eq('category', currentFilter);
+                    }
+                }
+
+                // Pagination & Sorting
+                const start = currentPage * PAGE_SIZE;
+                const end = start + PAGE_SIZE - 1;
+                
+                const { data, error, count } = await query
+                    .order('time', { ascending: false })
+                    .range(start, end);
+
+                if (error) throw error;
+
+                if (isAppend) {
+                    allData = [...allData, ...data];
+                } else {
+                    allData = data;
+                }
+                
+                hasMore = data.length === PAGE_SIZE;
+
+                // --- Update Header Stats ---
+                if (!isAppend) {
+                    document.getElementById('stat-total').innerText = `${count || 0} Signals`;
+                    
+                    // Note: Calculating "Today" accurately via DB would require another query.
+                    // For MVP, we'll estimate based on current page or skip.
+                    document.getElementById('stat-new').innerText = `Live`;
+                    
+                    if (allData.length > 0) {
+                        const lastUpdateDate = new Date(allData[0].time);
+                        const timeString = lastUpdateDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                        document.getElementById('last-updated').innerText = 'UPDATED ' + timeString;
+                    }
+                }
+                
+                render(isAppend);
+            } catch (error) {
+                console.warn('Supabase fetch failed, falling back to local JSON:', error);
+                await fetchLocalFallback();
+            } finally {
+                isLoading = false;
+            }
+        }
+
+        async function fetchLocalFallback() {
+            try {
                 const basePath = window.location.pathname.includes('/Signal.MD') ? '/Signal.MD' : '';
                 const response = await fetch(`${basePath}/data/news.json?t=${new Date().getTime()}`);
                 if (!response.ok) throw new Error('Network response was not ok');
                 allData = await response.json();
                 
-                console.log("Loaded data:", allData.length, "items");
+                // Local filter/search logic
+                if (searchQuery) {
+                    const q = searchQuery.toLowerCase();
+                    allData = allData.filter(item => 
+                        (item.title && item.title.toLowerCase().includes(q)) || 
+                        (item.summary && item.summary.toLowerCase().includes(q))
+                    );
+                }
                 
-                // Sort by time (newest first)
+                if (currentFilter !== 'all') {
+                    if (currentFilter === 'Market') {
+                        allData = allData.filter(item => item.category === 'Market' || item.category === 'General');
+                    } else {
+                        allData = allData.filter(item => item.category === currentFilter);
+                    }
+                }
+                
                 allData.sort((a, b) => new Date(b.time) - new Date(a.time));
-
-                // --- Update Header Stats ---
-                // 1. Total Signals
-                document.getElementById('stat-total').innerText = `${allData.length} Signals`;
+                hasMore = false; // No pagination in fallback
                 
-                // 2. Today's New Count (Local Time)
-                const now = new Date();
-                const todayCount = allData.filter(item => {
-                    const itemDate = new Date(item.time);
-                    return itemDate.toDateString() === now.toDateString();
-                }).length;
-                
-                const statNewEl = document.getElementById('stat-new');
-                statNewEl.innerText = `+${todayCount} Today`;
-                
-                // Highlight if there are new items
-                if (todayCount > 0) {
-                    statNewEl.classList.remove('text-text-secondary');
-                    statNewEl.classList.add('text-emerald-400');
-                } else {
-                    statNewEl.classList.remove('text-emerald-400');
-                    statNewEl.classList.add('text-text-secondary');
-                }
-                
-                // 3. Last Updated Time (From Data)
-                if (allData.length > 0) {
-                    const lastUpdateDate = new Date(allData[0].time);
-                    const timeString = lastUpdateDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    document.getElementById('last-updated').innerText = 'UPDATED ' + timeString;
-                }
-                
-                render();
-            } catch (error) {
-                console.error('Error fetching data:', error);
+                document.getElementById('stat-total').innerText = `${allData.length} Signals (Local)`;
+                render(false);
+            } catch (e) {
                 document.getElementById('signal-container').innerHTML = `
                     <div class="p-4 text-center text-text-secondary text-sm border border-dashed border-border-color rounded-lg">
                         <i class="fa-solid fa-triangle-exclamation mb-2 text-accent"></i><br>
-                        Data feed unavailable. Please run python scraper.py
+                        Data feed unavailable.
                     </div>
                 `;
             }
         }
 
         // Render Signal Feed
-        function render() {
+        function render(isAppend = false) {
             const container = document.getElementById('signal-container');
             
-            // Filter
-            let filtered = allData;
-            if (currentFilter !== 'all') {
-                if (currentFilter === 'Market') {
-                    // Include 'General' in Market tab for now
-                    filtered = allData.filter(item => item.category === 'Market' || item.category === 'General');
-                } else {
-                    filtered = allData.filter(item => item.category === currentFilter);
-                }
-            }
-            
-            // Sort by time (newest first)
-            filtered.sort((a, b) => new Date(b.time) - new Date(a.time));
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="text-center text-text-secondary py-10 text-xs font-mono">NO SIGNALS FOUND (Filter: ${currentFilter})</div>`;
+            if (allData.length === 0) {
+                container.innerHTML = `<div class="text-center text-text-secondary py-10 text-xs font-mono">NO SIGNALS FOUND</div>`;
                 return;
             }
 
-            container.innerHTML = filtered.map((item, index) => {
+            const html = allData.map((item, index) => {
                 const color = getCategoryColor(item.category);
                 const timeStr = formatTime(item.time);
                 
@@ -337,7 +405,7 @@
                 }
 
                 return `
-                <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer(${index}, '${currentFilter}')">
+                <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer(${index})">
                     <div class="flex justify-between items-start mb-2 gap-4">
                         <div class="flex items-center gap-2 flex-wrap">
                             ${newBadge}
@@ -363,6 +431,36 @@
                 </div>
                 `;
             }).join('');
+            
+            if (isAppend) {
+                // Remove loading indicator if any
+                const loader = container.querySelector('.animate-pulse');
+                if (loader) loader.remove();
+                
+                container.insertAdjacentHTML('beforeend', html);
+            } else {
+                container.innerHTML = html;
+            }
+            
+            if (hasMore && !container.querySelector('#load-more-trigger')) {
+                container.insertAdjacentHTML('beforeend', `<div id="load-more-trigger" class="h-10 w-full flex items-center justify-center text-text-muted text-xs">Loading more...</div>`);
+                setupIntersectionObserver();
+            }
+        }
+        
+        function setupIntersectionObserver() {
+            const trigger = document.getElementById('load-more-trigger');
+            if (!trigger) return;
+            
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    observer.disconnect();
+                    currentPage++;
+                    fetchData(true);
+                }
+            }, { root: document.getElementById('signal-container'), rootMargin: '100px' });
+            
+            observer.observe(trigger);
         }
 
         // Variables to store original text for translation toggle
@@ -372,19 +470,8 @@
         let currentItem = null;
         
         // --- Drawer Logic ---
-        function openDrawer(index, filterState) {
-            // Re-apply filter to get the correct item from the rendered list
-            let filtered = allData;
-            if (filterState !== 'all') {
-                if (filterState === 'Market') {
-                    filtered = allData.filter(item => item.category === 'Market' || item.category === 'General');
-                } else {
-                    filtered = allData.filter(item => item.category === filterState);
-                }
-            }
-            filtered.sort((a, b) => new Date(b.time) - new Date(a.time));
-            
-            const item = filtered[index];
+        function openDrawer(index) {
+            const item = allData[index];
             if (!item) return;
             currentItem = item;
             
@@ -482,53 +569,6 @@
             }, 3000);
         }
 
-        let isTranslated = false;
-        async function toggleTranslation() {
-            if (!currentItem) return;
-            
-            const btn = document.getElementById('translate-btn');
-            const icon = btn.querySelector('i');
-            const titleEl = document.getElementById('drawer-title');
-            const contentEl = document.getElementById('drawer-full-content');
-            
-            const targetLang = currentItemLang === 'en' ? 'zh' : 'en';
-            
-            if (!isTranslated) {
-                // Determine if we have pre-translated data
-                const hasTranslation = currentItem.title_zh || currentItem.title_en;
-                
-                if (hasTranslation) {
-                    // Fast path: Use backend pre-translated data
-                    titleEl.innerHTML = targetLang === 'zh' ? (currentItem.title_zh || currentItem.title) : (currentItem.title_en || currentItem.title);
-                    
-                    let translatedContent = targetLang === 'zh' ? (currentItem.content_zh || currentItem.summary_zh || currentItem.summary) : (currentItem.content_en || currentItem.summary_en || currentItem.summary);
-                    
-                    if (!translatedContent.trim().startsWith('<')) {
-                        translatedContent = translatedContent.split('\n').map(p => `<p>${p}</p>`).join('');
-                    }
-                    contentEl.innerHTML = translatedContent;
-                    
-                    // Update UI state
-                    isTranslated = true;
-                    icon.className = 'fa-solid fa-check';
-                    btn.classList.add('text-accent', 'border-accent');
-                    btn.querySelector('span').innerText = targetLang === 'zh' ? '已译为中文' : 'Translated';
-                } else {
-                    // Data is not pre-translated yet (legacy data)
-                    showToast("当前文章暂无预翻译数据，请等待后台更新");
-                }
-            } else {
-                // Revert to original
-                titleEl.textContent = originalTitle;
-                contentEl.innerHTML = originalContent;
-                
-                isTranslated = false;
-                icon.className = 'fa-solid fa-language';
-                btn.classList.remove('text-accent', 'border-accent');
-                btn.querySelector('span').innerText = '中英互译';
-            }
-        }
-
         // Helpers
         function getCategoryColor(cat) {
             const map = {
@@ -578,8 +618,9 @@
                 e.target.classList.remove('text-text-secondary');
                 
                 // Logic
-                currentFilter = e.target.dataset.filter; // 'all', 'Tech', 'Biz', ...
-                render();
+                currentFilter = e.target.dataset.filter;
+                currentPage = 0;
+                fetchData(false);
                 
                 // Scroll back to top smoothly for the signal container
                 const signalContainer = document.getElementById('signal-container');
@@ -593,11 +634,19 @@
             }
         });
 
+        // Search Input Debounce
+        let searchTimeout;
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                searchQuery = e.target.value.trim();
+                currentPage = 0;
+                fetchData(false);
+            }, 500);
+        });
+
         // Init
-        fetchData();
-        
-        // Auto refresh every 5 min
-        setInterval(fetchData, 300000);
+        fetchData(false);
 
     </script>
 </body>

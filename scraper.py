@@ -12,6 +12,17 @@ import time
 import random
 import re
 import sys
+from supabase import create_client, Client
+
+# --- Supabase Configuration ---
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+if SUPABASE_URL and SUPABASE_KEY:
+    supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+else:
+    print("⚠️ 警告: 未检测到 SUPABASE_URL 或 SUPABASE_KEY 环境变量，将无法写入数据库。")
+    supabase = None
 
 # --- Configuration ---
 USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -1280,11 +1291,27 @@ def fetch_all_data():
     return unique_news
 
 def save_data(data):
+    # 依然保留本地备份
     os.makedirs("data", exist_ok=True)
     file_path = "data/news.json"
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
-    print(f"数据已保存至 {file_path}")
+    print(f"数据已备份至 {file_path}")
+
+    # 增量推送至 Supabase
+    if supabase:
+        print(f"🚀 正在将 {len(data)} 条数据同步至 Supabase...")
+        batch_size = 50
+        for i in range(0, len(data), batch_size):
+            batch = data[i:i+batch_size]
+            try:
+                # Upsert records based on unique 'url'
+                response = supabase.table("signals").upsert(batch, on_conflict="url").execute()
+                print(f"  -> 已成功同步批次 {i//batch_size + 1}, {len(batch)} 条数据")
+            except Exception as e:
+                print(f"❌ 同步到 Supabase 失败: {e}")
+    else:
+        print("⚠️ 未配置 Supabase 环境变量，跳过数据库同步。")
 
 if __name__ == "__main__":
     data = fetch_all_data()
