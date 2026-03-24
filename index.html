@@ -283,16 +283,20 @@
                 const end = start + PAGE_SIZE - 1;
                 
                 const { data, error, count } = await query
-                    .order('time', { ascending: false })
+                    .order('time', { ascending: false }) // Ensures absolute newest comes first
                     .range(start, end);
 
                 if (error) throw error;
 
+                // Update state
                 if (isAppend) {
                     allData = [...allData, ...data];
                 } else {
                     allData = data;
                 }
+                
+                // Force a client-side sort just in case Supabase's time field has slight timezone offset issues during query
+                allData.sort((a, b) => new Date(b.time) - new Date(a.time));
                 
                 hasMore = data.length === PAGE_SIZE;
 
