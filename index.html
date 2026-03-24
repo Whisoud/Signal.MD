@@ -284,13 +284,17 @@
                 
                 const { data, error, count } = await query
                     .order('time', { ascending: false }) // Ensures absolute newest comes first
+                    .order('id', { ascending: true }) // CRITICAL: Secondary sort for stable pagination
                     .range(start, end);
 
                 if (error) throw error;
 
-                // Update state
+                // Update state with deduplication
                 if (isAppend) {
-                    allData = [...allData, ...data];
+                    // Deduplicate by id before appending to avoid any overlapping items
+                    const existingIds = new Set(allData.map(item => item.id));
+                    const uniqueNewData = data.filter(item => !existingIds.has(item.id));
+                    allData = [...allData, ...uniqueNewData];
                 } else {
                     allData = data;
                 }
