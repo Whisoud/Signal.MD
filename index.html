@@ -663,6 +663,9 @@
                     return 'Today';
                 } else if (diffDays === 1) {
                     return 'Yesterday';
+                } else if (diffDays < 0) {
+                    // Future date (likely timezone discrepancy or bad data), just show Today
+                    return 'Today';
                 } else if (diffDays < 7) {
                     return diffDays + ' days ago';
                 } else {

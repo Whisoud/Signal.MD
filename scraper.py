@@ -1088,16 +1088,18 @@ def scrape_vbdata(existing_urls):
             t_m = re.search(r'title:"([^"]+)"', b)
             u_m = re.search(r'url:"(https:\\u002F\\u002Fwww\.vbdata\.cn\\u002F\d+)"', b)
             s_m = re.search(r'summary:"([^"]+)"', b)
+            d_m = re.search(r'publishedAt:"([^"]+)"', b) # Try to capture publishedAt
             
             if t_m and u_m:
                 title = t_m.group(1)
                 url = u_m.group(1).replace('\\u002F', '/')
                 summary = s_m.group(1) if s_m else ""
-                found.append((title, url, summary))
+                date_val = d_m.group(1) if d_m else None
+                found.append((title, url, summary, date_val))
                 
         print(f"  -> 成功从首页解析出 {len(found)} 篇文章")
         
-        for title, url, summary in found:
+        for title, url, summary, date_val in found:
             if url in existing_urls:
                 continue
                 
@@ -1109,6 +1111,16 @@ def scrape_vbdata(existing_urls):
                 continue
                 
             time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            if date_val:
+                try:
+                    # Clean up the date string if it looks like "2024-03-24T10:00:00.000Z"
+                    clean_date = date_val.split('.')[0].replace('T', ' ')
+                    # Verify it's a valid date by parsing and reformatting
+                    dt = datetime.datetime.strptime(clean_date, "%Y-%m-%d %H:%M:%S")
+                    time_str = dt.strftime("%Y-%m-%d %H:%M")
+                except Exception as e:
+                    # Fallback if parsing fails
+                    time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
             
             smart_tags = generate_tags(title, summary, "")
             final_tags = list(set(smart_tags + eval_result.get("tags", [])))
