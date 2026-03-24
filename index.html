@@ -417,7 +417,12 @@
                 if (item.time) {
                     try {
                         // Handle ISO string from Supabase (e.g., "2026-03-16T01:32:00+00:00")
-                        const date = new Date(item.time);
+                        let timeString = item.time.replace(/-/g, '/');
+                        // Fix Supabase format for Safari/iOS
+                        if (timeString.includes('+00:00')) {
+                            timeString = timeString.replace('+00:00', 'Z').replace(/\//g, '-');
+                        }
+                        const date = new Date(timeString);
                         const now = new Date();
                         
                         const year = date.getFullYear();
