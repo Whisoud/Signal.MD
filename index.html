@@ -100,20 +100,15 @@
                 <nav class="hidden md:flex items-center gap-6 mr-6 border-r border-border-color pr-6">
                     <div class="relative">
                         <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary/50 text-xs"></i>
-                        <input type="text" id="search-input" placeholder="Search signals..." class="bg-bg-secondary/50 border border-border-color/50 text-text-primary text-xs rounded-full pl-8 pr-4 py-1.5 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all w-48 placeholder:text-text-secondary/50">
+                        <input type="text" id="search-input" placeholder="Search signals..." class="bg-bg-secondary/50 border border-border-color/50 text-text-primary text-xs rounded-full pl-8 pr-4 py-1.5 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all w-48 md:w-64 placeholder:text-text-secondary/50">
                     </div>
-                    <a href="#" class="text-white hover:text-accent transition-colors flex items-center gap-2">
-                        <i class="fa-solid fa-bolt"></i> AI 实时情报
-                    </a>
-                    <a href="playground.html" class="hover:text-white transition-colors flex items-center gap-2">
-                        <i class="fa-solid fa-gamepad"></i> AI 游乐场
-                    </a>
                 </nav>
 
-                <!-- Mobile Nav Icon (Playground) -->
-                <a href="playground.html" class="md:hidden text-text-secondary hover:text-white transition-colors p-1" aria-label="Playground">
-                    <i class="fa-solid fa-gamepad text-sm"></i>
-                </a>
+                <!-- Mobile Nav Search Icon -->
+                <div class="md:hidden relative w-32 sm:w-48 mr-2">
+                    <i class="fa-solid fa-search absolute left-2 top-1/2 transform -translate-y-1/2 text-text-secondary/50 text-[10px]"></i>
+                    <input type="text" id="search-input-mobile" placeholder="Search..." class="bg-bg-secondary/50 border border-border-color/50 text-text-primary text-[10px] rounded-full pl-6 pr-2 py-1 focus:outline-none focus:border-accent/50 w-full placeholder:text-text-secondary/50">
+                </div>
 
                 <div class="flex items-center gap-2 md:gap-4 text-xs font-mono text-text-secondary/80">
                     <div class="flex items-center gap-1.5 md:gap-2 px-2 py-0.5 md:px-3 md:py-1 bg-bg-secondary/50 rounded-full border border-border-color/50 backdrop-blur-sm">
@@ -399,9 +394,9 @@
                             建议尝试使用更广泛的关键词，如：
                         </p>
                         <div class="flex flex-wrap gap-2 justify-center">
-                            <button onclick="document.getElementById('search-input').value='AI医疗'; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">AI医疗</button>
-                            <button onclick="document.getElementById('search-input').value='辅助诊疗'; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">辅助诊疗</button>
-                            <button onclick="document.getElementById('search-input').value='医疗融资'; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">医疗融资</button>
+                            <button onclick="const q='AI医疗'; document.getElementById('search-input').value=q; const ms=document.getElementById('search-input-mobile'); if(ms)ms.value=q; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">AI医疗</button>
+                            <button onclick="const q='辅助诊疗'; document.getElementById('search-input').value=q; const ms=document.getElementById('search-input-mobile'); if(ms)ms.value=q; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">辅助诊疗</button>
+                            <button onclick="const q='医疗融资'; document.getElementById('search-input').value=q; const ms=document.getElementById('search-input-mobile'); if(ms)ms.value=q; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">医疗融资</button>
                         </div>
                     </div>
                 `;
@@ -721,7 +716,7 @@
             }
         });
 
-        // Search Input Debounce
+        // Search Input Debounce (Desktop)
         let searchTimeout;
         document.getElementById('search-input').addEventListener('input', (e) => {
             clearTimeout(searchTimeout);
@@ -731,6 +726,19 @@
                 fetchData(false);
             }, 500);
         });
+
+        // Search Input Debounce (Mobile)
+        const mobileSearch = document.getElementById('search-input-mobile');
+        if (mobileSearch) {
+            mobileSearch.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    searchQuery = e.target.value.trim();
+                    currentPage = 0;
+                    fetchData(false);
+                }, 500);
+            });
+        }
 
         // Init
         fetchData(false);
