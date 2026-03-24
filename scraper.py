@@ -1166,8 +1166,18 @@ def scrape_hit180(existing_urls):
     }
     
     try:
-        res = requests.get(url, headers=headers, timeout=10)
-        res.encoding = 'utf-8'
+        # Increase timeout to 30s as the site can be slow, add a simple retry
+        for attempt in range(2):
+            try:
+                res = requests.get(url, headers=headers, timeout=30)
+                res.encoding = 'utf-8'
+                if res.status_code == 200:
+                    break
+            except Exception as e:
+                if attempt == 1:
+                    raise e
+                time.sleep(2)
+                
         if res.status_code != 200:
             return items
             
