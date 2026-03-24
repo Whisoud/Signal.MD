@@ -144,10 +144,11 @@
                 <!-- Filter Tabs -->
                         <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
                             <button class="filter-btn active px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="all">All</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Insights">💡 Insights</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Product">🚀 Product</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Clinical">🏥 Clinical</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="Market">💰 Market</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Insights"><i class="fa-solid fa-lightbulb text-amber-400"></i> Insights</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Product"><i class="fa-solid fa-rocket text-rose-400"></i> Product</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Clinical"><i class="fa-solid fa-hospital text-emerald-400"></i> Clinical</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Market"><i class="fa-solid fa-sack-dollar text-yellow-400"></i> Market</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Policy"><i class="fa-solid fa-landmark text-blue-400"></i> Policy</button>
                         </div>
                 </div>
 
@@ -649,6 +650,7 @@
                 'Product': 'text-purple-400 bg-purple-400/10 border-purple-400/20',
                 'Clinical': 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
                 'Market': 'text-orange-400 bg-orange-400/10 border-orange-400/20',
+                'Policy': 'text-blue-400 bg-blue-400/10 border-blue-400/20',
                 'General': 'text-slate-400 bg-slate-400/10 border-slate-400/20'
             };
             return map[cat] || map['General'];

@@ -70,6 +70,10 @@ RSS_SOURCES = {
     
     # 💰 Biz / Capital (Market)
     "MobiHealthNews": "https://www.mobihealthnews.com/feed",
+    
+    # 🏛️ Policy & Compliance (China)
+    "HIT专家网": "https://rsshub.rssforever.com/hit180",
+    "健康界": "https://rsshub.rssforever.com/cnhealthcare/index"
 }
 
 # --- Search Keywords Matrix (Expanded CN) ---
@@ -300,7 +304,7 @@ def calculate_med_score(title, summary, source_name=""):
     title_lower = title.lower()
     
     # --- 词库定义 ---
-    WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health", "Mayo Clinic", "NEJM"]
+    WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health", "Mayo Clinic", "NEJM", "HIT专家网", "健康界"]
     
     # 【第一关：医疗一票否决白名单】 (必须包含其中之一才允许进入打分)
     CORE_MEDICAL_WORDS = [
@@ -315,7 +319,7 @@ def calculate_med_score(title, summary, source_name=""):
         "药企", "制药", "药物研发", "新药", "靶点", "临床试验", "真实世界研究", "基因测序", "蛋白质", "分子生成", "药监局", "NMPA", "FDA",
         "pharma", "pharmaceutical", "drug discovery", "clinical trial", "genomics", "protein",
         # 医疗信息化与运营
-        "智慧医院", "HIS", "PACS", "LIS", "CDSS", "临床决策支持", "分诊", "挂号", "医保控费", "DRG", "DIP", "互联互通", "互联网医院", "院感",
+        "智慧医院", "HIS", "PACS", "LIS", "CDSS", "临床决策支持", "分诊", "挂号", "医保控费", "DRG", "DIP", "互联互通", "互联网医院", "院感", "电子病历评级", "高质量发展", "医保支付",
         "triage", "interoperability", "FHIR",
         # 医疗垂直 AI
         "数字疗法", "医疗大模型", "AI制药", "医学知识图谱", "AI问诊", "病历生成", "医疗AI",
@@ -334,6 +338,7 @@ def calculate_med_score(title, summary, source_name=""):
     STRONG_MED_PHRASES = [
         "临床决策支持", "病历生成", "辅助诊断", "数字疗法", "多学科会诊", "互联网医院", "医疗数据治理",
         "临床试验", "医保控费", "靶点发现", "电子病历", "智慧医院", "分级诊疗", "DRG/DIP", "医疗质量",
+        "电子病历评级", "互联互通", "高质量发展", "医保支付", "卫健委", "医保局", "合规", "指南", "评级",
         "clinical workflow", "medical scribe", "ambient ai", "clinical documentation", 
         "drug discovery", "care pathway", "electronic health record"
     ]
@@ -471,17 +476,18 @@ def get_dynamic_category(tags, source_name):
         if "动脉网" in source_name or "MobiHealthNews" in source_name: return "Market"
         if "KevinMD" in source_name or "Weighs In" in source_name or "NEJM" in source_name: return "Clinical"
         if "Topol" in source_name or "Penguin" in source_name or "Medium" in source_name: return "Insights"
+        if "HIT专家网" in source_name or "健康界" in source_name: return "Policy"
         return "Product"
 
     # Category precedence logic
-    if "商业融资" in tags or "商业化" in tags:
+    if "监管合规" in tags:
+        return "Policy"
+    elif "商业融资" in tags or "商业化" in tags:
         return "Market"
     elif "临床研究" in tags or "电子病历" in tags or "医院运营" in tags:
         return "Clinical"
     elif "大模型" in tags or "多模态" in tags or "医学影像" in tags or "AI工作流" in tags or "药物研发" in tags:
         return "Product"
-    elif "监管合规" in tags:
-        return "Market"
         
     return "Insights"
 
