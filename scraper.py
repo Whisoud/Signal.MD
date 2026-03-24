@@ -1130,17 +1130,32 @@ def scrape_medium_tags(existing_urls):
             
     return items
 
-def load_existing_data(filepath="data/news.json"):
-    """Load existing JSON to build a stateful memory of seen URLs"""
+def load_existing_urls(filepath="data/news.json"):
+    """Load existing URLs to build a stateful memory for deduplication. Prefer Supabase."""
+    urls = set()
+    if supabase:
+        print("📦 正在从 Supabase 获取已有数据的 URL 列表建立去重池...")
+        try:
+            # Supabase defaults to returning up to 1000 rows.
+            # For a production app with more data, we would paginate this or query specifically.
+            # For now, fetching the last 2000 URLs is sufficient for deduplication.
+            response = supabase.table("signals").select("url").order("time", desc=True).limit(3000).execute()
+            urls = {item['url'] for item in response.data if item.get('url')}
+            print(f"📦 从 Supabase 成功获取 {len(urls)} 个近期 URL。")
+            return urls
+        except Exception as e:
+            print(f"⚠️ 从 Supabase 获取 URL 失败，降级读取本地: {e}")
+            
     if os.path.exists(filepath):
         try:
             with open(filepath, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 urls = {item.get('url') for item in data if item.get('url')}
-                return data, urls
+                print(f"📦 从本地 JSON 成功获取 {len(urls)} 个已知 URL。")
+                return urls
         except Exception as e:
-            print(f"⚠️ 无法读取已存在的数据: {e}")
-    return [], set()
+            print(f"⚠️ 无法读取本地数据: {e}")
+    return urls
 
 def merge_news(existing_news, new_items):
     level_rank = {"S": 3, "A": 2, "B": 1, "C": 0}
@@ -1183,14 +1198,14 @@ def fetch_all_data():
     """主调度函数: 状态记忆增量抓取"""
     print("开始执行状态记忆增量抓取任务...")
     
-    # 1. Load existing state
-    existing_news, existing_urls = load_existing_data()
-    print(f"📦 本地已存在 {len(existing_news)} 条数据，建立去重记忆池。")
+    # 1. Load existing state for deduplication
+    existing_urls = load_existing_urls()
     
     new_items = []
 
     if MODE == "backfill":
-        urls_need_enrich = {item.get("url") for item in existing_news if item.get("url") and not (item.get("full_content") or "").strip()}
+        # Simplified backfill for Supabase era: just scrape and ignore full_content enrichment for old JSON
+        # Since we use Supabase now, backfill mostly means fetching deeper pages.
         sorted_tier2 = sorted(TIER_2_KEYWORDS)
         batch_count = max(1, BACKFILL_TIER2_BATCH_COUNT)
         batch_size = max(1, len(sorted_tier2) // batch_count)
@@ -1215,103 +1230,75 @@ def fetch_all_data():
             keywords = list(dict.fromkeys(TIER_1_KEYWORDS + ["医疗", "AI"] + tier2_slice))
             print(f"🎯 Backfill 批次 {batch_index + 1}/{batch_count} | 关键词 {len(keywords)} 个")
 
-            woshipm_data = scrape_woshipm_direct(existing_urls, keywords=keywords, urls_need_enrich=urls_need_enrich)
+            woshipm_data = scrape_woshipm_direct(existing_urls, keywords=keywords)
             new_items.extend(woshipm_data)
-
-            existing_news = merge_news(existing_news, woshipm_data)
-            existing_urls = {item.get("url") for item in existing_news if item.get("url")}
-            urls_need_enrich = {item.get("url") for item in existing_news if item.get("url") and not (item.get("full_content") or "").strip()}
-
-            all_news = existing_news
-            unique_news = []
-            seen_urls = set()
-            for item in all_news:
-                url = item.get("url", "")
-                if not url or url in seen_urls:
-                    continue
-                time_str = item.get("time", "")
-                source_name = item.get("source", "")
-                if is_article_fresh(time_str, source_name):
-                    seen_urls.add(url)
-                    unique_news.append(item)
-            unique_news.sort(key=lambda x: x.get("time", ""), reverse=True)
-            save_data(unique_news)
-            existing_news = unique_news
+            existing_urls.update(item["url"] for item in woshipm_data if item.get("url"))
     else:
     
         # 2. RSS Feeds (Passing existing URLs)
         rss_data = fetch_rss_feeds(existing_urls)
         new_items.extend(rss_data)
+        existing_urls.update(item["url"] for item in rss_data if item.get("url"))
         
         # 3. Woshipm - Direct Scrape with Multiple Keywords
         print("🚀 正在执行: 人人都是产品经理 (Multiple Keywords)...")
         woshipm_data = scrape_woshipm(existing_urls)
         new_items.extend(woshipm_data)
+        existing_urls.update(item["url"] for item in woshipm_data if item.get("url"))
         
         # 4. 36kr - Direct Search API
         print("🚀 正在执行: 36氪 (Multiple Keywords)...")
         kr_data = scrape_36kr_direct(existing_urls)
         new_items.extend(kr_data)
+        existing_urls.update(item["url"] for item in kr_data if item.get("url"))
         
-        # 5. Huxiu - Direct Search API
-
-        
-        # 6. Medium - Tag RSS
+        # 5. Medium - Tag RSS
         print("🚀 正在执行: Medium (Tag RSS)...")
         medium_data = scrape_medium_tags(existing_urls)
         new_items.extend(medium_data)
     
     print(f"✨ 本次增量抓取共获得 {len(new_items)} 条新数据。")
     
-    # Combine and Apply Eviction Policy
-    all_news = existing_news + new_items
-    print("🧹 正在执行淘汰机制 (剔除过期数据) 并进行全局去重...")
-    
-    unique_news = []
-    seen_urls = set()
-    for item in all_news:
-        url = item.get("url", "")
-        if not url or url in seen_urls:
-            continue
-            
-        # Eviction Check
-        time_str = item.get("time", "")
-        source_name = item.get("source", "")
-        if is_article_fresh(time_str, source_name):
-            seen_urls.add(url)
-            unique_news.append(item)
-            
     # Sort by time descending
-    unique_news.sort(key=lambda x: x.get("time", ""), reverse=True)
+    new_items.sort(key=lambda x: x.get("time", ""), reverse=True)
     
     # 7. Apply Translations
-    unique_news = process_translations(unique_news)
+    new_items = process_translations(new_items)
     
-    print(f"✅ 最终保留 {len(unique_news)} 条有效数据 (剔除了 {len(all_news) - len(unique_news)} 条过期/重复数据)")
-    return unique_news
+    return new_items
 
-def save_data(data):
-    # 依然保留本地备份
-    os.makedirs("data", exist_ok=True)
-    file_path = "data/news.json"
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-    print(f"数据已备份至 {file_path}")
-
-    # 增量推送至 Supabase
-    if supabase:
-        print(f"🚀 正在将 {len(data)} 条数据同步至 Supabase...")
+def save_data(new_items):
+    # 增量推送至 Supabase (Cloud Native)
+    if supabase and new_items:
+        print(f"🚀 正在将 {len(new_items)} 条增量数据同步至 Supabase...")
         batch_size = 50
-        for i in range(0, len(data), batch_size):
-            batch = data[i:i+batch_size]
+        for i in range(0, len(new_items), batch_size):
+            batch = new_items[i:i+batch_size]
             try:
                 # Upsert records based on unique 'url'
                 response = supabase.table("signals").upsert(batch, on_conflict="url").execute()
                 print(f"  -> 已成功同步批次 {i//batch_size + 1}, {len(batch)} 条数据")
             except Exception as e:
                 print(f"❌ 同步到 Supabase 失败: {e}")
-    else:
+    elif not supabase:
         print("⚠️ 未配置 Supabase 环境变量，跳过数据库同步。")
+
+    # 为了兼容降级逻辑，从 Supabase 拉取最新的 200 条数据保存为本地 fallback
+    fallback_data = new_items
+    if supabase:
+        try:
+            print("📦 正在从 Supabase 拉取最新 200 条数据生成 fallback JSON...")
+            response = supabase.table("signals").select("*").order("time", desc=True).limit(200).execute()
+            fallback_data = response.data
+        except Exception as e:
+            print(f"⚠️ 生成 fallback 数据失败: {e}")
+            
+    if fallback_data:
+        os.makedirs("data", exist_ok=True)
+        file_path = "data/news.json"
+        with open(file_path, "w", encoding="utf-8") as f:
+            json.dump(fallback_data, f, ensure_ascii=False, indent=2)
+        print(f"✅ 最新降级数据 ({len(fallback_data)} 条) 已更新至 {file_path}")
 
 if __name__ == "__main__":
     data = fetch_all_data()

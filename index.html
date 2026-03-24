@@ -4,30 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signal.MD | Signal, Not Noise.</title>
-    <script src="static/lib/tailwindcss.js"></script>
+    <link rel="stylesheet" href="static/css/tailwind.css">
     <link rel="stylesheet" href="static/lib/fontawesome.css">
     <!-- Supabase Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'bg-primary': '#0f0f10',
-                        'bg-secondary': '#1a1a1c',
-                        'accent': '#5e6ad2', // Linear Purple
-                        'text-primary': '#e1e1e3',
-                        'text-secondary': '#8a8a8e',
-                        'border-color': '#2e2e32'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
         
@@ -80,6 +60,25 @@
             color: #8a8a8e;
             font-style: italic;
             margin: 1.5em 0;
+        }
+        
+        /* Force dark mode compatibility on scraped HTML */
+        #drawer-full-content * {
+            background-color: transparent !important;
+            border-color: #2e2e32 !important;
+        }
+        #drawer-full-content table {
+            width: 100% !important;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+        }
+        #drawer-full-content th, #drawer-full-content td {
+            border: 1px solid #2e2e32 !important;
+            padding: 8px;
+            color: #b0b0b5 !important;
+        }
+        #drawer-full-content span, #drawer-full-content div, #drawer-full-content font {
+            color: inherit !important;
         }
     </style>
 </head>
@@ -385,7 +384,23 @@
             const container = document.getElementById('signal-container');
             
             if (!isAppend && itemsToRender.length === 0) {
-                container.innerHTML = `<div class="text-center text-text-secondary py-10 text-xs font-mono">NO SIGNALS FOUND</div>`;
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-20 px-4 text-center">
+                        <div class="w-16 h-16 rounded-full bg-bg-secondary/50 flex items-center justify-center mb-4 border border-border-color/30">
+                            <i class="fa-solid fa-satellite-dish text-text-secondary text-xl"></i>
+                        </div>
+                        <h3 class="text-text-primary font-medium mb-2">NO SIGNALS FOUND</h3>
+                        <p class="text-text-secondary text-xs max-w-xs mb-6">
+                            未找到与当前检索或过滤条件匹配的情报。<br>
+                            建议尝试使用更广泛的关键词，如：
+                        </p>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <button onclick="document.getElementById('search-input').value='大模型'; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">医疗大模型</button>
+                            <button onclick="document.getElementById('search-input').value='FDA'; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">FDA审批</button>
+                            <button onclick="document.getElementById('search-input').value='融资'; document.getElementById('search-input').dispatchEvent(new Event('input'))" class="px-3 py-1 rounded-full border border-border-color text-xs text-text-muted hover:text-accent-primary hover:border-accent-primary transition-colors">融资与并购</button>
+                        </div>
+                    </div>
+                `;
                 return;
             }
 
