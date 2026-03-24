@@ -305,13 +305,17 @@
                 if (!isAppend) {
                     document.getElementById('stat-total').innerText = `${count || 0} Signals`;
                     
-                    // Count today's signals accurately using local timezone matching
+                    // We need to fetch the count of today's items from the server 
+                    // because the current 'data' only contains the first PAGE_SIZE (e.g. 20) items.
                     const now = new Date();
-                    const todayCount = data.filter(item => {
-                        if (!item.time) return false;
-                        const itemDate = new Date(item.time);
-                        return itemDate.toDateString() === now.toDateString();
-                    }).length;
+                    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+                    
+                    const { count: todayTotalCount, error: countError } = await supabaseClient
+                        .from('signals')
+                        .select('*', { count: 'exact', head: true })
+                        .gte('time', startOfToday);
+                        
+                    const todayCount = todayTotalCount || 0;
                     
                     const statNewEl = document.getElementById('stat-new');
                     statNewEl.innerText = `+${todayCount} Today`;
@@ -417,8 +421,11 @@
                         const itemDate = new Date(timeString);
                         const now = new Date();
                         
-                        // 只要发布日期和今天日期是同一天，就认为是新的（和顶部 +x Today 对齐）
-                        if (itemDate.toDateString() === now.toDateString()) {
+                        // 只要发布日期和今天日期是同一天，或者是来自"未来"的修正时间，就认为是新的
+                        const diffMs = now - itemDate;
+                        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                        
+                        if (itemDate.toDateString() === now.toDateString() || diffDays < 0) {
                             isNew = true;
                         }
                     } catch(e) {
