@@ -416,16 +416,21 @@
                 let isNew = false;
                 if (item.time) {
                     try {
-                        // 统一时间格式解析，处理 "YYYY-MM-DD HH:MM" 或 "YYYY-MM-DD"
-                        let timeString = item.time.replace(/-/g, '/');
-                        const itemDate = new Date(timeString);
+                        // Handle ISO string from Supabase (e.g., "2026-03-16T01:32:00+00:00")
+                        const date = new Date(item.time);
                         const now = new Date();
                         
-                        // 只要发布日期和今天日期是同一天，或者是来自"未来"的修正时间，就认为是新的
-                        const diffMs = now - itemDate;
+                        const year = date.getFullYear();
+                        const month = date.getMonth();
+                        const day = date.getDate();
+                        
+                        const dateStart = new Date(year, month, day);
+                        const nowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                        
+                        const diffMs = nowStart - dateStart;
                         const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
                         
-                        if (itemDate.toDateString() === now.toDateString() || diffDays < 0) {
+                        if (diffDays <= 0) {
                             isNew = true;
                         }
                     } catch(e) {
