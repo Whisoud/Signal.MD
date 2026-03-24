@@ -55,15 +55,14 @@ def check_timeout():
 
 # --- Data Sources (Product-Focused MedAI) ---
 RSS_SOURCES = {
-    # 🟢 Product Cases (Industry)
+    # 🟢 Product Cases (Industry & Big Tech)
     "Google Health": "https://blog.google/technology/health/rss/",
+    "Microsoft Research Health": "https://www.microsoft.com/en-us/research/research-area/health-and-life-sciences/feed/",
+    "OpenAI News": "https://openai.com/news/rss.xml", # We will filter this heavily for health keywords
     
     # 🟠 Clinical Needs
     "The Doctor Weighs In": "https://thedoctorweighsin.com/feed/",
     "KevinMD": "https://www.kevinmd.com/feed",
-    
-    # 🔴 Regulation / Market
-    "FDA MedDevice": "https://www.fda.gov/about-fda/contact-fda/stay-informed/rss-feeds/medical-devices/rss.xml",
     
     # 🌟 Global Thought Leaders (Insights)
     "Eric Topol": "https://erictopol.substack.com/feed",
@@ -71,7 +70,7 @@ RSS_SOURCES = {
     
     # 💰 Biz / Capital (Market)
     "MobiHealthNews": "https://www.mobihealthnews.com/feed",
-    # 36kr will be handled by direct search API now
+    "动脉网 VBData": "https://rsshub.app/vbdata/report", # Using RSSHub for VBData (动脉网)
 }
 
 # --- Search Keywords Matrix (Expanded CN) ---
@@ -669,7 +668,7 @@ def fetch_rss_feeds(existing_urls):
                     category = "Market"
                     if "动脉网" in source_name or "MobiHealthNews" in source_name or "36氪" in source_name:
                         category = "Market"
-                    elif "Google" in source_name or "Microsoft" in source_name or "机器之心" in source_name:
+                    elif "Google" in source_name or "Microsoft" in source_name or "OpenAI" in source_name or "机器之心" in source_name:
                         category = "Product"
                     elif "Doctor Weighs In" in source_name or "KevinMD" in source_name or "NEJM" in source_name:
                         category = "Clinical"
@@ -1211,11 +1210,8 @@ def fetch_all_data():
         new_items.extend(woshipm_data)
         existing_urls.update(item["url"] for item in woshipm_data if item.get("url"))
         
-        # 4. 36kr - Direct Search API
-        print("🚀 正在执行: 36氪 (Multiple Keywords)...")
-        kr_data = scrape_36kr_direct(existing_urls)
-        new_items.extend(kr_data)
-        existing_urls.update(item["url"] for item in kr_data if item.get("url"))
+        # 4. 动脉网 VBData - RSS (Replaced 36kr)
+        # Note: Added VBData to RSS_SOURCES, so it's handled in fetch_rss_feeds
         
         # 5. Medium - Tag RSS
         print("🚀 正在执行: Medium (Tag RSS)...")
