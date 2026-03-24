@@ -80,6 +80,48 @@
         #drawer-full-content span, #drawer-full-content div, #drawer-full-content font {
             color: inherit !important;
         }
+
+        /* Filter Button Active States with Colors */
+        .filter-btn.active[data-filter="all"] {
+            background-color: rgba(94, 106, 210, 0.2);
+            color: white;
+            border-color: rgba(94, 106, 210, 0.5);
+        }
+        .filter-btn.active[data-filter="Insights"] {
+            background-color: rgba(251, 191, 36, 0.15); /* amber-400 */
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+        .filter-btn.active[data-filter="Product"] {
+            background-color: rgba(251, 113, 133, 0.15); /* rose-400 */
+            color: #fb7185;
+            border-color: rgba(251, 113, 133, 0.3);
+        }
+        .filter-btn.active[data-filter="Clinical"] {
+            background-color: rgba(52, 211, 153, 0.15); /* emerald-400 */
+            color: #34d399;
+            border-color: rgba(52, 211, 153, 0.3);
+        }
+        .filter-btn.active[data-filter="Market"] {
+            background-color: rgba(250, 204, 21, 0.15); /* yellow-400 */
+            color: #facc15;
+            border-color: rgba(250, 204, 21, 0.3);
+        }
+        .filter-btn.active[data-filter="Policy"] {
+            background-color: rgba(96, 165, 250, 0.15); /* blue-400 */
+            color: #60a5fa;
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+        /* Base styles for inactive tabs */
+        .filter-btn {
+            border: 1px solid transparent;
+        }
+        
+        /* Make sure icons keep their color even when parent is inactive, unless overridden */
+        .filter-btn:not(.active) i {
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -144,11 +186,11 @@
                 <!-- Filter Tabs -->
                         <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
                             <button class="filter-btn active px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="all">All</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Insights"><i class="fa-solid fa-lightbulb text-amber-400"></i> Insights</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Product"><i class="fa-solid fa-rocket text-rose-400"></i> Product</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Clinical"><i class="fa-solid fa-hospital text-emerald-400"></i> Clinical</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Market"><i class="fa-solid fa-sack-dollar text-yellow-400"></i> Market</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Policy"><i class="fa-solid fa-landmark text-blue-400"></i> Policy</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Insights"><i class="fa-solid fa-lightbulb text-amber-400 pointer-events-none"></i> Insights</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Product"><i class="fa-solid fa-rocket text-rose-400 pointer-events-none"></i> Product</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Clinical"><i class="fa-solid fa-hospital text-emerald-400 pointer-events-none"></i> Clinical</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Market"><i class="fa-solid fa-sack-dollar text-yellow-400 pointer-events-none"></i> Market</button>
+                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Policy"><i class="fa-solid fa-landmark text-blue-400 pointer-events-none"></i> Policy</button>
                         </div>
                 </div>
 
