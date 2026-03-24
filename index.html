@@ -300,9 +300,24 @@
                 if (!isAppend) {
                     document.getElementById('stat-total').innerText = `${count || 0} Signals`;
                     
-                    // Note: Calculating "Today" accurately via DB would require another query.
-                    // For MVP, we'll estimate based on current page or skip.
-                    document.getElementById('stat-new').innerText = `Live`;
+                    // Count today's signals accurately using local timezone matching
+                    const now = new Date();
+                    const todayCount = data.filter(item => {
+                        if (!item.time) return false;
+                        const itemDate = new Date(item.time);
+                        return itemDate.toDateString() === now.toDateString();
+                    }).length;
+                    
+                    const statNewEl = document.getElementById('stat-new');
+                    statNewEl.innerText = `+${todayCount} Today`;
+                    
+                    if (todayCount > 0) {
+                        statNewEl.classList.remove('text-text-secondary');
+                        statNewEl.classList.add('text-emerald-400');
+                    } else {
+                        statNewEl.classList.remove('text-emerald-400');
+                        statNewEl.classList.add('text-text-secondary');
+                    }
                     
                     if (allData.length > 0) {
                         const lastUpdateDate = new Date(allData[0].time);
@@ -405,7 +420,7 @@
                 }
 
                 return `
-                <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer(${index})">
+                <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" onclick="openDrawer('${item.id}')">
                     <div class="flex justify-between items-start mb-2 gap-4">
                         <div class="flex items-center gap-2 flex-wrap">
                             ${newBadge}
@@ -437,24 +452,32 @@
                 const loader = container.querySelector('.animate-pulse');
                 if (loader) loader.remove();
                 
+                // Remove the old load-more trigger before appending new content
+                const oldTrigger = container.querySelector('#load-more-trigger');
+                if (oldTrigger) oldTrigger.remove();
+                
                 container.insertAdjacentHTML('beforeend', html);
             } else {
                 container.innerHTML = html;
             }
             
-            if (hasMore && !container.querySelector('#load-more-trigger')) {
+            if (hasMore) {
                 container.insertAdjacentHTML('beforeend', `<div id="load-more-trigger" class="h-10 w-full flex items-center justify-center text-text-muted text-xs">Loading more...</div>`);
                 setupIntersectionObserver();
             }
         }
         
+        let observer = null;
         function setupIntersectionObserver() {
             const trigger = document.getElementById('load-more-trigger');
             if (!trigger) return;
             
-            const observer = new IntersectionObserver((entries) => {
+            if (observer) {
+                observer.disconnect();
+            }
+            
+            observer = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
-                    observer.disconnect();
                     currentPage++;
                     fetchData(true);
                 }
@@ -470,8 +493,9 @@
         let currentItem = null;
         
         // --- Drawer Logic ---
-        function openDrawer(index) {
-            const item = allData[index];
+        function openDrawer(id) {
+            // Find the item by id (since we use pagination, index is not reliable)
+            const item = allData.find(d => d.id === id);
             if (!item) return;
             currentItem = item;
             
@@ -586,11 +610,20 @@
             if (!timeStr) return '';
             
             try {
-                // Parse "YYYY-MM-DD" or "YYYY-MM-DD HH:MM"
-                const datePart = timeStr.split(' ')[0];
-                const date = new Date(datePart);
+                // Handle ISO string from Supabase (e.g., "2026-03-16T01:32:00+00:00")
+                const date = new Date(timeStr);
                 const now = new Date();
-                const diffMs = now - date;
+                
+                // Get local YYYY-MM-DD
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const datePart = `${year}-${month}-${day}`;
+                
+                // Calculate difference in days (using start of day to avoid time-of-day edge cases)
+                const dateStart = new Date(year, date.getMonth(), date.getDate());
+                const nowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                const diffMs = nowStart - dateStart;
                 const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
                 
                 if (diffDays === 0) {
@@ -600,10 +633,10 @@
                 } else if (diffDays < 7) {
                     return diffDays + ' days ago';
                 } else {
-                    return datePart; // "2026-01-19"
+                    return datePart;
                 }
             } catch (e) {
-                return timeStr;
+                return timeStr.split('T')[0] || timeStr;
             }
         }
 
