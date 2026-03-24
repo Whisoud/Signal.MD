@@ -1000,7 +1000,9 @@ def scrape_medium_tags(existing_urls):
     
     # We use RSS for tags to get pure chronologically sorted feeds. 
     # Medium search API is protected, so this is the best alternative.
-    tags = [kw.replace(" ", "-").lower() for kw in SEARCH_KEYWORDS_EN]
+    # Fallback to English keywords mapping for tags
+    fallback_tags = ["medical-ai", "healthcare-llm", "clinical-ai", "digital-health"]
+    tags = fallback_tags
     
     for tag in tags:
         print(f"  -> Tag: {tag}")
