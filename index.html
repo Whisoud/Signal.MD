@@ -282,7 +282,7 @@
                 
                 const { data, error, count } = await query
                     .order('time', { ascending: false }) // Ensures absolute newest comes first
-                    .order('id', { ascending: true }) // CRITICAL: Secondary sort for stable pagination
+                    .order('id', { ascending: false }) // CRITICAL: Secondary sort for stable pagination, also descending so newer scraped items of the same time appear first
                     .range(start, end);
 
                 if (error) throw error;
