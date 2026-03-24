@@ -530,31 +530,29 @@ def calculate_med_score(title, summary, source_name=""):
         }
     }
 
-def is_article_fresh(time_str, source_name):
+def get_dynamic_category(tags, source_name):
     """
-    分层时间窗口策略 (Hybrid Time Window)
-    - 资讯/商业 (Market): 近 90 天
-    - 论文/前沿 (Insights/Clinical): 近 180 天
-    - 深度/产品 (Product): 近 365 天
+    基于标签的动态分类路由 (Dynamic Category Mapping)
+    优先级: Tags > Source Default
     """
-    try:
-        # Extract just the date part YYYY-MM-DD
-        date_part = time_str.split(" ")[0]
-        dt = datetime.datetime.strptime(date_part, "%Y-%m-%d")
-        now = datetime.datetime.now()
-        days_diff = (now - dt).days
+    if not tags:
+        # Fallback defaults based on source
+        if "动脉网" in source_name or "MobiHealthNews" in source_name: return "Market"
+        if "KevinMD" in source_name or "Weighs In" in source_name or "NEJM" in source_name: return "Clinical"
+        if "Topol" in source_name or "Penguin" in source_name or "Medium" in source_name: return "Insights"
+        return "Product"
+
+    # Category precedence logic
+    if "商业融资" in tags or "商业模式" in tags:
+        return "Market"
+    elif "临床流程" in tags or "电子病历" in tags or "医院运营" in tags:
+        return "Clinical"
+    elif "大模型" in tags or "医学影像" in tags or "AI工作流" in tags or "药物研发" in tags:
+        return "Product"
+    elif "监管合规" in tags:
+        return "Market"
         
-        if "36氪" in source_name or "MobiHealthNews" in source_name or "动脉网" in source_name or "FDA" in source_name or "虎嗅" in source_name:
-            return days_diff <= 90
-        elif "Eric Topol" in source_name or "Doctor Penguin" in source_name or "KevinMD" in source_name or "Weighs In" in source_name:
-            return days_diff <= 180
-        elif "Medium" in source_name:
-            return days_diff <= 365
-        else: # Woshipm, Google, etc.
-            return days_diff <= 365
-    except Exception as e:
-        # If parsing fails, keep it to be safe
-        return True
+    return "Insights"
 
 def extract_full_text(url):
     """提取任意网页的正文内容 (Readability)"""
@@ -678,26 +676,12 @@ def fetch_rss_feeds(existing_urls):
                     if hasattr(entry, "published_parsed") and entry.published_parsed:
                         time_str = datetime.datetime(*entry.published_parsed[:6]).strftime("%Y-%m-%d %H:%M")
                     
-                    # Apply Hybrid Time Window Filtering
-                    if not is_article_fresh(time_str, source_name):
-                        continue
-                    
-                    # Category Mapping
-                    category = "Market"
-                    if "动脉网" in source_name or "MobiHealthNews" in source_name or "36氪" in source_name:
-                        category = "Market"
-                    elif "Google" in source_name or "Microsoft" in source_name or "OpenAI" in source_name or "机器之心" in source_name:
-                        category = "Product"
-                    elif "Doctor Weighs In" in source_name or "KevinMD" in source_name or "NEJM" in source_name:
-                        category = "Clinical"
-                    elif "Eric Topol" in source_name or "Doctor Penguin" in source_name:
-                        category = "Insights"
-                    elif "FDA" in source_name:
-                        category = "Market"
-                        
                     # Auto-Tagging
-                    smart_tags = generate_tags(title, summary, category)
+                    smart_tags = generate_tags(title, summary, "")
                     final_tags = list(set(smart_tags + eval_result.get("tags", [])))
+                    
+                    # Dynamic Category Mapping
+                    category = get_dynamic_category(final_tags, source_name)
                         
                     # Check if full content is already in RSS
                     full_html = ""
@@ -862,20 +846,17 @@ def scrape_woshipm_direct(existing_urls, keywords=None, urls_need_enrich=None):
                         if not time_str:
                              time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
-                        # --- Apply Hybrid Time Window Filtering ---
-                        if not is_article_fresh(time_str, "人人都是产品经理"):
-                            if MODE == "backfill":
-                                page_old_count += 1
-                            continue
-
-                        smart_tags = generate_tags(title, summary, "Product")
+                        smart_tags = generate_tags(title, summary, "")
                         final_tags = list(set(smart_tags + eval_result.get("tags", [])))
+                        
+                        category = get_dynamic_category(final_tags, "人人都是产品经理")
+                        
                         full_html = extract_full_text(article_url)
 
                         items.append({
                             "title": title,
                             "source": f"人人都是产品经理",
-                            "category": "Product",
+                            "category": category,
                             "level": eval_result["level"],
                             "tags": final_tags,
                             "time": time_str,
@@ -1051,7 +1032,9 @@ def scrape_woshipm(existing_urls):
             summary_raw = entry.summary if hasattr(entry, 'summary') else ""
             summary = re.sub(r'<[^>]+>', '', summary_raw)
             
-            smart_tags = generate_tags(entry.title, summary, "Product")
+            smart_tags = generate_tags(entry.title, summary, "")
+            final_tags = list(set(smart_tags))
+            category = get_dynamic_category(final_tags, "人人都是产品经理")
             
             full_html = ""
             if hasattr(entry, "content") and len(entry.content) > 0:
@@ -1062,8 +1045,8 @@ def scrape_woshipm(existing_urls):
             items.append({
                 "title": entry.title,
                 "source": "人人都是产品经理",
-                "category": "Product",
-                "tags": smart_tags,
+                "category": category,
+                "tags": final_tags,
                 "time": published_time,
                 "url": entry.link,
                 "summary": summary[:200] + "...",
@@ -1114,11 +1097,9 @@ def scrape_medium_tags(existing_urls):
                 if hasattr(entry, "published_parsed") and entry.published_parsed:
                     time_str = datetime.datetime(*entry.published_parsed[:6]).strftime("%Y-%m-%d %H:%M")
                     
-                if not is_article_fresh(time_str, "Medium"):
-                    continue
-                    
-                smart_tags = generate_tags(title, summary_clean, "Insights")
+                smart_tags = generate_tags(title, summary_clean, "")
                 final_tags = list(set(smart_tags + eval_result.get("tags", [])))
+                category = get_dynamic_category(final_tags, "Medium")
                 
                 # Medium full content is usually in content:encoded, but it might be truncated for paywall
                 full_html = ""
