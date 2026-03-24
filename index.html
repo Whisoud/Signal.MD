@@ -97,12 +97,15 @@
             
             <div class="flex items-center gap-3 md:gap-6 text-sm font-medium text-text-secondary">
                 <!-- Desktop Nav -->
-                <nav class="hidden md:flex items-center gap-6 mr-6 border-r border-border-color pr-6">
+                <nav class="hidden md:flex items-center gap-6">
                     <div class="relative">
                         <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary/50 text-xs"></i>
                         <input type="text" id="search-input" placeholder="Search signals..." class="bg-bg-secondary/50 border border-border-color/50 text-text-primary text-xs rounded-full pl-8 pr-4 py-1.5 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all w-48 md:w-64 placeholder:text-text-secondary/50">
                     </div>
                 </nav>
+
+                <!-- Vertical Divider (Desktop Only) -->
+                <div class="hidden md:block h-5 w-px bg-border-color mx-2"></div>
 
                 <!-- Mobile Nav Search Icon -->
                 <div class="md:hidden relative w-32 sm:w-48 mr-2">
