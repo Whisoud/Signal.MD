@@ -70,7 +70,6 @@ RSS_SOURCES = {
     
     # 💰 Biz / Capital (Market)
     "MobiHealthNews": "https://www.mobihealthnews.com/feed",
-    "动脉网 VBData": "https://rsshub.app/vbdata/report", # Using RSSHub for VBData (动脉网)
 }
 
 # --- Search Keywords Matrix (Expanded CN) ---
@@ -301,23 +300,24 @@ SEARCH_KEYWORDS_EN = [
 # --- Auto-Tagging Dictionary (Expanded with Weights) ---
 AUTO_TAGS_DICT = {
     # 核心技术标签 (权重高)
-    "大模型": {"keywords": ["LLM", "GPT", "大模型", "Generative AI", "生成式", "Foundation Model", "ChatGPT"], "weight": 10},
+    "大模型": {"keywords": ["LLM", "GPT", "大模型", "Generative AI", "生成式", "Foundation Model", "ChatGPT", "o1", "VLM", "OpenAI"], "weight": 10},
     "医学影像": {"keywords": ["影像", "CV", "CT", "MRI", "Radiology", "X-ray", "Ultrasound", "超声", "计算机视觉"], "weight": 9},
-    "药物研发": {"keywords": ["Drug Discovery", "AlphaFold", "靶点", "制药", "Pharma", "蛋白质", "分子生成"], "weight": 9},
+    "药物研发": {"keywords": ["Drug Discovery", "AlphaFold", "靶点", "制药", "Pharma", "蛋白质", "分子生成", "新药"], "weight": 9},
     "数字疗法": {"keywords": ["DTx", "数字疗法", "慢病管理", "Digital Therapeutics", "Chronic Care"], "weight": 8},
+    "多模态": {"keywords": ["多模态", "Multimodal", "Vision-Language", "Med-Gemini", "Llava"], "weight": 8},
     
     # 应用场景标签 (权重中等)
-    "AI工作流": {"keywords": ["Copilot", "Workflow", "Automation", "Scribe", "病历生成", "辅助诊断"], "weight": 7},
-    "临床流程": {"keywords": ["分诊", "问诊", "诊断", "随访", "复诊", "手术", "院感"], "weight": 6},
+    "AI工作流": {"keywords": ["Copilot", "Workflow", "Automation", "Scribe", "病历生成", "辅助诊断", "Agent", "智能体"], "weight": 7},
+    "临床研究": {"keywords": ["临床试验", "Clinical Trial", "真实世界", "RWE", "研究报告", "队列研究", "Nature", "NEJM"], "weight": 6},
     "医院运营": {"keywords": ["DRG", "DIP", "医保", "控费", "绩效", "运营分析", "HIS", "智慧医院"], "weight": 6},
     "数据治理": {"keywords": ["FHIR", "数据标准", "互联互通", "数据中台", "脱敏"], "weight": 5},
     "电子病历": {"keywords": ["EMR", "EHR", "病历", "Documentation", "Clinical Note"], "weight": 5},
-    "可穿戴/IoT": {"keywords": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch"], "weight": 4},
+    "可穿戴/IoT": {"keywords": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch", "可穿戴"], "weight": 4},
     
     # 商业与宏观标签 (权重较低，作为补充)
-    "商业融资": {"keywords": ["融资", "Funding", "Startup", "IPO", "资本", "Acquisition", "Series A", "Series B", "投资"], "weight": 3},
-    "监管合规": {"keywords": ["FDA", "NMPA", "CE", "审批", "合规", "监管", "指南"], "weight": 3},
-    "商业模式": {"keywords": ["SaaS", "订阅", "按次收费", "解决方案", "出海", "商业化"], "weight": 2}
+    "商业融资": {"keywords": ["融资", "Funding", "Startup", "IPO", "资本", "Acquisition", "Series A", "Series B", "投资", "并购"], "weight": 3},
+    "监管合规": {"keywords": ["FDA", "NMPA", "CE", "审批", "合规", "监管", "指南", "获批", "三类证"], "weight": 3},
+    "商业化": {"keywords": ["SaaS", "订阅", "按次收费", "解决方案", "出海", "商业化", "落地", "营收"], "weight": 2}
 }
 
 # --- Translation Helpers ---
@@ -543,11 +543,11 @@ def get_dynamic_category(tags, source_name):
         return "Product"
 
     # Category precedence logic
-    if "商业融资" in tags or "商业模式" in tags:
+    if "商业融资" in tags or "商业化" in tags:
         return "Market"
-    elif "临床流程" in tags or "电子病历" in tags or "医院运营" in tags:
+    elif "临床研究" in tags or "电子病历" in tags or "医院运营" in tags:
         return "Clinical"
-    elif "大模型" in tags or "医学影像" in tags or "AI工作流" in tags or "药物研发" in tags:
+    elif "大模型" in tags or "多模态" in tags or "医学影像" in tags or "AI工作流" in tags or "药物研发" in tags:
         return "Product"
     elif "监管合规" in tags:
         return "Market"
@@ -1128,6 +1128,86 @@ def scrape_medium_tags(existing_urls):
             
     return items
 
+def scrape_vbdata(existing_urls):
+    """
+    定制化爬取动脉网 (vcbeat.top)
+    通过解析 Nuxt.js 的初始状态提取数据，绕过复杂的 API 鉴权。
+    """
+    items = []
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    }
+    
+    try:
+        res = requests.get("https://vcbeat.top/", headers=headers, timeout=10)
+        if res.status_code != 200:
+            print(f"❌ 动脉网访问失败: {res.status_code}")
+            return items
+            
+        match = re.search(r'window\.__NUXT__=(.*?);</script>', res.text)
+        if not match:
+            print("❌ 无法解析动脉网的 Nuxt 状态数据")
+            return items
+            
+        nuxt_js = match.group(1)
+        
+        # 简单粗暴但高效的区块分割解析法
+        blocks = nuxt_js.split("{")
+        found = []
+        for b in blocks:
+            t_m = re.search(r'title:"([^"]+)"', b)
+            u_m = re.search(r'url:"(https:\\u002F\\u002Fwww\.vbdata\.cn\\u002F\d+)"', b)
+            s_m = re.search(r'summary:"([^"]+)"', b)
+            
+            if t_m and u_m:
+                title = t_m.group(1)
+                url = u_m.group(1).replace('\\u002F', '/')
+                summary = s_m.group(1) if s_m else ""
+                found.append((title, url, summary))
+                
+        print(f"  -> 成功从首页解析出 {len(found)} 篇文章")
+        
+        for title, url, summary in found:
+            if url in existing_urls:
+                continue
+                
+            # 动脉网的数据本身就是极高纯度的医疗数据，所以只要稍微有点相关性就保留
+            eval_result = calculate_med_score(title, summary, "动脉网")
+            
+            # 因为动脉网全是医疗，我们可以放宽对它的容忍度。只要不是负分即可。
+            if eval_result["score"] < 5:
+                continue
+                
+            time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            
+            smart_tags = generate_tags(title, summary, "")
+            final_tags = list(set(smart_tags + eval_result.get("tags", [])))
+            category = get_dynamic_category(final_tags, "动脉网")
+            
+            # 动脉网的正文在另一套复杂的接口里，而且可能有付费墙。我们暂时只取高质量摘要。
+            # 这对于 Market/融资 类新闻通常已经足够了。
+            full_html = extract_full_text(url)
+            if not full_html or len(full_html) < 100:
+                full_html = f"<div class='vbdata-summary'><p><strong>摘要：</strong>{summary}</p><br><p><em>详情请访问动脉网原文。</em></p></div>"
+                
+            items.append({
+                "title": title,
+                "source": "动脉网",
+                "category": category,
+                "level": eval_result["level"],
+                "tags": final_tags,
+                "time": time_str,
+                "url": url,
+                "summary": summary[:200] + "..." if summary else "",
+                "full_content": full_html,
+                "lang": "zh"
+            })
+            
+    except Exception as e:
+        print(f"❌ 动脉网抓取异常: {e}")
+        
+    return items
+
 def load_existing_urls(filepath="data/news.json"):
     """Load existing URLs to build a stateful memory for deduplication. Prefer Supabase."""
     urls = set()
@@ -1209,8 +1289,11 @@ def fetch_all_data():
         new_items.extend(woshipm_data)
         existing_urls.update(item["url"] for item in woshipm_data if item.get("url"))
         
-        # 4. 动脉网 VBData - RSS (Replaced 36kr)
-        # Note: Added VBData to RSS_SOURCES, so it's handled in fetch_rss_feeds
+        # 4. 动脉网 VBData - Custom HTML Scraper
+        print("🚀 正在执行: 动脉网 VBData (Custom Scraper)...")
+        vbdata_items = scrape_vbdata(existing_urls)
+        new_items.extend(vbdata_items)
+        existing_urls.update(item["url"] for item in vbdata_items if item.get("url"))
         
         # 5. Medium - Tag RSS
         print("🚀 正在执行: Medium (Tag RSS)...")
