@@ -237,17 +237,18 @@ AUTO_TAGS_DICT = {
     "多模态": {"keywords": ["多模态", "Multimodal", "Vision-Language", "Med-Gemini", "Llava"], "weight": 8},
     
     # 应用场景标签 (权重中等)
-    "AI工作流": {"keywords": ["Copilot", "Workflow", "Automation", "Scribe", "病历生成", "辅助诊断", "Agent", "智能体"], "weight": 7},
-    "临床研究": {"keywords": ["临床试验", "Clinical Trial", "真实世界", "RWE", "研究报告", "队列研究", "Nature", "NEJM"], "weight": 6},
-    "医院运营": {"keywords": ["DRG", "DIP", "医保", "控费", "绩效", "运营分析", "HIS", "智慧医院"], "weight": 6},
-    "数据治理": {"keywords": ["FHIR", "数据标准", "互联互通", "数据中台", "脱敏"], "weight": 5},
+    "AI工作流": {"keywords": ["Copilot", "Workflow", "Automation", "Scribe", "病历生成", "辅助诊断", "Agent", "智能体", "效率"], "weight": 7},
+    "临床研究": {"keywords": ["临床试验", "Clinical Trial", "真实世界", "RWE", "研究报告", "队列研究", "Nature", "NEJM", "科研"], "weight": 6},
+    "医院运营": {"keywords": ["DRG", "DIP", "医保", "控费", "绩效", "运营分析", "HIS", "智慧医院", "挂号", "分诊", "急诊"], "weight": 6},
+    "数据治理": {"keywords": ["FHIR", "数据标准", "互联互通", "数据中台", "脱敏", "隐私"], "weight": 5},
     "电子病历": {"keywords": ["EMR", "EHR", "病历", "Documentation", "Clinical Note"], "weight": 5},
-    "可穿戴/IoT": {"keywords": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch", "可穿戴"], "weight": 4},
+    "患者管理": {"keywords": ["随访", "复诊", "慢病", "健康管理", "患者教育", "康复"], "weight": 5},
+    "可穿戴/IoT": {"keywords": ["Wearable", "手环", "传感器", "Sensor", "Apple Watch", "可穿戴", "硬件", "设备", "机器人"], "weight": 4},
     
     # 商业与宏观标签 (权重较低，作为补充)
     "商业融资": {"keywords": ["融资", "Funding", "Startup", "IPO", "资本", "Acquisition", "Series A", "Series B", "投资", "并购"], "weight": 3},
-    "监管合规": {"keywords": ["FDA", "NMPA", "CE", "审批", "合规", "监管", "指南", "获批", "三类证"], "weight": 3},
-    "商业化": {"keywords": ["SaaS", "订阅", "按次收费", "解决方案", "出海", "商业化", "落地", "营收"], "weight": 2}
+    "监管合规": {"keywords": ["FDA", "NMPA", "CE", "审批", "合规", "监管", "指南", "获批", "三类证", "政策"], "weight": 3},
+    "商业化": {"keywords": ["SaaS", "订阅", "按次收费", "解决方案", "出海", "商业化", "落地", "营收", "互联网医疗", "消费医疗"], "weight": 2}
 }
 
 # --- Translation Helpers ---
