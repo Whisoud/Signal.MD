@@ -69,11 +69,7 @@ RSS_SOURCES = {
     "Doctor Penguin": "https://doctorpenguin.substack.com/feed",
     
     # 💰 Biz / Capital (Market)
-    "MobiHealthNews": "https://www.mobihealthnews.com/feed",
-    
-    # 🏛️ Policy & Compliance (China)
-    "HIT专家网": "https://rsshub.rssforever.com/hit180",
-    "健康界": "https://rsshub.rssforever.com/cnhealthcare/index"
+    "MobiHealthNews": "https://www.mobihealthnews.com/feed"
 }
 
 # --- Search Keywords Matrix (Expanded CN) ---
@@ -1159,6 +1155,144 @@ def scrape_vbdata(existing_urls):
         
     return items
 
+def scrape_hit180(existing_urls):
+    """直接爬取 HIT专家网 首页文章"""
+    print("正在抓取 HIT专家网 (Direct HTML)...")
+    items = []
+    seen_urls = set(existing_urls)
+    url = "https://www.hit180.com/"
+    headers = {
+        "User-Agent": USER_AGENT
+    }
+    
+    try:
+        res = requests.get(url, headers=headers, timeout=10)
+        res.encoding = 'utf-8'
+        if res.status_code != 200:
+            return items
+            
+        soup = BeautifulSoup(res.text, 'html.parser')
+        # 找到所有文章区块
+        articles = soup.find_all('article')
+        
+        for article in articles:
+            title_tag = article.find('h2', class_='entry-title')
+            if not title_tag or not title_tag.a: continue
+            
+            title = title_tag.get_text(strip=True)
+            link = title_tag.a.get('href')
+            
+            if link in seen_urls: continue
+            seen_urls.add(link)
+            
+            # 获取摘要
+            summary_tag = article.find('div', class_='entry-content')
+            summary = summary_tag.get_text(strip=True) if summary_tag else ""
+            
+            # 获取时间
+            time_tag = article.find('time', class_='entry-date')
+            time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            if time_tag and time_tag.get('datetime'):
+                try:
+                    # e.g., "2024-03-24T08:00:00+08:00"
+                    dt_str = time_tag.get('datetime').split('+')[0].replace('T', ' ')
+                    dt = datetime.datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
+                    time_str = dt.strftime("%Y-%m-%d %H:%M")
+                except: pass
+                
+            eval_result = calculate_med_score(title, summary, "HIT专家网")
+            if eval_result["score"] < 5: continue # 政策网要求稍微宽点
+                
+            smart_tags = generate_tags(title, summary, "Policy")
+            final_tags = list(set(smart_tags + eval_result.get("tags", [])))
+            
+            items.append({
+                "title": title,
+                "source": "HIT专家网",
+                "category": "Policy",
+                "level": eval_result["level"],
+                "tags": final_tags,
+                "time": time_str,
+                "url": link,
+                "summary": summary[:200] + "..." if summary else "",
+                "full_content": extract_full_text(link),
+                "lang": "zh"
+            })
+    except Exception as e:
+        print(f"❌ HIT专家网 抓取失败: {e}")
+    return items
+
+def scrape_cnhealthcare(existing_urls):
+    """直接爬取 健康界 政策/产业频道"""
+    print("正在抓取 健康界 (Direct HTML)...")
+    items = []
+    seen_urls = set(existing_urls)
+    # 健康界资讯首页
+    url = "https://www.cnhealthcare.com/news/"
+    headers = {
+        "User-Agent": USER_AGENT
+    }
+    
+    try:
+        res = requests.get(url, headers=headers, timeout=10)
+        res.encoding = 'utf-8'
+        if res.status_code != 200:
+            return items
+            
+        soup = BeautifulSoup(res.text, 'html.parser')
+        # 健康界的新闻列表块
+        news_list = soup.find_all('li', class_='clear')
+        
+        for li in news_list:
+            title_tag = li.find('a', class_='tit')
+            if not title_tag: continue
+            
+            title = title_tag.get_text(strip=True)
+            link = title_tag.get('href')
+            if link and link.startswith('/'):
+                link = "https://www.cnhealthcare.com" + link
+                
+            if not link or link in seen_urls: continue
+            seen_urls.add(link)
+            
+            summary_tag = li.find('p', class_='txt')
+            summary = summary_tag.get_text(strip=True) if summary_tag else ""
+            
+            # 时间获取
+            time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
+            date_tag = li.find('span', class_='date')
+            if date_tag:
+                d_text = date_tag.get_text(strip=True)
+                if "-" in d_text and len(d_text.split("-")) == 3:
+                    time_str = f"{d_text} 09:00"
+                elif "小时前" in d_text:
+                    try:
+                        h = int(re.search(r"(\d+)", d_text).group(1))
+                        time_str = (datetime.datetime.now() - datetime.timedelta(hours=h)).strftime("%Y-%m-%d %H:%M")
+                    except: pass
+                    
+            eval_result = calculate_med_score(title, summary, "健康界")
+            if eval_result["score"] < 5: continue
+                
+            smart_tags = generate_tags(title, summary, "Policy")
+            final_tags = list(set(smart_tags + eval_result.get("tags", [])))
+            
+            items.append({
+                "title": title,
+                "source": "健康界",
+                "category": "Policy",
+                "level": eval_result["level"],
+                "tags": final_tags,
+                "time": time_str,
+                "url": link,
+                "summary": summary[:200] + "..." if summary else "",
+                "full_content": extract_full_text(link),
+                "lang": "zh"
+            })
+    except Exception as e:
+        print(f"❌ 健康界 抓取失败: {e}")
+    return items
+
 def load_existing_urls(filepath="data/news.json"):
     """Load existing URLs to build a stateful memory for deduplication. Prefer Supabase."""
     urls = set()
@@ -1245,6 +1379,18 @@ def fetch_all_data():
         vbdata_items = scrape_vbdata(existing_urls)
         new_items.extend(vbdata_items)
         existing_urls.update(item["url"] for item in vbdata_items if item.get("url"))
+        
+        # 4.1 HIT专家网 - Direct Scraper
+        print("🚀 正在执行: HIT专家网 (Direct Scraper)...")
+        hit_items = scrape_hit180(existing_urls)
+        new_items.extend(hit_items)
+        existing_urls.update(item["url"] for item in hit_items if item.get("url"))
+        
+        # 4.2 健康界 - Direct Scraper
+        print("🚀 正在执行: 健康界 (Direct Scraper)...")
+        cnhealthcare_items = scrape_cnhealthcare(existing_urls)
+        new_items.extend(cnhealthcare_items)
+        existing_urls.update(item["url"] for item in cnhealthcare_items if item.get("url"))
         
         # 5. Medium - Tag RSS
         print("🚀 正在执行: Medium (Tag RSS)...")
