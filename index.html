@@ -170,6 +170,10 @@
             transform: translateY(-1px);
         }
 
+        .auth-login-button.hidden {
+            display: none !important;
+        }
+
         .filter-tabs {
             display: inline-flex;
             align-items: center;
@@ -630,21 +634,49 @@
         @media (max-width: 640px) {
             .utility-cluster {
                 gap: 8px;
+                width: 100%;
+                justify-content: flex-end;
             }
 
             .utility-chip {
                 min-height: 32px;
                 padding: 0 10px;
+                max-width: calc(100vw - 140px);
+                overflow: hidden;
             }
 
             .utility-updated {
                 display: none;
             }
 
+            .utility-stat {
+                font-size: 11px;
+            }
+
+            .user-menu-name {
+                display: none;
+            }
+
+            .auth-login-button {
+                min-width: 34px;
+                width: 34px;
+                padding: 0;
+                justify-content: center;
+            }
+
             .filter-tabs {
                 width: 100%;
                 overflow-x: auto;
                 justify-content: flex-start;
+                gap: 4px;
+                padding: 5px;
+                border-radius: 14px;
+            }
+
+            .filter-btn {
+                min-height: 30px;
+                padding: 0 10px;
+                font-size: 10px;
             }
 
             .login-modal {
