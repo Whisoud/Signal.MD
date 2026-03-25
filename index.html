@@ -329,8 +329,8 @@
         .user-menu-trigger {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            padding: 4px 8px 4px 4px;
+            gap: 0;
+            padding: 4px;
             border-radius: 999px;
             border: 1px solid transparent;
             background: rgba(255, 255, 255, 0.02);
@@ -349,16 +349,8 @@
             color: #d4d4d8;
             letter-spacing: 0.01em;
             line-height: 1;
-        }
-
-        .user-menu-chevron {
-            font-size: 10px;
-            color: #8a8a8e;
-            transition: color 180ms ease, transform 180ms ease;
-        }
-
-        .user-menu-trigger:hover .user-menu-chevron {
-            color: #c9c9cf;
+            margin-left: 8px;
+            margin-right: 2px;
         }
 
         .user-menu-dropdown {
@@ -428,6 +420,40 @@
             border-color: rgba(94, 106, 210, 0.18);
         }
 
+        .drawer-bookmark-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 40px;
+            height: 40px;
+            padding: 0 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+            color: #8a8a8e;
+            transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+        }
+
+        .drawer-bookmark-button:hover {
+            color: #ffffff;
+            border-color: rgba(94, 106, 210, 0.22);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .drawer-bookmark-button.is-saved {
+            color: #818cf8;
+            border-color: rgba(94, 106, 210, 0.24);
+            background: rgba(94, 106, 210, 0.12);
+        }
+
+        .drawer-bookmark-mobile-text {
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.03em;
+        }
+
         @media (max-width: 640px) {
             .login-modal {
                 padding: 16px;
@@ -484,7 +510,6 @@
                             <button id="user-menu-btn" class="user-menu-trigger focus:outline-none">
                                 <img id="user-avatar" src="" alt="Avatar" class="rounded-full border border-border-color object-cover" style="width: 24px !important; height: 24px !important; min-width: 24px; min-height: 24px; max-width: 24px; max-height: 24px; display: block;">
                                 <span id="user-name" class="user-menu-name hidden md:inline"></span>
-                                <i class="fa-solid fa-chevron-down user-menu-chevron"></i>
                             </button>
                             <!-- Dropdown Menu -->
                             <div id="user-dropdown" class="user-menu-dropdown hidden absolute right-0 top-full z-50">
@@ -572,7 +597,7 @@
                 <span id="drawer-source" class="text-[10px] md:text-xs text-text-muted"><i class="fas fa-globe mr-1"></i>Source</span>
             </div>
             <div class="flex items-center gap-3">
-                <button id="drawer-bookmark-btn" onclick="toggleSaveSignalFromDrawer()" class="text-text-muted hover:text-accent transition-colors p-2" aria-label="Bookmark this article">
+                <button id="drawer-bookmark-btn" onclick="toggleSaveSignalFromDrawer()" class="drawer-bookmark-button hidden md:inline-flex" aria-label="Bookmark this article">
                     <i class="fa-regular fa-bookmark text-base md:text-lg"></i>
                 </button>
                 <button onclick="closeDrawer()" class="text-text-secondary hover:text-white transition-colors p-2" aria-label="Close drawer">
@@ -583,7 +608,13 @@
         
         <!-- Drawer Content (Scrollable) -->
         <div class="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar bg-bg-primary pb-20 md:pb-6">
-            <h1 id="drawer-title" class="text-xl md:text-2xl font-bold text-text-primary mb-3 md:mb-4 leading-tight">Article Title</h1>
+            <div class="flex items-start justify-between gap-3 mb-3 md:mb-4">
+                <h1 id="drawer-title" class="text-xl md:text-2xl font-bold text-text-primary leading-tight flex-1">Article Title</h1>
+                <button id="drawer-bookmark-mobile-btn" onclick="toggleSaveSignalFromDrawer()" class="drawer-bookmark-button inline-flex md:hidden flex-shrink-0" aria-label="Bookmark this article">
+                    <i class="fa-regular fa-bookmark text-sm"></i>
+                    <span class="drawer-bookmark-mobile-text">Save</span>
+                </button>
+            </div>
             
             <div class="flex items-center gap-4 text-xs text-text-muted mb-6 md:mb-8 pb-4 border-b border-border-color/50">
                 <span id="drawer-time"><i class="far fa-clock mr-1"></i>Time</span>
@@ -1005,19 +1036,37 @@
         let currentItem = null;
         
         // Helper function to update drawer bookmark UI state
+        function getBookmarkIconMarkup(isSaved, sizeClass = 'text-sm') {
+            return isSaved
+                ? `<i class="fa-solid fa-bookmark text-accent ${sizeClass}"></i>`
+                : `<i class="fa-regular fa-bookmark text-text-muted ${sizeClass}"></i>`;
+        }
+
         function updateDrawerBookmarkUI(signalId) {
-            const drawerBtn = document.getElementById('drawer-bookmark-btn');
-            if (!drawerBtn) return;
-            
             const isSaved = savedSignalIds.has(signalId);
-            if (isSaved) {
-                drawerBtn.innerHTML = '<i class="fa-solid fa-bookmark text-accent text-base md:text-lg"></i>';
-                drawerBtn.classList.add('text-accent');
-                drawerBtn.classList.remove('text-text-muted');
-            } else {
-                drawerBtn.innerHTML = '<i class="fa-regular fa-bookmark text-base md:text-lg"></i>';
-                drawerBtn.classList.remove('text-accent');
-                drawerBtn.classList.add('text-text-muted');
+            const desktopBtn = document.getElementById('drawer-bookmark-btn');
+            const mobileBtn = document.getElementById('drawer-bookmark-mobile-btn');
+
+            if (desktopBtn) {
+                desktopBtn.innerHTML = getBookmarkIconMarkup(isSaved, 'text-base md:text-lg');
+                desktopBtn.classList.toggle('is-saved', isSaved);
+                desktopBtn.setAttribute('data-signal-id', signalId || '');
+            }
+
+            if (mobileBtn) {
+                mobileBtn.innerHTML = `${getBookmarkIconMarkup(isSaved, 'text-sm')}<span class="drawer-bookmark-mobile-text">${isSaved ? 'Saved' : 'Save'}</span>`;
+                mobileBtn.classList.toggle('is-saved', isSaved);
+                mobileBtn.setAttribute('data-signal-id', signalId || '');
+            }
+        }
+
+        function syncBookmarkUI(signalId) {
+            document.querySelectorAll(`.bookmark-btn[data-signal-id="${signalId}"]`).forEach((btn) => {
+                btn.innerHTML = getBookmarkIconMarkup(savedSignalIds.has(signalId), 'text-sm');
+            });
+
+            if (currentItem?.id === signalId) {
+                updateDrawerBookmarkUI(signalId);
             }
         }
 
@@ -1043,11 +1092,7 @@
             document.getElementById('drawer-title').textContent = item.title;
             
             // Set current drawer item ID for bookmarking
-            const drawerBtn = document.getElementById('drawer-bookmark-btn');
-            if (drawerBtn) {
-                drawerBtn.setAttribute('data-signal-id', item.id);
-                updateDrawerBookmarkUI(item.id);
-            }
+            updateDrawerBookmarkUI(item.id);
             
             // Format time for drawer to show only YYYY-MM-DD
             let drawerTime = item.time || '';
@@ -1259,20 +1304,10 @@
         document.getElementById('user-menu-btn').addEventListener('click', (e) => {
             e.stopPropagation();
             const dropdown = document.getElementById('user-dropdown');
-            const chevron = document.querySelector('#user-menu-btn .user-menu-chevron');
-            const isHidden = dropdown.classList.contains('hidden');
-
             dropdown.classList.toggle('hidden');
-            if (chevron) {
-                chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
-            }
         });
         document.addEventListener('click', () => {
             document.getElementById('user-dropdown').classList.add('hidden');
-            const chevron = document.querySelector('#user-menu-btn .user-menu-chevron');
-            if (chevron) {
-                chevron.style.transform = 'rotate(0deg)';
-            }
         });
 
         async function signInWithGitHub() {
@@ -1297,10 +1332,6 @@
             const { error } = await supabaseClient.auth.signOut();
             if (error) showToast('Sign out failed', 'error');
             document.getElementById('user-dropdown').classList.add('hidden');
-            const chevron = document.querySelector('#user-menu-btn .user-menu-chevron');
-            if (chevron) {
-                chevron.style.transform = 'rotate(0deg)';
-            }
         }
 
         function showLoginModal() {
@@ -1343,42 +1374,20 @@
         function refreshBookmarkUI() {
             document.querySelectorAll('.bookmark-btn').forEach(btn => {
                 const signalId = btn.dataset.signalId;
-                if (savedSignalIds.has(signalId)) {
-                    btn.innerHTML = '<i class="fa-solid fa-bookmark text-accent"></i>';
-                } else {
-                    btn.innerHTML = '<i class="fa-regular fa-bookmark text-text-muted"></i>';
-                }
+                btn.innerHTML = getBookmarkIconMarkup(savedSignalIds.has(signalId), 'text-sm');
             });
-        }
-
-        async function toggleSaveSignalFromDrawer() {
-            const drawerBtn = document.getElementById('drawer-bookmark-btn');
-            if (!drawerBtn) return;
-            const signalId = drawerBtn.getAttribute('data-signal-id');
-            if (!signalId) return;
-
-            // Use the main toggle logic, but pass a mock button since we'll update UI manually
-            const mockBtn = document.createElement('button');
-            const wasSaved = savedSignalIds.has(signalId);
-            
-            await toggleSaveSignal(signalId, mockBtn);
-            
-            // If the state actually changed, update all UIs
-            if (wasSaved !== savedSignalIds.has(signalId)) {
-                updateDrawerBookmarkUI(signalId);
-                // Also update the card button if it's currently visible in the feed
-                const cardBtn = document.querySelector(`.bookmark-btn[data-signal-id="${signalId}"]`);
-                if (cardBtn) {
-                    if (savedSignalIds.has(signalId)) {
-                        cardBtn.innerHTML = '<i class="fa-solid fa-bookmark text-accent text-sm"></i>';
-                    } else {
-                        cardBtn.innerHTML = '<i class="fa-regular fa-bookmark text-text-muted text-sm"></i>';
-                    }
-                }
+            if (currentItem?.id) {
+                updateDrawerBookmarkUI(currentItem.id);
             }
         }
 
-        async function toggleSaveSignal(signalId, btn) {
+        async function toggleSaveSignalFromDrawer() {
+            const signalId = currentItem?.id || document.getElementById('drawer-bookmark-btn')?.getAttribute('data-signal-id');
+            if (!signalId) return;
+            await toggleSaveSignal(signalId);
+        }
+
+        async function toggleSaveSignal(signalId, btn = null) {
             if (!supabaseClient || !currentUser) {
                 showToast('请先登录后再收藏', 'info');
                 showLoginModal();
@@ -1395,7 +1404,10 @@
                     .eq('signal_id', signalId);
                 if (!error) {
                     savedSignalIds.delete(signalId);
-                    btn.innerHTML = '<i class="fa-regular fa-bookmark text-text-muted"></i>';
+                    if (btn) {
+                        btn.innerHTML = getBookmarkIconMarkup(false, 'text-sm');
+                    }
+                    syncBookmarkUI(signalId);
                     showToast('已取消收藏', 'info');
                     // If we're on saved page, remove the card
                     if (currentFilter === 'saved') {
@@ -1409,7 +1421,10 @@
                     .insert({ user_id: currentUser.id, signal_id: signalId });
                 if (!error) {
                     savedSignalIds.add(signalId);
-                    btn.innerHTML = '<i class="fa-solid fa-bookmark text-accent"></i>';
+                    if (btn) {
+                        btn.innerHTML = getBookmarkIconMarkup(true, 'text-sm');
+                    }
+                    syncBookmarkUI(signalId);
                     showToast('已收藏', 'success');
                 }
             }
@@ -1422,10 +1437,6 @@
                 return;
             }
             document.getElementById('user-dropdown').classList.add('hidden');
-            const chevron = document.querySelector('#user-menu-btn .user-menu-chevron');
-            if (chevron) {
-                chevron.style.transform = 'rotate(0deg)';
-            }
             // Activate saved filter
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.add('text-text-secondary'));
