@@ -944,18 +944,18 @@
 
         function markAuthPending(type) {
             if (type === 'login') {
-                sessionStorage.setItem(AUTH_LOGIN_PENDING_KEY, '1');
-                sessionStorage.removeItem(AUTH_LOGOUT_PENDING_KEY);
+                localStorage.setItem(AUTH_LOGIN_PENDING_KEY, '1');
+                localStorage.removeItem(AUTH_LOGOUT_PENDING_KEY);
             } else if (type === 'logout') {
-                sessionStorage.setItem(AUTH_LOGOUT_PENDING_KEY, '1');
-                sessionStorage.removeItem(AUTH_LOGIN_PENDING_KEY);
+                localStorage.setItem(AUTH_LOGOUT_PENDING_KEY, '1');
+                localStorage.removeItem(AUTH_LOGIN_PENDING_KEY);
             }
             sessionStorage.removeItem(AUTH_RELOAD_DONE_KEY);
         }
 
         function clearAuthPending() {
-            sessionStorage.removeItem(AUTH_LOGIN_PENDING_KEY);
-            sessionStorage.removeItem(AUTH_LOGOUT_PENDING_KEY);
+            localStorage.removeItem(AUTH_LOGIN_PENDING_KEY);
+            localStorage.removeItem(AUTH_LOGOUT_PENDING_KEY);
         }
 
         function shouldForceAuthReload() {
@@ -1539,8 +1539,8 @@
         async function initAuth() {
             if (!supabaseClient) return;
             const pendingAuthRedirect = hasPendingAuthRedirect();
-            const pendingLogin = sessionStorage.getItem(AUTH_LOGIN_PENDING_KEY) === '1';
-            const pendingLogout = sessionStorage.getItem(AUTH_LOGOUT_PENDING_KEY) === '1';
+            const pendingLogin = localStorage.getItem(AUTH_LOGIN_PENDING_KEY) === '1';
+            const pendingLogout = localStorage.getItem(AUTH_LOGOUT_PENDING_KEY) === '1';
 
             // Check if user is already logged in (session persists)
             let { data: { session } } = await supabaseClient.auth.getSession();
@@ -1574,7 +1574,7 @@
                     currentUser = newSession.user;
                     updateAuthUI(true);
                     await loadSavedSignals();
-                    if ((hasPendingAuthRedirect() || sessionStorage.getItem(AUTH_LOGIN_PENDING_KEY) === '1') && shouldForceAuthReload()) {
+                    if ((hasPendingAuthRedirect() || localStorage.getItem(AUTH_LOGIN_PENDING_KEY) === '1') && shouldForceAuthReload()) {
                         markAuthReloadDone();
                         clearAuthPending();
                         cleanupAuthRedirectUrl();
@@ -1584,7 +1584,7 @@
                     currentUser = null;
                     savedSignalIds.clear();
                     updateAuthUI(false);
-                    if (sessionStorage.getItem(AUTH_LOGOUT_PENDING_KEY) === '1' && shouldForceAuthReload()) {
+                    if (localStorage.getItem(AUTH_LOGOUT_PENDING_KEY) === '1' && shouldForceAuthReload()) {
                         markAuthReloadDone();
                         clearAuthPending();
                         reloadToCleanCurrentPage();
