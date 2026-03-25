@@ -385,13 +385,13 @@
                                 <i class="fa-solid fa-chevron-down text-[8px]"></i>
                             </button>
                             <!-- Dropdown Menu -->
-                            <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-40 bg-bg-card border border-border-color rounded-lg shadow-xl py-1 z-50">
-                                <button onclick="navigateToSaved()" class="w-full text-left px-4 py-2 text-xs font-mono hover:bg-bg-secondary transition-colors flex items-center gap-2">
-                                    <i class="fa-solid fa-bookmark text-accent"></i> My Saved
+                            <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-48 bg-bg-card border border-border-color rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.5)] py-1.5 z-50 transform origin-top-right transition-all">
+                                <button onclick="navigateToSaved()" class="w-full text-left px-4 py-2.5 text-[13px] font-medium text-text-primary hover:bg-bg-secondary hover:text-white transition-colors flex items-center gap-3">
+                                    <i class="fa-solid fa-bookmark text-accent w-4 text-center"></i> My Saved
                                 </button>
-                                <div class="border-t border-border-color my-1"></div>
-                                <button onclick="signOut()" class="w-full text-left px-4 py-2 text-xs font-mono hover:bg-bg-secondary transition-colors flex items-center gap-2 text-text-secondary">
-                                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                                <div class="border-t border-border-color/60 my-1"></div>
+                                <button onclick="signOut()" class="w-full text-left px-4 py-2.5 text-[13px] font-medium text-text-secondary hover:bg-bg-secondary hover:text-rose-400 transition-colors flex items-center gap-3">
+                                    <i class="fa-solid fa-right-from-bracket w-4 text-center"></i> Sign Out
                                 </button>
                             </div>
                         </div>
@@ -809,6 +809,11 @@
                     ).join('');
                 }
 
+                const isSaved = savedSignalIds.has(item.id);
+                const bookmarkIcon = isSaved 
+                    ? '<i class="fa-solid fa-bookmark text-accent text-sm"></i>' 
+                    : '<i class="fa-regular fa-bookmark text-text-muted text-sm"></i>';
+
                 return `
                 <div class="signal-card group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" data-url="${item.url}" data-signal-id="${item.id}" onclick="openDrawerByUrl(this.getAttribute('data-url'))">
                     <div class="flex justify-between items-start mb-2 gap-4">
@@ -823,7 +828,7 @@
                         </div>
                         <div class="flex items-center gap-2 flex-shrink-0 ml-2">
                             <button onclick="event.stopPropagation(); event.preventDefault(); toggleSaveSignal('${item.id}', this)" class="bookmark-btn p-1 rounded hover:bg-bg-secondary/50 transition-colors" data-signal-id="${item.id}">
-                                <i class="fa-regular fa-bookmark text-text-muted text-sm"></i>
+                                ${bookmarkIcon}
                             </button>
                             <span class="text-[10px] font-mono flex items-center ${isNew ? 'text-emerald-400/90' : 'text-text-muted'} whitespace-nowrap group-hover:text-accent-primary transition-colors">
                                 ${newBadge}${timeStr}
