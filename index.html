@@ -696,6 +696,19 @@
             window.history.replaceState({}, document.title, cleanUrl);
         }
 
+        function hasPendingAuthRedirect() {
+            return (
+                window.location.hash.includes('access_token') ||
+                window.location.hash.includes('refresh_token') ||
+                new URLSearchParams(window.location.search).has('code')
+            );
+        }
+
+        function reloadToCleanCurrentPage() {
+            const cleanUrl = `${window.location.origin}${window.location.pathname}`;
+            window.location.replace(cleanUrl);
+        }
+
         // Data State
         let allData = [];
         let currentFilter = 'all';
@@ -1252,6 +1265,7 @@
 
         async function initAuth() {
             if (!supabaseClient) return;
+            const pendingAuthRedirect = hasPendingAuthRedirect();
 
             // Check if user is already logged in (session persists)
             // Do this FIRST before waiting, so UI updates instantly if we already have a session
@@ -1260,6 +1274,10 @@
                 currentUser = session.user;
                 updateAuthUI(true);
                 loadSavedSignals();
+                if (pendingAuthRedirect) {
+                    reloadToCleanCurrentPage();
+                    return;
+                }
             }
 
             // Listen for auth state changes (this catches the implicit flow token parsing)
@@ -1268,6 +1286,9 @@
                     currentUser = newSession.user;
                     updateAuthUI(true);
                     loadSavedSignals();
+                    if (pendingAuthRedirect) {
+                        reloadToCleanCurrentPage();
+                    }
                 } else if (event === 'SIGNED_OUT') {
                     currentUser = null;
                     savedSignalIds.clear();
@@ -1276,9 +1297,11 @@
             });
 
             // Give Supabase client a moment to process the URL hash before we clean it up
-            setTimeout(() => {
-                cleanupAuthRedirectUrl();
-            }, 1000); // Increased timeout to 1s to be absolutely sure SDK parsed it
+            if (pendingAuthRedirect) {
+                setTimeout(() => {
+                    cleanupAuthRedirectUrl();
+                }, 1000);
+            }
         }
 
         function updateAuthUI(isLoggedIn) {
@@ -1339,8 +1362,12 @@
         async function signOut() {
             if (!supabaseClient) return;
             const { error } = await supabaseClient.auth.signOut();
-            if (error) showToast('Sign out failed', 'error');
+            if (error) {
+                showToast('Sign out failed', 'error');
+                return;
+            }
             document.getElementById('user-dropdown').classList.add('hidden');
+            reloadToCleanCurrentPage();
         }
 
         function showLoginModal() {
