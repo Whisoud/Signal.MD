@@ -463,8 +463,11 @@
                 </span>
                 <span id="drawer-source" class="text-[10px] md:text-xs text-text-muted"><i class="fas fa-globe mr-1"></i>Source</span>
             </div>
-            <div class="flex items-center gap-2">
-                <button onclick="closeDrawer()" class="text-text-secondary hover:text-white transition-colors p-2">
+            <div class="flex items-center gap-3">
+                <button id="drawer-bookmark-btn" onclick="toggleSaveSignalFromDrawer()" class="text-text-muted hover:text-accent transition-colors p-2" aria-label="Bookmark this article">
+                    <i class="fa-regular fa-bookmark text-base md:text-lg"></i>
+                </button>
+                <button onclick="closeDrawer()" class="text-text-secondary hover:text-white transition-colors p-2" aria-label="Close drawer">
                     <i class="fas fa-times text-base md:text-lg"></i>
                 </button>
             </div>
@@ -893,6 +896,23 @@
         let currentItemLang = 'zh'; // Default
         let currentItem = null;
         
+        // Helper function to update drawer bookmark UI state
+        function updateDrawerBookmarkUI(signalId) {
+            const drawerBtn = document.getElementById('drawer-bookmark-btn');
+            if (!drawerBtn) return;
+            
+            const isSaved = savedSignalIds.has(signalId);
+            if (isSaved) {
+                drawerBtn.innerHTML = '<i class="fa-solid fa-bookmark text-accent text-base md:text-lg"></i>';
+                drawerBtn.classList.add('text-accent');
+                drawerBtn.classList.remove('text-text-muted');
+            } else {
+                drawerBtn.innerHTML = '<i class="fa-regular fa-bookmark text-base md:text-lg"></i>';
+                drawerBtn.classList.remove('text-accent');
+                drawerBtn.classList.add('text-text-muted');
+            }
+        }
+
         // --- Drawer Logic ---
         window.openDrawerByUrl = function(url) {
             // Find the item by url (safest unique key across DB and local JSON)
@@ -913,6 +933,13 @@
             
             document.getElementById('drawer-source').innerHTML = `<i class="fas fa-globe mr-1"></i>${item.source}`;
             document.getElementById('drawer-title').textContent = item.title;
+            
+            // Set current drawer item ID for bookmarking
+            const drawerBtn = document.getElementById('drawer-bookmark-btn');
+            if (drawerBtn) {
+                drawerBtn.setAttribute('data-signal-id', item.id);
+                updateDrawerBookmarkUI(item.id);
+            }
             
             // Format time for drawer to show only YYYY-MM-DD
             let drawerTime = item.time || '';
@@ -1200,6 +1227,33 @@
                     btn.innerHTML = '<i class="fa-regular fa-bookmark text-text-muted"></i>';
                 }
             });
+        }
+
+        async function toggleSaveSignalFromDrawer() {
+            const drawerBtn = document.getElementById('drawer-bookmark-btn');
+            if (!drawerBtn) return;
+            const signalId = drawerBtn.getAttribute('data-signal-id');
+            if (!signalId) return;
+
+            // Use the main toggle logic, but pass a mock button since we'll update UI manually
+            const mockBtn = document.createElement('button');
+            const wasSaved = savedSignalIds.has(signalId);
+            
+            await toggleSaveSignal(signalId, mockBtn);
+            
+            // If the state actually changed, update all UIs
+            if (wasSaved !== savedSignalIds.has(signalId)) {
+                updateDrawerBookmarkUI(signalId);
+                // Also update the card button if it's currently visible in the feed
+                const cardBtn = document.querySelector(`.bookmark-btn[data-signal-id="${signalId}"]`);
+                if (cardBtn) {
+                    if (savedSignalIds.has(signalId)) {
+                        cardBtn.innerHTML = '<i class="fa-solid fa-bookmark text-accent text-sm"></i>';
+                    } else {
+                        cardBtn.innerHTML = '<i class="fa-regular fa-bookmark text-text-muted text-sm"></i>';
+                    }
+                }
+            }
         }
 
         async function toggleSaveSignal(signalId, btn) {
