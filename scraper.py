@@ -300,7 +300,7 @@ def calculate_med_score(title, summary, source_name=""):
     title_lower = title.lower()
     
     # --- 词库定义 ---
-    WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health", "Mayo Clinic", "NEJM", "HIT专家网", "健康界"]
+    WHITELIST_SOURCES = ["Eric Topol", "Doctor Penguin", "FDA", "KevinMD", "The Doctor Weighs In", "Google Health", "Mayo Clinic", "NEJM", "HIT专家网"]
     
     # 【第一关：医疗一票否决白名单】 (必须包含其中之一才允许进入打分)
     CORE_MEDICAL_WORDS = [
@@ -472,7 +472,7 @@ def get_dynamic_category(tags, source_name):
         if "动脉网" in source_name or "MobiHealthNews" in source_name: return "Market"
         if "KevinMD" in source_name or "Weighs In" in source_name or "NEJM" in source_name: return "Clinical"
         if "Topol" in source_name or "Penguin" in source_name or "Medium" in source_name: return "Insights"
-        if "HIT专家网" in source_name or "健康界" in source_name: return "Policy"
+        if "HIT专家网" in source_name: return "Policy"
         return "Product"
 
     # Category precedence logic
@@ -1260,108 +1260,6 @@ def scrape_hit180(existing_urls):
         print(f"❌ HIT专家网 抓取失败: {e}")
     return items
 
-def scrape_cnhealthcare(existing_urls):
-    """直接爬取 健康界 政策/产业频道"""
-    print("正在抓取 健康界 (Direct HTML)...")
-    items = []
-    seen_urls = set(existing_urls)
-    headers = {
-        "User-Agent": USER_AGENT,
-        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-        "Referer": "https://www.cn-healthcare.com/"
-    }
-
-    try:
-        candidate_urls = [
-            "https://www.cn-healthcare.com/",
-            "https://www.cn-healthcare.com/news/",
-            "https://www.cnhealthcare.com/news/"
-        ]
-        res = None
-        for candidate_url in candidate_urls:
-            try:
-                current = requests.get(candidate_url, headers=headers, timeout=20)
-                current.encoding = 'utf-8'
-                if current.status_code != 200:
-                    print(f"⚠️ 健康界返回非 200 状态: {candidate_url} -> {current.status_code}")
-                    continue
-                if "aliyun_waf" in current.text or "acw_sc__v2" in current.text:
-                    print(f"⚠️ 健康界命中 WAF 挑战页: {candidate_url}")
-                    continue
-                res = current
-                break
-            except Exception as e:
-                print(f"⚠️ 健康界请求失败: {candidate_url} -> {e}")
-
-        if res is None:
-            print("⚠️ 健康界未获取到可解析页面，本轮跳过。")
-            return items
-
-        soup = BeautifulSoup(res.text, 'html.parser')
-        news_list = soup.select('li.clear, li.news-list-item, .article-list li, .list-item')
-        if not news_list:
-            news_list = soup.find_all('li')
-
-        candidate_count = 0
-        score_filtered_count = 0
-
-        for li in news_list:
-            title_tag = li.select_one('a.tit, h3 a, h2 a, .title a, a[href*="/article/"]')
-            if not title_tag:
-                continue
-
-            title = title_tag.get_text(strip=True)
-            link = title_tag.get('href')
-            if link and link.startswith('/'):
-                link = "https://www.cn-healthcare.com" + link
-
-            if not title or not link or not link.startswith("http"):
-                continue
-            if link in seen_urls:
-                continue
-            seen_urls.add(link)
-            candidate_count += 1
-
-            summary_tag = li.select_one('p.txt, p.summary, .desc, p')
-            summary = summary_tag.get_text(strip=True) if summary_tag else ""
-
-            time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            date_tag = li.select_one('span.date, .time, time')
-            if date_tag:
-                d_text = date_tag.get_text(strip=True)
-                if "-" in d_text and len(d_text.split("-")) == 3:
-                    time_str = f"{d_text} 09:00"
-                elif "小时前" in d_text:
-                    try:
-                        h = int(re.search(r"(\d+)", d_text).group(1))
-                        time_str = (datetime.datetime.now() - datetime.timedelta(hours=h)).strftime("%Y-%m-%d %H:%M")
-                    except: pass
-
-            eval_result = calculate_med_score(title, summary, "健康界")
-            if eval_result["score"] < 5:
-                score_filtered_count += 1
-                continue
-
-            smart_tags = generate_tags(title, summary, "Policy")
-            final_tags = list(set(smart_tags + eval_result.get("tags", [])))
-
-            items.append({
-                "title": title,
-                "source": "健康界",
-                "category": "Policy",
-                "level": eval_result["level"],
-                "tags": final_tags,
-                "time": time_str,
-                "url": link,
-                "summary": summary[:200] + "..." if summary else "",
-                "full_content": extract_full_text(link),
-                "lang": "zh"
-            })
-        print(f"ℹ️ 健康界候选 {candidate_count} 条，得分过滤 {score_filtered_count} 条，入库 {len(items)} 条")
-    except Exception as e:
-        print(f"❌ 健康界 抓取失败: {e}")
-    return items
-
 def load_existing_urls(filepath="data/news.json"):
     """Load existing URLs to build a stateful memory for deduplication. Prefer Supabase."""
     urls = set()
@@ -1454,12 +1352,6 @@ def fetch_all_data():
         hit_items = scrape_hit180(existing_urls)
         new_items.extend(hit_items)
         existing_urls.update(item["url"] for item in hit_items if item.get("url"))
-        
-        # 4.2 健康界 - Direct Scraper
-        print("🚀 正在执行: 健康界 (Direct Scraper)...")
-        cnhealthcare_items = scrape_cnhealthcare(existing_urls)
-        new_items.extend(cnhealthcare_items)
-        existing_urls.update(item["url"] for item in cnhealthcare_items if item.get("url"))
         
         # 5. Medium - Tag RSS
         print("🚀 正在执行: Medium (Tag RSS)...")
