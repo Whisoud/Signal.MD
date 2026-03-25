@@ -534,10 +534,34 @@
         // --- Supabase Configuration ---
         const SUPABASE_URL = 'https://odqpdvlspnscyughekyr.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_0pRwAZWLEqSCwcWj1H3-gQ_Td5m5EUe';
+        const PROD_REDIRECT_URL = 'https://whisoud.github.io/Signal.MD/';
         
         let supabaseClient = null;
         if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
-            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+                auth: {
+                    flowType: 'pkce',
+                    detectSessionInUrl: true,
+                    persistSession: true,
+                    autoRefreshToken: true
+                }
+            });
+        }
+
+        function getAuthRedirectUrl() {
+            if (window.location.hostname === 'whisoud.github.io') {
+                return PROD_REDIRECT_URL;
+            }
+            return `${window.location.origin}${window.location.pathname}`;
+        }
+
+        function cleanupAuthRedirectUrl() {
+            const hasHashToken = window.location.hash.includes('access_token') || window.location.hash.includes('refresh_token');
+            const hasCode = new URLSearchParams(window.location.search).has('code');
+            if (!hasHashToken && !hasCode) return;
+
+            const cleanUrl = `${window.location.origin}${window.location.pathname}`;
+            window.history.replaceState({}, document.title, cleanUrl);
         }
 
         // Data State
@@ -1035,6 +1059,8 @@
         async function initAuth() {
             if (!supabaseClient) return;
 
+            cleanupAuthRedirectUrl();
+
             // Listen for auth state changes
             supabaseClient.auth.onAuthStateChange((event, session) => {
                 if (event === 'SIGNED_IN' && session?.user) {
@@ -1104,7 +1130,7 @@
             const { error } = await supabaseClient.auth.signInWithOAuth({
                 provider: 'github',
                 options: {
-                    redirectTo: window.location.href
+                    redirectTo: getAuthRedirectUrl()
                 }
             });
             if (error) {
