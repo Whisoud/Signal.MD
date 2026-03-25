@@ -833,18 +833,16 @@
             <!-- Left: Signal Feed -->
             <div class="bg-bg-card rounded-xl border border-border-color p-4 md:p-5 shadow-2xl h-full md:h-[800px] flex flex-col relative overflow-hidden">
                 <!-- Header -->
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-3 md:mb-4 z-10 bg-bg-card md:static pt-0 pb-0 gap-3 md:gap-0">
-                    <!-- Invisible placeholder to keep space-between working as before -->
-                    <div class="hidden md:block"></div>
-
-                    <!-- Mobile Inline Search Bar (Dashboard First Approach) -->
+                <div class="flex flex-col mb-3 md:mb-4 z-10 bg-bg-card pt-0 pb-0 gap-3">
+                    <!-- Mobile Inline Search Bar -->
                     <div class="md:hidden w-full relative">
                         <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary/50 text-xs"></i>
                         <input type="text" id="search-input-mobile-inline" placeholder="Search signals..." class="bg-bg-secondary w-full border border-border-color/50 text-text-primary text-xs rounded-full pl-8 pr-4 py-2 focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/50 transition-all placeholder:text-text-secondary/50">
                     </div>
                 
-                <!-- Filter Tabs -->
-                        <div class="filter-tabs no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
+                    <!-- Filter Tabs -->
+                    <div class="flex w-full md:justify-end">
+                        <div class="filter-tabs no-scrollbar w-full md:w-auto md:max-w-none snap-x flex" id="feed-filters">
                             <button class="filter-btn active whitespace-nowrap snap-start" data-filter="all">All</button>
                             <button class="filter-btn whitespace-nowrap snap-start" data-filter="Insights"><i class="fa-solid fa-lightbulb text-amber-400 pointer-events-none"></i> Insights</button>
                             <button class="filter-btn whitespace-nowrap snap-start" data-filter="Product"><i class="fa-solid fa-rocket text-rose-400 pointer-events-none"></i> Product</button>
@@ -853,6 +851,7 @@
                             <button class="filter-btn whitespace-nowrap snap-start" data-filter="Policy"><i class="fa-solid fa-landmark text-blue-400 pointer-events-none"></i> Policy</button>
                             <button id="saved-filter-btn" class="filter-btn whitespace-nowrap snap-start hidden" data-filter="saved"><i class="fa-solid fa-bookmark text-accent pointer-events-none"></i> <span>Saved</span></button>
                         </div>
+                    </div>
                 </div>
 
             <!-- Feed Container -->
