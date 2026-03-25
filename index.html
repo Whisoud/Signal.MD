@@ -706,6 +706,65 @@
         let isLoading = false;
         
         // Fetch Data from Supabase
+        function buildSignalsQuery({ countOnly = false } = {}) {
+            let query = supabaseClient
+                .from('signals')
+                .select(countOnly ? '*' : '*', countOnly ? { count: 'exact', head: true } : { count: 'exact' });
+
+            if (searchQuery) {
+                query = query.or(`title.ilike.%${searchQuery}%,summary.ilike.%${searchQuery}%`);
+            }
+
+            if (currentFilter !== 'all' && currentFilter !== 'saved') {
+                if (currentFilter === 'Market') {
+                    query = query.in('category', ['Market', 'General']);
+                } else {
+                    query = query.eq('category', currentFilter);
+                }
+            }
+
+            return query;
+        }
+
+        function isItemFromToday(timeValue) {
+            if (!timeValue) return false;
+
+            try {
+                let timeString = String(timeValue).replace(/-/g, '/');
+                if (timeString.includes('+00:00')) {
+                    timeString = timeString.replace('+00:00', 'Z').replace(/\//g, '-');
+                }
+
+                const date = new Date(timeString);
+                if (Number.isNaN(date.getTime())) return false;
+
+                const today = new Date();
+                return (
+                    date.getFullYear() === today.getFullYear() &&
+                    date.getMonth() === today.getMonth() &&
+                    date.getDate() === today.getDate()
+                );
+            } catch {
+                return false;
+            }
+        }
+
+        function updateHeaderStats(totalCount, todayCount, totalLabel = 'Signals') {
+            const statTotalEl = document.getElementById('stat-total');
+            const statNewEl = document.getElementById('stat-new');
+
+            statTotalEl.innerText = `${totalCount || 0} ${totalLabel}`;
+            statNewEl.innerText = `+${todayCount || 0} Today`;
+
+            if ((todayCount || 0) > 0) {
+                statNewEl.classList.remove('text-text-secondary');
+                statNewEl.classList.add('text-emerald-400');
+            } else {
+                statNewEl.classList.remove('text-emerald-400');
+                statNewEl.classList.add('text-text-secondary');
+            }
+        }
+
         async function fetchData(isAppend = false) {
             if (isLoading || (!hasMore && isAppend)) return;
             isLoading = true;
@@ -727,23 +786,7 @@
                     throw new Error("Supabase is not configured. Using fallback local JSON mode.");
                 }
 
-                let query = supabaseClient
-                    .from('signals')
-                    .select('*', { count: 'exact' });
-
-                // Apply Search
-                if (searchQuery) {
-                    query = query.or(`title.ilike.%${searchQuery}%,summary.ilike.%${searchQuery}%`);
-                }
-
-                // Apply Category Filter
-                if (currentFilter !== 'all' && currentFilter !== 'saved') {
-                    if (currentFilter === 'Market') {
-                        query = query.in('category', ['Market', 'General']);
-                    } else {
-                        query = query.eq('category', currentFilter);
-                    }
-                }
+                let query = buildSignalsQuery();
 
                 // Handle Saved filter separately
                 if (currentFilter === 'saved') {
@@ -755,7 +798,7 @@
                     }
                     allData = result.data;
                     hasMore = false;
-                    document.getElementById('stat-total').innerText = `${allData.length} Saved`;
+                    updateHeaderStats(allData.length, allData.filter(item => isItemFromToday(item.time)).length, 'Saved');
                     render(allData, false);
                     isLoading = false;
                     return;
@@ -787,30 +830,13 @@
 
                 // --- Update Header Stats ---
                 if (!isAppend) {
-                    document.getElementById('stat-total').innerText = `${count || 0} Signals`;
-                    
-                    // We need to fetch the count of today's items from the server 
-                    // because the current 'data' only contains the first PAGE_SIZE (e.g. 20) items.
                     const now = new Date();
                     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
                     
-                    const { count: todayTotalCount, error: countError } = await supabaseClient
-                        .from('signals')
-                        .select('*', { count: 'exact', head: true })
+                    const { count: todayTotalCount } = await buildSignalsQuery({ countOnly: true })
                         .gte('time', startOfToday);
-                        
-                    const todayCount = todayTotalCount || 0;
-                    
-                    const statNewEl = document.getElementById('stat-new');
-                    statNewEl.innerText = `+${todayCount} Today`;
-                    
-                    if (todayCount > 0) {
-                        statNewEl.classList.remove('text-text-secondary');
-                        statNewEl.classList.add('text-emerald-400');
-                    } else {
-                        statNewEl.classList.remove('text-emerald-400');
-                        statNewEl.classList.add('text-text-secondary');
-                    }
+
+                    updateHeaderStats(count || 0, todayTotalCount || 0, 'Signals');
                     
                     if (allData.length > 0) {
                         const lastUpdateDate = new Date(allData[0].time);
@@ -844,7 +870,7 @@
                     );
                 }
                 
-                if (currentFilter !== 'all') {
+                if (currentFilter !== 'all' && currentFilter !== 'saved') {
                     if (currentFilter === 'Market') {
                         allData = allData.filter(item => item.category === 'Market' || item.category === 'General');
                     } else {
@@ -855,7 +881,7 @@
                 allData.sort((a, b) => new Date(b.time) - new Date(a.time));
                 hasMore = false; // No pagination in fallback
                 
-                document.getElementById('stat-total').innerText = `${allData.length} Signals (Local)`;
+                updateHeaderStats(allData.length, allData.filter(item => isItemFromToday(item.time)).length, 'Signals');
                 render(allData, false);
             } catch (e) {
                 document.getElementById('signal-container').innerHTML = `
