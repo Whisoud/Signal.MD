@@ -82,61 +82,178 @@
             color: inherit !important;
         }
 
-        /* Filter Button Active States with Colors */
-        .filter-btn.active[data-filter="all"] {
-            background-color: rgba(94, 106, 210, 0.2);
-            color: white;
-            border-color: rgba(94, 106, 210, 0.5);
-        }
-        .filter-btn.active[data-filter="Insights"] {
-            background-color: rgba(251, 191, 36, 0.15); /* amber-400 */
-            color: #fbbf24;
-            border-color: rgba(251, 191, 36, 0.3);
-        }
-        .filter-btn.active[data-filter="Product"] {
-            background-color: rgba(251, 113, 133, 0.15); /* rose-400 */
-            color: #fb7185;
-            border-color: rgba(251, 113, 133, 0.3);
-        }
-        .filter-btn.active[data-filter="Clinical"] {
-            background-color: rgba(52, 211, 153, 0.15); /* emerald-400 */
-            color: #34d399;
-            border-color: rgba(52, 211, 153, 0.3);
-        }
-        .filter-btn.active[data-filter="Market"] {
-            background-color: rgba(250, 204, 21, 0.15); /* yellow-400 */
-            color: #facc15;
-            border-color: rgba(250, 204, 21, 0.3);
-        }
-        .filter-btn.active[data-filter="Policy"] {
-            background-color: rgba(96, 165, 250, 0.15); /* blue-400 */
-            color: #60a5fa;
-            border-color: rgba(96, 165, 250, 0.3);
+        .utility-cluster {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Base styles for inactive tabs */
-        .filter-btn {
-            border: 1px solid transparent;
+        .utility-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 34px;
+            padding: 0 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.02) 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
-        
-        /* Ensure icons keep their tailwind text color by forcing color inheritance from their own class */
+
+        .utility-chip__dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #818cf8;
+            box-shadow: 0 0 14px rgba(94, 106, 210, 0.5);
+            flex-shrink: 0;
+        }
+
+        .utility-chip__separator {
+            color: rgba(138, 138, 142, 0.45);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+
+        .utility-stat {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: 0.01em;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .utility-stat--primary {
+            color: #f3f4f6;
+        }
+
+        .utility-stat--positive {
+            color: #34d399;
+        }
+
+        .utility-updated {
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            padding: 0 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+            color: #7c7d84;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .auth-login-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 34px;
+            padding: 0 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+            color: #c9c9cf;
+            font-size: 12px;
+            font-weight: 500;
+            transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 180ms ease;
+        }
+
+        .auth-login-button:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(94, 106, 210, 0.24);
+            transform: translateY(-1px);
+        }
+
+        .filter-tabs {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.015) 100%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+        }
+
+        .filter-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 32px;
+            padding: 0 12px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            color: #8a8a8e;
+            background: transparent;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+        }
+
+        .filter-btn:hover {
+            color: #f3f4f6;
+            background: rgba(255, 255, 255, 0.035);
+        }
+
+        .filter-btn.active {
+            transform: translateY(-1px);
+        }
+
         .filter-btn:not(.active) i {
-            opacity: 0.8;
+            opacity: 0.88;
             color: inherit;
         }
-        
-        /* Explicitly set icon colors for inactive states to prevent Tailwind text-text-secondary override */
+
         .filter-btn:not(.active) i.text-amber-400 { color: #fbbf24 !important; }
         .filter-btn:not(.active) i.text-rose-400 { color: #fb7185 !important; }
         .filter-btn:not(.active) i.text-emerald-400 { color: #34d399 !important; }
         .filter-btn:not(.active) i.text-yellow-400 { color: #facc15 !important; }
         .filter-btn:not(.active) i.text-blue-400 { color: #60a5fa !important; }
 
-        /* Saved filter button active state */
+        .filter-btn.active[data-filter="all"],
         .filter-btn.active[data-filter="saved"] {
-            background-color: rgba(94, 106, 210, 0.2);
-            color: #818cf8;
-            border-color: rgba(94, 106, 210, 0.4);
+            background: rgba(94, 106, 210, 0.14);
+            color: #c7d2fe;
+            border-color: rgba(94, 106, 210, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 0 0 1px rgba(94, 106, 210, 0.05);
+        }
+
+        .filter-btn.active[data-filter="Insights"] {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fcd34d;
+            border-color: rgba(251, 191, 36, 0.22);
+        }
+
+        .filter-btn.active[data-filter="Product"] {
+            background: rgba(251, 113, 133, 0.12);
+            color: #fda4af;
+            border-color: rgba(251, 113, 133, 0.22);
+        }
+
+        .filter-btn.active[data-filter="Clinical"] {
+            background: rgba(52, 211, 153, 0.12);
+            color: #6ee7b7;
+            border-color: rgba(52, 211, 153, 0.22);
+        }
+
+        .filter-btn.active[data-filter="Market"] {
+            background: rgba(250, 204, 21, 0.12);
+            color: #fde047;
+            border-color: rgba(250, 204, 21, 0.22);
+        }
+
+        .filter-btn.active[data-filter="Policy"] {
+            background: rgba(96, 165, 250, 0.12);
+            color: #93c5fd;
+            border-color: rgba(96, 165, 250, 0.22);
         }
 
         body.modal-open {
@@ -448,7 +565,88 @@
             background: rgba(94, 106, 210, 0.12);
         }
 
+        .drawer-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: linear-gradient(180deg, rgba(19, 19, 24, 0.98) 0%, rgba(15, 15, 18, 0.95) 100%);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .drawer-toolbar-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .drawer-source-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 28px;
+            padding: 0 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.025);
+            color: #8a8a8e;
+            font-size: 11px;
+            font-weight: 500;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .drawer-toolbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .drawer-icon-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.02);
+            color: #8a8a8e;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+        }
+
+        .drawer-icon-button:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+        }
+
         @media (max-width: 640px) {
+            .utility-cluster {
+                gap: 8px;
+            }
+
+            .utility-chip {
+                min-height: 32px;
+                padding: 0 10px;
+            }
+
+            .utility-updated {
+                display: none;
+            }
+
+            .filter-tabs {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+
             .login-modal {
                 padding: 16px;
             }
@@ -460,6 +658,16 @@
 
             .login-modal__title {
                 font-size: 1.35rem;
+            }
+
+            .drawer-toolbar {
+                padding: 12px 14px;
+            }
+
+            .drawer-source-chip {
+                max-width: 120px;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
     </style>
@@ -477,7 +685,7 @@
                 <span class="text-[10px] text-text-secondary/60 font-mono hidden md:inline-block ml-2 italic">Signal, Not Noise.</span>
             </div>
             
-            <div class="flex items-center gap-2 md:gap-6 text-sm font-medium text-text-secondary">
+            <div class="flex items-center gap-2 md:gap-5 text-sm font-medium text-text-secondary">
                 <!-- Desktop Nav -->
                 <nav class="hidden md:flex items-center gap-6">
                     <div class="relative">
@@ -486,19 +694,15 @@
                     </div>
                 </nav>
 
-                <!-- Vertical Divider (Desktop Only) -->
-                <div class="hidden md:block h-5 w-px bg-border-color mx-2"></div>
-
-                <div class="flex items-center gap-1 md:gap-4 text-xs font-mono text-text-secondary/80">
-                    <div class="flex items-center gap-1.5 md:gap-2 px-3 py-1.5 md:px-3 md:py-1 bg-bg-secondary/50 rounded-full border border-border-color/50 backdrop-blur-sm whitespace-nowrap flex-shrink-0">
-                        <span class="w-1.5 md:w-1.5 h-1.5 md:h-1.5 rounded-full bg-accent"></span>
-                        <span id="stat-total" class="font-medium text-text-primary text-[11px] md:text-xs tracking-tight">--</span>
-                        <span class="text-border-color mx-1 md:mx-1">/</span>
-                        <span id="stat-new" class="text-emerald-400 font-medium text-[11px] md:text-xs tracking-tight">+-- Today</span>
+                <div class="utility-cluster">
+                    <div class="utility-chip whitespace-nowrap flex-shrink-0">
+                        <span class="utility-chip__dot"></span>
+                        <span id="stat-total" class="utility-stat utility-stat--primary">--</span>
+                        <span class="utility-chip__separator">/</span>
+                        <span id="stat-new" class="utility-stat utility-stat--positive">+-- Today</span>
                     </div>
-                    <span id="last-updated" class="opacity-60 hidden lg:inline-block">WAITING...</span>
+                    <span id="last-updated" class="utility-updated hidden lg:inline-flex">WAITING...</span>
                     
-                    <!-- User Auth State (shown when logged in) -->
                     <div id="auth-user" class="hidden items-center gap-2 relative">
                         <div class="relative">
                             <button id="user-menu-btn" class="user-menu-trigger focus:outline-none">
@@ -524,8 +728,7 @@
                         </div>
                     </div>
                     
-                    <!-- Login Button (shown when logged out) -->
-                    <button id="login-btn" onclick="showLoginModal()" class="flex items-center gap-1.5 hover:text-white transition-colors text-xs font-mono border border-border-color/50 px-3 py-1.5 rounded-full hover:bg-bg-secondary/50">
+                    <button id="login-btn" onclick="showLoginModal()" class="auth-login-button">
                         <i class="fa-brands fa-github text-sm"></i>
                         <span class="hidden md:inline">Sign In</span>
                     </button>
@@ -555,14 +758,14 @@
                     </div>
                 
                 <!-- Filter Tabs -->
-                        <div class="flex bg-bg-secondary rounded-lg p-1 gap-1 overflow-x-auto no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
-                            <button class="filter-btn active px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start" data-filter="all">All</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Insights"><i class="fa-solid fa-lightbulb text-amber-400 pointer-events-none"></i> Insights</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Product"><i class="fa-solid fa-rocket text-rose-400 pointer-events-none"></i> Product</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Clinical"><i class="fa-solid fa-hospital text-emerald-400 pointer-events-none"></i> Clinical</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Market"><i class="fa-solid fa-sack-dollar text-yellow-400 pointer-events-none"></i> Market</button>
-                            <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Policy"><i class="fa-solid fa-landmark text-blue-400 pointer-events-none"></i> Policy</button>
-                            <button id="saved-filter-btn" class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5 hidden" data-filter="saved"><i class="fa-solid fa-bookmark text-accent pointer-events-none"></i> <span>Saved</span></button>
+                        <div class="filter-tabs no-scrollbar w-full md:w-auto md:max-w-none snap-x" id="feed-filters">
+                            <button class="filter-btn active whitespace-nowrap snap-start" data-filter="all">All</button>
+                            <button class="filter-btn whitespace-nowrap snap-start" data-filter="Insights"><i class="fa-solid fa-lightbulb text-amber-400 pointer-events-none"></i> Insights</button>
+                            <button class="filter-btn whitespace-nowrap snap-start" data-filter="Product"><i class="fa-solid fa-rocket text-rose-400 pointer-events-none"></i> Product</button>
+                            <button class="filter-btn whitespace-nowrap snap-start" data-filter="Clinical"><i class="fa-solid fa-hospital text-emerald-400 pointer-events-none"></i> Clinical</button>
+                            <button class="filter-btn whitespace-nowrap snap-start" data-filter="Market"><i class="fa-solid fa-sack-dollar text-yellow-400 pointer-events-none"></i> Market</button>
+                            <button class="filter-btn whitespace-nowrap snap-start" data-filter="Policy"><i class="fa-solid fa-landmark text-blue-400 pointer-events-none"></i> Policy</button>
+                            <button id="saved-filter-btn" class="filter-btn whitespace-nowrap snap-start hidden" data-filter="saved"><i class="fa-solid fa-bookmark text-accent pointer-events-none"></i> <span>Saved</span></button>
                         </div>
                 </div>
 
@@ -583,18 +786,18 @@
     <!-- Drawer Component (Hidden by default) -->
     <div id="article-drawer" class="fixed inset-y-0 right-0 w-full md:w-1/2 bg-bg-primary border-l border-border-color shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out z-50 flex flex-col">
         <!-- Drawer Header -->
-        <div class="flex items-center justify-between p-3 md:p-4 border-b border-border-color bg-bg-card">
-            <div class="flex items-center gap-2 md:gap-3">
+        <div class="drawer-toolbar">
+            <div class="drawer-toolbar-meta">
                 <span id="drawer-category" class="text-[9px] md:text-[10px] font-semibold tracking-wider px-2 py-1 rounded border uppercase flex items-center gap-1.5 text-slate-400 bg-slate-400/10 border-slate-400/20">
                     <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>Category
                 </span>
-                <span id="drawer-source" class="text-[10px] md:text-xs text-text-muted"><i class="fas fa-globe mr-1"></i>Source</span>
+                <span id="drawer-source" class="drawer-source-chip"><i class="fas fa-globe text-[10px]"></i>Source</span>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="drawer-toolbar-actions">
                 <button id="drawer-bookmark-btn" onclick="toggleSaveSignalFromDrawer()" class="drawer-bookmark-button inline-flex" aria-label="Bookmark this article">
                     <i class="fa-regular fa-bookmark text-base md:text-lg"></i>
                 </button>
-                <button onclick="closeDrawer()" class="text-text-secondary hover:text-white transition-colors p-2" aria-label="Close drawer">
+                <button onclick="closeDrawer()" class="drawer-icon-button" aria-label="Close drawer">
                     <i class="fas fa-times text-base md:text-lg"></i>
                 </button>
             </div>
@@ -1547,12 +1750,9 @@
                 return;
             }
             document.getElementById('user-dropdown').classList.add('hidden');
-            // Activate saved filter
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.add('text-text-secondary'));
             const savedBtn = document.getElementById('saved-filter-btn');
             savedBtn.classList.add('active');
-            savedBtn.classList.remove('text-text-secondary');
             currentFilter = 'saved';
             currentPage = 0;
             fetchData(false);
