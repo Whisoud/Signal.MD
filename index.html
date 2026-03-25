@@ -540,7 +540,7 @@
         if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
             supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
                 auth: {
-                    flowType: 'pkce',
+                    flowType: 'implicit',
                     detectSessionInUrl: true,
                     persistSession: true,
                     autoRefreshToken: true
@@ -1059,7 +1059,10 @@
         async function initAuth() {
             if (!supabaseClient) return;
 
-            cleanupAuthRedirectUrl();
+            // Give Supabase client a moment to process the URL hash before we clean it up
+            setTimeout(() => {
+                cleanupAuthRedirectUrl();
+            }, 500);
 
             // Listen for auth state changes
             supabaseClient.auth.onAuthStateChange((event, session) => {
