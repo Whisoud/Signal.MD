@@ -131,6 +131,13 @@
         .filter-btn:not(.active) i.text-emerald-400 { color: #34d399 !important; }
         .filter-btn:not(.active) i.text-yellow-400 { color: #facc15 !important; }
         .filter-btn:not(.active) i.text-blue-400 { color: #60a5fa !important; }
+
+        /* Saved filter button active state */
+        .filter-btn.active[data-filter="saved"] {
+            background-color: rgba(94, 106, 210, 0.2);
+            color: #818cf8;
+            border-color: rgba(94, 106, 210, 0.4);
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -166,11 +173,63 @@
                         <span id="stat-new" class="text-emerald-400 font-medium text-[11px] md:text-xs tracking-tight">+-- Today</span>
                     </div>
                     <span id="last-updated" class="opacity-60 hidden lg:inline-block">WAITING...</span>
+                    
+                    <!-- User Auth State (shown when logged in) -->
+                    <div id="auth-user" class="hidden items-center gap-2 relative">
+                        <div class="relative">
+                            <button id="user-menu-btn" class="flex items-center gap-2 hover:text-white transition-colors">
+                                <img id="user-avatar" src="" alt="Avatar" class="w-6 h-6 rounded-full border border-border-color">
+                                <span id="user-name" class="text-xs font-mono hidden md:inline"></span>
+                                <i class="fa-solid fa-chevron-down text-[8px]"></i>
+                            </button>
+                            <!-- Dropdown Menu -->
+                            <div id="user-dropdown" class="hidden absolute right-0 top-full mt-2 w-40 bg-bg-card border border-border-color rounded-lg shadow-xl py-1 z-50">
+                                <button onclick="navigateToSaved()" class="w-full text-left px-4 py-2 text-xs font-mono hover:bg-bg-secondary transition-colors flex items-center gap-2">
+                                    <i class="fa-solid fa-bookmark text-accent"></i> My Saved
+                                </button>
+                                <div class="border-t border-border-color my-1"></div>
+                                <button onclick="signOut()" class="w-full text-left px-4 py-2 text-xs font-mono hover:bg-bg-secondary transition-colors flex items-center gap-2 text-text-secondary">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Login Button (shown when logged out) -->
+                    <button id="login-btn" onclick="showLoginModal()" class="flex items-center gap-1.5 hover:text-white transition-colors text-xs font-mono border border-border-color/50 px-3 py-1.5 rounded-full hover:bg-bg-secondary/50">
+                        <i class="fa-brands fa-github text-sm"></i>
+                        <span class="hidden md:inline">Sign In</span>
+                    </button>
+                    
                     <a href="https://github.com/Whisoud/Signal.MD" target="_blank" class="hover:text-white transition-colors ml-1 md:ml-2"><i class="fa-brands fa-github text-base md:text-lg"></i></a>
                 </div>
             </div>
         </div>
     </header>
+    
+    <!-- Login Modal -->
+    <div id="login-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeLoginModal()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
+            <div class="bg-bg-card border border-border-color rounded-2xl p-8 w-full max-w-sm pointer-events-auto transform transition-all duration-300 scale-95" id="login-modal-content">
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-signal text-accent text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-text-primary mb-2">Sign in to Signal.MD</h2>
+                    <p class="text-sm text-text-muted">Access your saved signals across all devices</p>
+                </div>
+                <button onclick="signInWithGitHub()" class="w-full flex items-center justify-center gap-3 bg-[#24292e] hover:bg-[#2f363d] text-white font-medium py-3 px-4 rounded-xl transition-colors border border-[#373e43]">
+                    <i class="fa-brands fa-github text-lg"></i>
+                    <span>Continue with GitHub</span>
+                </button>
+                <p class="text-[10px] text-text-muted text-center mt-4">We only read your public GitHub profile. No write access.</p>
+                <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-text-muted hover:text-white transition-colors">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-4 md:py-6 max-w-5xl flex-1 flex flex-col h-[calc(100vh-3.5rem)] md:h-auto">
@@ -200,6 +259,7 @@
                             <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Clinical"><i class="fa-solid fa-hospital text-emerald-400 pointer-events-none"></i> Clinical</button>
                             <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Market"><i class="fa-solid fa-sack-dollar text-yellow-400 pointer-events-none"></i> Market</button>
                             <button class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5" data-filter="Policy"><i class="fa-solid fa-landmark text-blue-400 pointer-events-none"></i> Policy</button>
+                            <button id="saved-filter-btn" class="filter-btn px-4 md:px-3 py-2 md:py-1 rounded text-xs md:text-[11px] font-mono text-text-secondary hover:text-white transition-colors whitespace-nowrap snap-start flex items-center gap-1.5 hidden" data-filter="saved"><i class="fa-solid fa-bookmark text-accent pointer-events-none"></i> <span>Saved</span></button>
                         </div>
                 </div>
 
@@ -319,12 +379,28 @@
                 }
 
                 // Apply Category Filter
-                if (currentFilter !== 'all') {
+                if (currentFilter !== 'all' && currentFilter !== 'saved') {
                     if (currentFilter === 'Market') {
                         query = query.in('category', ['Market', 'General']);
                     } else {
                         query = query.eq('category', currentFilter);
                     }
+                }
+
+                // Handle Saved filter separately
+                if (currentFilter === 'saved') {
+                    const result = await fetchSavedSignals();
+                    if (result.error) {
+                        container.innerHTML = `<div class="p-4 text-center text-text-secondary text-sm">加载收藏失败</div>`;
+                        hasMore = false;
+                        return;
+                    }
+                    allData = result.data;
+                    hasMore = false;
+                    document.getElementById('stat-total').innerText = `${allData.length} Saved`;
+                    render(allData, false);
+                    isLoading = false;
+                    return;
                 }
 
                 // Pagination & Sorting
@@ -508,7 +584,7 @@
                 }
 
                 return `
-                <div class="group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" data-url="${item.url}" onclick="openDrawerByUrl(this.getAttribute('data-url'))">
+                <div class="signal-card group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" data-url="${item.url}" data-signal-id="${item.id}" onclick="openDrawerByUrl(this.getAttribute('data-url'))">
                     <div class="flex justify-between items-start mb-2 gap-4">
                         <div class="flex items-center gap-2 flex-wrap flex-1">
                             <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5 flex-shrink-0">
@@ -519,9 +595,14 @@
                                 ${item.source}
                             </span>
                         </div>
-                        <span class="text-[10px] font-mono flex items-center ${isNew ? 'text-emerald-400/90' : 'text-text-muted'} whitespace-nowrap group-hover:text-accent-primary transition-colors flex-shrink-0 ml-2">
-                            ${newBadge}${timeStr}
-                        </span>
+                        <div class="flex items-center gap-2 flex-shrink-0 ml-2">
+                            <button onclick="event.stopPropagation(); event.preventDefault(); toggleSaveSignal('${item.id}', this)" class="bookmark-btn p-1 rounded hover:bg-bg-secondary/50 transition-colors" data-signal-id="${item.id}">
+                                <i class="fa-regular fa-bookmark text-text-muted text-sm"></i>
+                            </button>
+                            <span class="text-[10px] font-mono flex items-center ${isNew ? 'text-emerald-400/90' : 'text-text-muted'} whitespace-nowrap group-hover:text-accent-primary transition-colors">
+                                ${newBadge}${timeStr}
+                            </span>
+                        </div>
                     </div>
                     <h3 class="text-sm md:text-base font-bold text-text-primary group-hover:text-white transition-colors leading-snug mb-2 line-clamp-2">
                         ${item.title}
@@ -745,30 +826,277 @@
             }
         }
 
-        // Event Listeners
-        document.getElementById('feed-filters').addEventListener('click', (e) => {
-            if (e.target.classList.contains('filter-btn')) {
-                // UI
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active', 'text-white', 'bg-bg-primary'));
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.add('text-text-secondary'));
-                
-                e.target.classList.add('active', 'text-white');
-                e.target.classList.remove('text-text-secondary');
-                
-                // Logic
-                currentFilter = e.target.dataset.filter;
-                currentPage = 0;
-                fetchData(false);
-                
-                // Scroll back to top smoothly for the signal container
-                const signalContainer = document.getElementById('signal-container');
-                if (signalContainer) {
-                    signalContainer.scrollTo({
-                        top: 0,
-                        left: 0,
-                        behavior: 'smooth'
-                    });
+        // --- Auth State Management ---
+        let currentUser = null;
+        let savedSignalIds = new Set();
+
+        async function initAuth() {
+            if (!supabaseClient) return;
+
+            // Listen for auth state changes
+            supabaseClient.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN' && session?.user) {
+                    currentUser = session.user;
+                    updateAuthUI(true);
+                    loadSavedSignals();
+                } else if (event === 'SIGNED_OUT') {
+                    currentUser = null;
+                    savedSignalIds.clear();
+                    updateAuthUI(false);
                 }
+            });
+
+            // Check if user is already logged in (session persists)
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session?.user) {
+                currentUser = session.user;
+                updateAuthUI(true);
+                loadSavedSignals();
+            }
+        }
+
+        function updateAuthUI(isLoggedIn) {
+            const authUserEl = document.getElementById('auth-user');
+            const loginBtn = document.getElementById('login-btn');
+            const savedBtn = document.getElementById('saved-filter-btn');
+
+            if (isLoggedIn && currentUser) {
+                authUserEl.classList.remove('hidden');
+                authUserEl.classList.add('flex');
+                loginBtn.classList.add('hidden');
+                savedBtn.classList.remove('hidden'); // Show Saved tab
+
+                // Set avatar and name
+                const avatarEl = document.getElementById('user-avatar');
+                const nameEl = document.getElementById('user-name');
+                if (currentUser.user_metadata?.avatar_url) {
+                    avatarEl.src = currentUser.user_metadata.avatar_url;
+                } else if (currentUser.app_metadata?.provider === 'github') {
+                    avatarEl.src = `https://avatars.githubusercontent.com/u/${currentUser.app_metadata?.provider_id || currentUser.id}`;
+                }
+                nameEl.innerText = currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'User';
+            } else {
+                authUserEl.classList.add('hidden');
+                authUserEl.classList.remove('flex');
+                loginBtn.classList.remove('hidden');
+                savedBtn.classList.add('hidden'); // Hide Saved tab
+            }
+        }
+
+        // Toggle user dropdown
+        document.getElementById('user-menu-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.classList.toggle('hidden');
+        });
+        document.addEventListener('click', () => {
+            document.getElementById('user-dropdown').classList.add('hidden');
+        });
+
+        async function signInWithGitHub() {
+            if (!supabaseClient) {
+                showToast('Supabase not configured', 'error');
+                return;
+            }
+            closeLoginModal();
+            const { error } = await supabaseClient.auth.signInWithOAuth({
+                provider: 'github',
+                options: {
+                    redirectTo: window.location.href
+                }
+            });
+            if (error) {
+                showToast('Sign in failed: ' + error.message, 'error');
+            }
+        }
+
+        async function signOut() {
+            if (!supabaseClient) return;
+            const { error } = await supabaseClient.auth.signOut();
+            if (error) showToast('Sign out failed', 'error');
+            document.getElementById('user-dropdown').classList.add('hidden');
+        }
+
+        // --- Login Modal ---
+        function showLoginModal() {
+            const modal = document.getElementById('login-modal');
+            const content = document.getElementById('login-modal-content');
+            modal.classList.remove('hidden');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+            });
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('login-modal');
+            const content = document.getElementById('login-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        // --- Saved Signals Logic ---
+        async function loadSavedSignals() {
+            if (!supabaseClient || !currentUser) return;
+            savedSignalIds.clear();
+            const { data, error } = await supabaseClient
+                .from('saved_signals')
+                .select('signal_id')
+                .eq('user_id', currentUser.id);
+            if (!error && data) {
+                data.forEach(row => savedSignalIds.add(row.signal_id));
+                // Refresh UI to show filled bookmarks
+                refreshBookmarkUI();
+            }
+        }
+
+        function refreshBookmarkUI() {
+            document.querySelectorAll('.bookmark-btn').forEach(btn => {
+                const signalId = btn.dataset.signalId;
+                if (savedSignalIds.has(signalId)) {
+                    btn.innerHTML = '<i class="fa-solid fa-bookmark text-accent"></i>';
+                } else {
+                    btn.innerHTML = '<i class="fa-regular fa-bookmark text-text-muted"></i>';
+                }
+            });
+        }
+
+        async function toggleSaveSignal(signalId, btn) {
+            if (!supabaseClient || !currentUser) {
+                showToast('请先登录后再收藏', 'info');
+                showLoginModal();
+                return;
+            }
+
+            const isSaved = savedSignalIds.has(signalId);
+
+            if (isSaved) {
+                const { error } = await supabaseClient
+                    .from('saved_signals')
+                    .delete()
+                    .eq('user_id', currentUser.id)
+                    .eq('signal_id', signalId);
+                if (!error) {
+                    savedSignalIds.delete(signalId);
+                    btn.innerHTML = '<i class="fa-regular fa-bookmark text-text-muted"></i>';
+                    showToast('已取消收藏', 'info');
+                    // If we're on saved page, remove the card
+                    if (currentFilter === 'saved') {
+                        const card = document.querySelector(`.signal-card[data-signal-id="${signalId}"]`);
+                        if (card) card.remove();
+                    }
+                }
+            } else {
+                const { error } = await supabaseClient
+                    .from('saved_signals')
+                    .insert({ user_id: currentUser.id, signal_id: signalId });
+                if (!error) {
+                    savedSignalIds.add(signalId);
+                    btn.innerHTML = '<i class="fa-solid fa-bookmark text-accent"></i>';
+                    showToast('已收藏', 'success');
+                }
+            }
+        }
+
+        async function navigateToSaved() {
+            if (!currentUser) {
+                showToast('登录后查看跨设备收藏', 'info');
+                showLoginModal();
+                return;
+            }
+            document.getElementById('user-dropdown').classList.add('hidden');
+            // Activate saved filter
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.add('text-text-secondary'));
+            const savedBtn = document.getElementById('saved-filter-btn');
+            savedBtn.classList.add('active');
+            savedBtn.classList.remove('text-text-secondary');
+            currentFilter = 'saved';
+            currentPage = 0;
+            fetchData(false);
+        }
+
+        async function fetchSavedSignals() {
+            if (!supabaseClient || !currentUser) return { data: [], error: 'Not logged in' };
+            // Fetch all saved signal_ids for this user
+            const { data: savedRows, error: savedError } = await supabaseClient
+                .from('saved_signals')
+                .select('signal_id, created_at')
+                .eq('user_id', currentUser.id)
+                .order('created_at', { ascending: false });
+
+            if (savedError) return { data: [], error: savedError.message };
+
+            if (!savedRows || savedRows.length === 0) return { data: [], error: null };
+
+            const signalIds = savedRows.map(r => r.signal_id);
+            const signalIdToSavedAt = {};
+            savedRows.forEach(r => signalIdToSavedAt[r.signal_id] = r.created_at);
+
+            // Fetch full signal details
+            const { data: signals, error: signalsError } = await supabaseClient
+                .from('signals')
+                .select('*')
+                .in('id', signalIds);
+
+            if (signalsError) return { data: [], error: signalsError.message };
+
+            // Maintain saved order
+            const orderedSignals = signalIds.map(id => signals.find(s => s.id === id)).filter(Boolean);
+            return { data: orderedSignals, error: null };
+        }
+
+        // Toast helper
+        function showToast(msg, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = toast.querySelector('i');
+            toastMsg.innerText = msg;
+            if (type === 'success') {
+                toastIcon.className = 'fas fa-check-circle text-emerald-400';
+            } else if (type === 'error') {
+                toastIcon.className = 'fas fa-exclamation-circle text-rose-400';
+            } else {
+                toastIcon.className = 'fas fa-info-circle text-accent';
+            }
+            toast.classList.remove('translate-y-10', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+            }, 2500);
+        }
+
+        // --- Update Filter Logic for Saved ---
+        document.getElementById('feed-filters').addEventListener('click', (e) => {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+
+            // UI
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter;
+            currentFilter = filter;
+            currentPage = 0;
+
+            // Handle Saved specially
+            if (filter === 'saved') {
+                if (!currentUser) {
+                    showToast('登录后查看跨设备收藏', 'info');
+                    showLoginModal();
+                    return;
+                }
+                fetchData(false);
+            } else {
+                fetchData(false);
+            }
+
+            // Scroll back to top
+            const signalContainer = document.getElementById('signal-container');
+            if (signalContainer) {
+                signalContainer.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
             }
         });
 
@@ -797,6 +1125,7 @@
         }
 
         // Init
+        initAuth();
         fetchData(false);
 
     </script>
