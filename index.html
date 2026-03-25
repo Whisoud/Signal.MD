@@ -200,18 +200,16 @@
                         <i class="fa-brands fa-github text-sm"></i>
                         <span class="hidden md:inline">Sign In</span>
                     </button>
-                    
-                    <a href="https://github.com/Whisoud/Signal.MD" target="_blank" class="hover:text-white transition-colors ml-1 md:ml-2"><i class="fa-brands fa-github text-base md:text-lg"></i></a>
                 </div>
             </div>
         </div>
     </header>
     
     <!-- Login Modal -->
-    <div id="login-modal" class="fixed inset-0 z-[100] hidden opacity-0 transition-opacity duration-300">
+    <div id="login-modal" class="fixed inset-0 z-[999] hidden opacity-0 transition-opacity duration-300">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeLoginModal()"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4 pointer-events-none">
-            <div class="bg-bg-card border border-border-color rounded-2xl p-8 w-full max-w-sm pointer-events-auto transform transition-all duration-300 scale-95" id="login-modal-content">
+            <div class="bg-bg-card border border-border-color rounded-2xl p-8 w-full max-w-sm pointer-events-auto transform transition-all duration-300 scale-95 relative" id="login-modal-content">
                 <div class="text-center mb-6">
                     <div class="w-12 h-12 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center mx-auto mb-4">
                         <i class="fa-solid fa-signal text-accent text-xl"></i>
@@ -224,7 +222,7 @@
                     <span>Continue with GitHub</span>
                 </button>
                 <p class="text-[10px] text-text-muted text-center mt-4">We only read your public GitHub profile. No write access.</p>
-                <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-text-muted hover:text-white transition-colors">
+                <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-text-muted hover:text-white transition-colors p-2">
                     <i class="fa-solid fa-times"></i>
                 </button>
             </div>
