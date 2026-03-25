@@ -667,6 +667,9 @@
         const SUPABASE_URL = 'https://odqpdvlspnscyughekyr.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_0pRwAZWLEqSCwcWj1H3-gQ_Td5m5EUe';
         const PROD_REDIRECT_URL = 'https://whisoud.github.io/Signal.MD/';
+        const AUTH_LOGIN_PENDING_KEY = 'signalmd-auth-login-pending';
+        const AUTH_LOGOUT_PENDING_KEY = 'signalmd-auth-logout-pending';
+        const AUTH_RELOAD_DONE_KEY = 'signalmd-auth-reload-done';
         
         let supabaseClient = null;
         if (SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
@@ -704,9 +707,44 @@
             );
         }
 
+        function markAuthPending(type) {
+            if (type === 'login') {
+                sessionStorage.setItem(AUTH_LOGIN_PENDING_KEY, '1');
+                sessionStorage.removeItem(AUTH_LOGOUT_PENDING_KEY);
+            } else if (type === 'logout') {
+                sessionStorage.setItem(AUTH_LOGOUT_PENDING_KEY, '1');
+                sessionStorage.removeItem(AUTH_LOGIN_PENDING_KEY);
+            }
+            sessionStorage.removeItem(AUTH_RELOAD_DONE_KEY);
+        }
+
+        function clearAuthPending() {
+            sessionStorage.removeItem(AUTH_LOGIN_PENDING_KEY);
+            sessionStorage.removeItem(AUTH_LOGOUT_PENDING_KEY);
+        }
+
+        function shouldForceAuthReload() {
+            return sessionStorage.getItem(AUTH_RELOAD_DONE_KEY) !== '1';
+        }
+
+        function markAuthReloadDone() {
+            sessionStorage.setItem(AUTH_RELOAD_DONE_KEY, '1');
+        }
+
         function reloadToCleanCurrentPage() {
             const cleanUrl = `${window.location.origin}${window.location.pathname}`;
             window.location.replace(cleanUrl);
+        }
+
+        async function waitForSessionReady(maxAttempts = 12, delayMs = 250) {
+            for (let attempt = 0; attempt < maxAttempts; attempt++) {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session?.user) {
+                    return session;
+                }
+                await new Promise((resolve) => setTimeout(resolve, delayMs));
+            }
+            return null;
         }
 
         // Data State
@@ -1266,33 +1304,56 @@
         async function initAuth() {
             if (!supabaseClient) return;
             const pendingAuthRedirect = hasPendingAuthRedirect();
+            const pendingLogin = sessionStorage.getItem(AUTH_LOGIN_PENDING_KEY) === '1';
+            const pendingLogout = sessionStorage.getItem(AUTH_LOGOUT_PENDING_KEY) === '1';
 
             // Check if user is already logged in (session persists)
-            // Do this FIRST before waiting, so UI updates instantly if we already have a session
-            const { data: { session } } = await supabaseClient.auth.getSession();
+            let { data: { session } } = await supabaseClient.auth.getSession();
+            if ((pendingAuthRedirect || pendingLogin) && !session?.user) {
+                session = await waitForSessionReady();
+            }
+
             if (session?.user) {
                 currentUser = session.user;
                 updateAuthUI(true);
-                loadSavedSignals();
-                if (pendingAuthRedirect) {
+                await loadSavedSignals();
+                if ((pendingAuthRedirect || pendingLogin) && shouldForceAuthReload()) {
+                    markAuthReloadDone();
+                    clearAuthPending();
+                    cleanupAuthRedirectUrl();
                     reloadToCleanCurrentPage();
                     return;
                 }
             }
 
+            if (pendingLogout && shouldForceAuthReload()) {
+                markAuthReloadDone();
+                clearAuthPending();
+                reloadToCleanCurrentPage();
+                return;
+            }
+
             // Listen for auth state changes (this catches the implicit flow token parsing)
-            supabaseClient.auth.onAuthStateChange((event, newSession) => {
+            supabaseClient.auth.onAuthStateChange(async (event, newSession) => {
                 if (event === 'SIGNED_IN' && newSession?.user) {
                     currentUser = newSession.user;
                     updateAuthUI(true);
-                    loadSavedSignals();
-                    if (pendingAuthRedirect) {
+                    await loadSavedSignals();
+                    if ((hasPendingAuthRedirect() || sessionStorage.getItem(AUTH_LOGIN_PENDING_KEY) === '1') && shouldForceAuthReload()) {
+                        markAuthReloadDone();
+                        clearAuthPending();
+                        cleanupAuthRedirectUrl();
                         reloadToCleanCurrentPage();
                     }
                 } else if (event === 'SIGNED_OUT') {
                     currentUser = null;
                     savedSignalIds.clear();
                     updateAuthUI(false);
+                    if (sessionStorage.getItem(AUTH_LOGOUT_PENDING_KEY) === '1' && shouldForceAuthReload()) {
+                        markAuthReloadDone();
+                        clearAuthPending();
+                        reloadToCleanCurrentPage();
+                    }
                 }
             });
 
@@ -1301,6 +1362,11 @@
                 setTimeout(() => {
                     cleanupAuthRedirectUrl();
                 }, 1000);
+            }
+
+            if (!pendingLogin && !pendingLogout && !pendingAuthRedirect) {
+                clearAuthPending();
+                sessionStorage.removeItem(AUTH_RELOAD_DONE_KEY);
             }
         }
 
@@ -1347,6 +1413,7 @@
                 showToast('Supabase not configured', 'error');
                 return;
             }
+            markAuthPending('login');
             closeLoginModal();
             const { error } = await supabaseClient.auth.signInWithOAuth({
                 provider: 'github',
@@ -1355,19 +1422,26 @@
                 }
             });
             if (error) {
+                clearAuthPending();
                 showToast('Sign in failed: ' + error.message, 'error');
             }
         }
 
         async function signOut() {
             if (!supabaseClient) return;
+            markAuthPending('logout');
             const { error } = await supabaseClient.auth.signOut();
             if (error) {
+                clearAuthPending();
                 showToast('Sign out failed', 'error');
                 return;
             }
             document.getElementById('user-dropdown').classList.add('hidden');
-            reloadToCleanCurrentPage();
+            if (shouldForceAuthReload()) {
+                markAuthReloadDone();
+                clearAuthPending();
+                reloadToCleanCurrentPage();
+            }
         }
 
         function showLoginModal() {
