@@ -631,6 +631,10 @@
             transform: translateY(-1px);
         }
 
+        .signal-card {
+            transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+        }
+
         @media (max-width: 640px) {
             .utility-cluster {
                 gap: 8px;
@@ -679,6 +683,44 @@
                 font-size: 10px;
             }
 
+            .filter-tabs::after {
+                content: "";
+                position: sticky;
+                right: -5px;
+                width: 20px;
+                flex: 0 0 20px;
+                pointer-events: none;
+                background: linear-gradient(90deg, rgba(15, 15, 16, 0), rgba(15, 15, 16, 0.95));
+            }
+
+            .signal-card {
+                margin-left: 0;
+                margin-right: 0;
+                padding: 16px 14px;
+                border: 1px solid rgba(255, 255, 255, 0.06);
+                border-radius: 16px;
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.022) 0%, rgba(255, 255, 255, 0.012) 100%);
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            }
+
+            .signal-card + .signal-card {
+                margin-top: 10px;
+            }
+
+            #search-input-mobile-inline {
+                height: 40px;
+                padding-left: 38px;
+                padding-right: 14px;
+                border-radius: 14px;
+                border-color: rgba(255, 255, 255, 0.06);
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.02) 100%);
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            }
+
+            #signal-container {
+                gap: 10px;
+            }
+
             .login-modal {
                 padding: 16px;
             }
@@ -694,12 +736,44 @@
 
             .drawer-toolbar {
                 padding: 12px 14px;
+                align-items: flex-start;
             }
 
             .drawer-source-chip {
-                max-width: 120px;
+                max-width: 104px;
                 overflow: hidden;
                 text-overflow: ellipsis;
+            }
+
+            .drawer-toolbar-meta {
+                gap: 8px;
+                max-width: calc(100% - 96px);
+            }
+
+            .drawer-toolbar-actions {
+                gap: 8px;
+            }
+
+            .drawer-bookmark-button,
+            .drawer-icon-button {
+                width: 38px;
+                min-width: 38px;
+                height: 38px;
+                padding: 0;
+            }
+
+            #article-drawer {
+                border-left: 0;
+            }
+
+            #drawer-title {
+                font-size: 1.5rem;
+                line-height: 1.2;
+                letter-spacing: -0.03em;
+            }
+
+            #drawer-full-content {
+                font-size: 0.96rem;
             }
         }
     </style>
@@ -777,7 +851,7 @@
             <!-- Left: Signal Feed -->
             <div class="bg-bg-card rounded-xl border border-border-color p-4 md:p-5 shadow-2xl h-full md:h-[800px] flex flex-col relative overflow-hidden">
                 <!-- Header -->
-                <div class="flex flex-col gap-3 mb-3 md:mb-4 z-10 bg-bg-card md:static pt-0 pb-0 md:items-end">
+                <div class="flex flex-col md:flex-row md:justify-end md:items-center gap-3 mb-3 md:mb-4 z-10 bg-bg-card md:static pt-0 pb-0">
                     <!-- Mobile Inline Search Bar (Dashboard First Approach) -->
                     <div class="md:hidden w-full relative">
                         <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-text-secondary/50 text-xs"></i>
@@ -785,7 +859,7 @@
                     </div>
                 
                 <!-- Filter Tabs -->
-                        <div class="filter-tabs no-scrollbar w-full md:w-auto md:max-w-none md:ml-auto snap-x" id="feed-filters">
+                        <div class="filter-tabs no-scrollbar w-full md:w-auto md:max-w-none self-stretch md:self-auto md:ml-auto snap-x" id="feed-filters">
                             <button class="filter-btn active whitespace-nowrap snap-start" data-filter="all">All</button>
                             <button class="filter-btn whitespace-nowrap snap-start" data-filter="Insights"><i class="fa-solid fa-lightbulb text-amber-400 pointer-events-none"></i> Insights</button>
                             <button class="filter-btn whitespace-nowrap snap-start" data-filter="Product"><i class="fa-solid fa-rocket text-rose-400 pointer-events-none"></i> Product</button>
@@ -1254,34 +1328,41 @@
                     : '<i class="fa-regular fa-bookmark text-text-muted text-sm"></i>';
 
                 return `
-                <div class="signal-card group border-b border-border-color/30 last:border-0 py-5 cursor-pointer hover:bg-bg-secondary/20 transition-all rounded-lg px-2 -mx-2 relative" data-url="${item.url}" data-signal-id="${item.id}" onclick="openDrawerByUrl(this.getAttribute('data-url'))">
-                    <div class="flex justify-between items-start mb-2 gap-4">
-                        <div class="flex items-center gap-2 flex-wrap flex-1">
-                            <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5 flex-shrink-0">
-                                <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>
-                                ${item.category}
-                            </span>
-                            <span class="text-xs text-text-muted flex items-center gap-1 line-clamp-1">
-                                ${item.source}
-                            </span>
+                <div class="signal-card group border-b md:border-b border-border-color/30 last:border-0 py-4 md:py-5 cursor-pointer hover:bg-bg-secondary/20 rounded-lg md:rounded-lg px-0 md:px-2 mx-0 md:-mx-2 relative" data-url="${item.url}" data-signal-id="${item.id}" onclick="openDrawerByUrl(this.getAttribute('data-url'))">
+                    <div class="flex items-start justify-between gap-3 mb-2 md:mb-2">
+                        <div class="min-w-0 flex-1">
+                            <div class="flex items-center gap-2 flex-wrap mb-2">
+                                <span class="text-[10px] font-semibold tracking-wider px-2 py-0.5 rounded border ${color} uppercase flex items-center gap-1.5 flex-shrink-0">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>
+                                    ${item.category}
+                                </span>
+                                <span class="text-[11px] md:text-xs text-text-muted flex items-center gap-1 min-w-0 line-clamp-1">
+                                    ${item.source}
+                                </span>
+                            </div>
+                            <h3 class="text-[15px] md:text-base font-bold text-text-primary group-hover:text-white transition-colors leading-snug mb-2 line-clamp-2">
+                                ${item.title}
+                            </h3>
+                            <p class="text-[12px] md:text-xs text-text-secondary leading-relaxed line-clamp-2 md:line-clamp-2">
+                                ${item.summary}
+                            </p>
+                        </div>
+                        <button onclick="event.stopPropagation(); event.preventDefault(); toggleSaveSignal('${item.id}', this)" class="bookmark-btn hidden md:inline-flex p-1 rounded hover:bg-bg-secondary/50 transition-colors flex-shrink-0 mt-0.5" data-signal-id="${item.id}">
+                            ${bookmarkIcon}
+                        </button>
+                    </div>
+                    <div class="flex items-end justify-between gap-3 mt-3">
+                        <div class="flex flex-wrap gap-2 min-w-0">
+                            ${tagsHtml}
                         </div>
                         <div class="flex items-center gap-2 flex-shrink-0 ml-2">
-                            <button onclick="event.stopPropagation(); event.preventDefault(); toggleSaveSignal('${item.id}', this)" class="bookmark-btn p-1 rounded hover:bg-bg-secondary/50 transition-colors" data-signal-id="${item.id}">
+                            <button onclick="event.stopPropagation(); event.preventDefault(); toggleSaveSignal('${item.id}', this)" class="bookmark-btn md:hidden inline-flex p-1 rounded hover:bg-bg-secondary/50 transition-colors" data-signal-id="${item.id}">
                                 ${bookmarkIcon}
                             </button>
                             <span class="text-[10px] font-mono flex items-center ${isNew ? 'text-emerald-400/90' : 'text-text-muted'} whitespace-nowrap group-hover:text-accent-primary transition-colors">
                                 ${newBadge}${timeStr}
                             </span>
                         </div>
-                    </div>
-                    <h3 class="text-sm md:text-base font-bold text-text-primary group-hover:text-white transition-colors leading-snug mb-2 line-clamp-2">
-                        ${item.title}
-                    </h3>
-                    <p class="text-xs text-text-secondary leading-relaxed line-clamp-2 mb-3">
-                        ${item.summary}
-                    </p>
-                    <div class="flex flex-wrap gap-2">
-                        ${tagsHtml}
                     </div>
                 </div>
                 `;
