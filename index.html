@@ -379,8 +379,8 @@
                     <!-- User Auth State (shown when logged in) -->
                     <div id="auth-user" class="hidden items-center gap-2 relative">
                         <div class="relative">
-                            <button id="user-menu-btn" class="flex items-center gap-2 hover:text-white transition-colors">
-                                <img id="user-avatar" src="" alt="Avatar" class="w-6 h-6 rounded-full border border-border-color">
+                            <button id="user-menu-btn" class="flex items-center gap-2 hover:text-white transition-colors focus:outline-none">
+                                <img id="user-avatar" src="" alt="Avatar" class="w-6 h-6 object-cover rounded-full border border-border-color">
                                 <span id="user-name" class="text-xs font-mono hidden md:inline"></span>
                                 <i class="fa-solid fa-chevron-down text-[8px]"></i>
                             </button>
@@ -1059,15 +1059,19 @@
         async function initAuth() {
             if (!supabaseClient) return;
 
-            // Give Supabase client a moment to process the URL hash before we clean it up
-            setTimeout(() => {
-                cleanupAuthRedirectUrl();
-            }, 500);
+            // Check if user is already logged in (session persists)
+            // Do this FIRST before waiting, so UI updates instantly if we already have a session
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session?.user) {
+                currentUser = session.user;
+                updateAuthUI(true);
+                loadSavedSignals();
+            }
 
-            // Listen for auth state changes
-            supabaseClient.auth.onAuthStateChange((event, session) => {
-                if (event === 'SIGNED_IN' && session?.user) {
-                    currentUser = session.user;
+            // Listen for auth state changes (this catches the implicit flow token parsing)
+            supabaseClient.auth.onAuthStateChange((event, newSession) => {
+                if (event === 'SIGNED_IN' && newSession?.user) {
+                    currentUser = newSession.user;
                     updateAuthUI(true);
                     loadSavedSignals();
                 } else if (event === 'SIGNED_OUT') {
@@ -1077,13 +1081,10 @@
                 }
             });
 
-            // Check if user is already logged in (session persists)
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (session?.user) {
-                currentUser = session.user;
-                updateAuthUI(true);
-                loadSavedSignals();
-            }
+            // Give Supabase client a moment to process the URL hash before we clean it up
+            setTimeout(() => {
+                cleanupAuthRedirectUrl();
+            }, 1000); // Increased timeout to 1s to be absolutely sure SDK parsed it
         }
 
         function updateAuthUI(isLoggedIn) {
