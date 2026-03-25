@@ -1160,62 +1160,89 @@ def scrape_hit180(existing_urls):
     print("正在抓取 HIT专家网 (Direct HTML)...")
     items = []
     seen_urls = set(existing_urls)
-    url = "https://www.hit180.com/"
     headers = {
-        "User-Agent": USER_AGENT
+        "User-Agent": USER_AGENT,
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8"
     }
-    
+
     try:
-        # Increase timeout to 30s as the site can be slow, add a simple retry
-        for attempt in range(2):
-            try:
-                res = requests.get(url, headers=headers, timeout=30)
-                res.encoding = 'utf-8'
-                if res.status_code == 200:
-                    break
-            except Exception as e:
-                if attempt == 1:
-                    raise e
-                time.sleep(2)
-                
-        if res.status_code != 200:
+        candidate_urls = [
+            "https://www.hit180.com/",
+            "https://hit180.com/"
+        ]
+        res = None
+        for candidate_url in candidate_urls:
+            for attempt in range(2):
+                try:
+                    current = requests.get(candidate_url, headers=headers, timeout=25)
+                    current.encoding = 'utf-8'
+                    if current.status_code == 200:
+                        if "aliyun_waf" in current.text or "acw_sc__v2" in current.text:
+                            print(f"⚠️ HIT专家网命中 WAF 挑战页: {candidate_url}")
+                            break
+                        res = current
+                        break
+                    else:
+                        print(f"⚠️ HIT专家网返回非 200 状态: {candidate_url} -> {current.status_code}")
+                except Exception as e:
+                    if attempt == 1:
+                        print(f"⚠️ HIT专家网请求失败: {candidate_url} -> {e}")
+                    time.sleep(2)
+            if res is not None:
+                break
+
+        if res is None:
+            print("⚠️ HIT专家网未获取到可解析页面，本轮跳过。")
             return items
-            
+
         soup = BeautifulSoup(res.text, 'html.parser')
-        # 找到所有文章区块
-        articles = soup.find_all('article')
-        
-        for article in articles:
-            title_tag = article.find('h2', class_='entry-title')
-            if not title_tag or not title_tag.a: continue
-            
-            title = title_tag.get_text(strip=True)
-            link = title_tag.a.get('href')
-            
-            if link in seen_urls: continue
+        article_links = soup.select('h2.entry-title a, h3.entry-title a, article h2 a, article h3 a')
+        if not article_links:
+            article_links = soup.select('a[href*="/archives/"], a[href*="/202"]')
+
+        if not article_links:
+            print("⚠️ HIT专家网页面结构疑似变化，未匹配到文章链接。")
+            return items
+
+        candidate_count = 0
+        score_filtered_count = 0
+
+        for link_tag in article_links:
+            title = link_tag.get_text(strip=True)
+            link = link_tag.get('href')
+            if not title or not link:
+                continue
+            if link.startswith('/'):
+                link = "https://www.hit180.com" + link
+            if not link.startswith("http"):
+                continue
+
+            if link in seen_urls:
+                continue
             seen_urls.add(link)
-            
-            # 获取摘要
-            summary_tag = article.find('div', class_='entry-content')
+            candidate_count += 1
+
+            article = link_tag.find_parent('article')
+            summary_tag = article.select_one('div.entry-content, div.entry-summary, p') if article else None
             summary = summary_tag.get_text(strip=True) if summary_tag else ""
-            
-            # 获取时间
-            time_tag = article.find('time', class_='entry-date')
+
+            time_tag = article.select_one('time.entry-date, time[datetime], span.entry-date') if article else None
             time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
             if time_tag and time_tag.get('datetime'):
                 try:
-                    # e.g., "2024-03-24T08:00:00+08:00"
                     dt_str = time_tag.get('datetime').split('+')[0].replace('T', ' ')
                     dt = datetime.datetime.strptime(dt_str, "%Y-%m-%d %H:%M:%S")
                     time_str = dt.strftime("%Y-%m-%d %H:%M")
                 except: pass
-                
+
             eval_result = calculate_med_score(title, summary, "HIT专家网")
-            if eval_result["score"] < 5: continue # 政策网要求稍微宽点
-                
+            if eval_result["score"] < 5:
+                score_filtered_count += 1
+                continue
+
             smart_tags = generate_tags(title, summary, "Policy")
             final_tags = list(set(smart_tags + eval_result.get("tags", [])))
-            
+
             items.append({
                 "title": title,
                 "source": "HIT专家网",
@@ -1228,6 +1255,7 @@ def scrape_hit180(existing_urls):
                 "full_content": extract_full_text(link),
                 "lang": "zh"
             })
+        print(f"ℹ️ HIT专家网候选 {candidate_count} 条，得分过滤 {score_filtered_count} 条，入库 {len(items)} 条")
     except Exception as e:
         print(f"❌ HIT专家网 抓取失败: {e}")
     return items
@@ -1237,40 +1265,68 @@ def scrape_cnhealthcare(existing_urls):
     print("正在抓取 健康界 (Direct HTML)...")
     items = []
     seen_urls = set(existing_urls)
-    # 健康界资讯首页
-    url = "https://www.cnhealthcare.com/news/"
     headers = {
-        "User-Agent": USER_AGENT
+        "User-Agent": USER_AGENT,
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+        "Referer": "https://www.cn-healthcare.com/"
     }
-    
+
     try:
-        res = requests.get(url, headers=headers, timeout=10)
-        res.encoding = 'utf-8'
-        if res.status_code != 200:
+        candidate_urls = [
+            "https://www.cn-healthcare.com/",
+            "https://www.cn-healthcare.com/news/",
+            "https://www.cnhealthcare.com/news/"
+        ]
+        res = None
+        for candidate_url in candidate_urls:
+            try:
+                current = requests.get(candidate_url, headers=headers, timeout=20)
+                current.encoding = 'utf-8'
+                if current.status_code != 200:
+                    print(f"⚠️ 健康界返回非 200 状态: {candidate_url} -> {current.status_code}")
+                    continue
+                if "aliyun_waf" in current.text or "acw_sc__v2" in current.text:
+                    print(f"⚠️ 健康界命中 WAF 挑战页: {candidate_url}")
+                    continue
+                res = current
+                break
+            except Exception as e:
+                print(f"⚠️ 健康界请求失败: {candidate_url} -> {e}")
+
+        if res is None:
+            print("⚠️ 健康界未获取到可解析页面，本轮跳过。")
             return items
-            
+
         soup = BeautifulSoup(res.text, 'html.parser')
-        # 健康界的新闻列表块
-        news_list = soup.find_all('li', class_='clear')
-        
+        news_list = soup.select('li.clear, li.news-list-item, .article-list li, .list-item')
+        if not news_list:
+            news_list = soup.find_all('li')
+
+        candidate_count = 0
+        score_filtered_count = 0
+
         for li in news_list:
-            title_tag = li.find('a', class_='tit')
-            if not title_tag: continue
-            
+            title_tag = li.select_one('a.tit, h3 a, h2 a, .title a, a[href*="/article/"]')
+            if not title_tag:
+                continue
+
             title = title_tag.get_text(strip=True)
             link = title_tag.get('href')
             if link and link.startswith('/'):
-                link = "https://www.cnhealthcare.com" + link
-                
-            if not link or link in seen_urls: continue
+                link = "https://www.cn-healthcare.com" + link
+
+            if not title or not link or not link.startswith("http"):
+                continue
+            if link in seen_urls:
+                continue
             seen_urls.add(link)
-            
-            summary_tag = li.find('p', class_='txt')
+            candidate_count += 1
+
+            summary_tag = li.select_one('p.txt, p.summary, .desc, p')
             summary = summary_tag.get_text(strip=True) if summary_tag else ""
-            
-            # 时间获取
+
             time_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
-            date_tag = li.find('span', class_='date')
+            date_tag = li.select_one('span.date, .time, time')
             if date_tag:
                 d_text = date_tag.get_text(strip=True)
                 if "-" in d_text and len(d_text.split("-")) == 3:
@@ -1280,13 +1336,15 @@ def scrape_cnhealthcare(existing_urls):
                         h = int(re.search(r"(\d+)", d_text).group(1))
                         time_str = (datetime.datetime.now() - datetime.timedelta(hours=h)).strftime("%Y-%m-%d %H:%M")
                     except: pass
-                    
+
             eval_result = calculate_med_score(title, summary, "健康界")
-            if eval_result["score"] < 5: continue
-                
+            if eval_result["score"] < 5:
+                score_filtered_count += 1
+                continue
+
             smart_tags = generate_tags(title, summary, "Policy")
             final_tags = list(set(smart_tags + eval_result.get("tags", [])))
-            
+
             items.append({
                 "title": title,
                 "source": "健康界",
@@ -1299,6 +1357,7 @@ def scrape_cnhealthcare(existing_urls):
                 "full_content": extract_full_text(link),
                 "lang": "zh"
             })
+        print(f"ℹ️ 健康界候选 {candidate_count} 条，得分过滤 {score_filtered_count} 条，入库 {len(items)} 条")
     except Exception as e:
         print(f"❌ 健康界 抓取失败: {e}")
     return items
