@@ -1,5 +1,23 @@
 [
   {
+    "id": "fe502cfd-dd2a-4e6f-a3dc-d8fdfca7da20",
+    "title": "The Silent Variance: How patient friction destroys health care revenue",
+    "source": "KevinMD",
+    "category": "Clinical",
+    "level": "S",
+    "tags": [
+      "大模型",
+      "医学影像",
+      "临床研究"
+    ],
+    "time": "2026-03-28T13:00:00+00:00",
+    "url": "https://kevinmd.com/2026/03/the-silent-variance-how-patient-friction-destroys-health-care-revenue.html",
+    "summary": "As health systems move into the 2026 fiscal year, CFOs and hospital boards have already approved their operating budgets. Capital is set aside for oncology expansions, MRI upgrades, and EHR enhancemen...",
+    "full_content": "<html><body><div><div class=\"entry-content clear\" itemprop=\"text\">\n<p class=\"swp_social_panel swp_horizontal_panel swp_flat_fresh swp_default_full_color swp_other_full_color swp_individual_full_color scale-100 scale-full_width\" data-float=\"top\" data-float-mobile=\"top\" data-min-width=\"1100\" data-post-id=\"496680\" data-transition=\"slide\"></p><p>As health systems move into the 2026 fiscal year, CFOs and hospital boards have already approved their operating budgets. Capital is set aside for oncology expansions, MRI upgrades, and EHR enhancements. Revenue projections are built on patient volume, reimbursement assumptions, and clinical trial enrollment targets.</p>\n<p>On paper, the math works. The P&amp;L looks stable.</p>\n<p>After more than 20 years in enterprise operations and financial systems, I know budgets fail long before the fiscal year begins. The projections are not the issue. The problem is the assumptions underneath them. Across the industry, organizations are carrying an unmeasured and unbudgeted risk that erodes revenue before a single appointment is scheduled.</p>\n<p>I call it the Silent Variance. It is the financial impact of patient friction.</p>\n<p><strong>The financial risk we do not track</strong></p>\n<p>In accounting, a variance is the difference between what we planned and what actually happened. We track labor variances, supply-chain variances, and volume variances with discipline. What we rarely track is the variance created by the process barrier: the administrative and emotional resistance patients encounter when trying to access the care we have already budgeted for.</p>\n<p>Patient friction is not a soft concept. It is a measurable financial risk. When a patient struggles to schedule, authorize, or navigate, the system loses revenue that was already counted in the plan.</p>\n<p>In corporate finance, friction is a warning sign. We monitor Days Sales Outstanding to protect cash flow. We audit supply-chain lead time because delay creates cost. Every hour a product sits idle is unrealized revenue. Yet in health care, we budget for the treatment and allocate almost nothing for the access. We assume the patient will arrive at the scheduled time, ready for the billable event. That assumption is a financial fallacy.</p>\n<p>Missed appointments cost the United States health care system an estimated <a data-wpel-link=\"external\" href=\"https://www.hcinnovationgroup.com/clinical-it/article/13008175/missed-appointments-cost-the-us-healthcare-system-150b-each-year\" rel=\"noopener nofollow external noreferrer\" target=\"_blank\">150 billion dollars each year</a>. For a primary care practice, a single no-show is roughly a <a data-wpel-link=\"exclude\" href=\"https://pmc.ncbi.nlm.nih.gov/articles/PMC4714455/\" rel=\"noopener follow noreferrer\" target=\"_blank\">$200 loss</a>. In a multi-hospital system, a 5 percent no-show rate is not a scheduling nuisance. It is a structural leak that erodes the margin required for innovation.</p>\n<p>I learned this firsthand when I became a patient navigating a rare disease diagnosis. Despite my MBA and decades of experience optimizing revenue cycles, I struggled to move through the system. When the lead time to care becomes too complex, patients do not push harder. They fall out of the pipeline.</p>\n<p>For the organization, that is a lost asset. For the budget, it is a variance that never appears on a report.</p>\n<p><strong>When access fails, revenue follows</strong></p>\n<p>When a patient misses an infusion because they cannot interpret a prior authorization form, that is not a clinical failure. It is an operational defect. In manufacturing, if a machine sits idle because a part did not arrive, we call it downtime. In health care, when an infusion chair is empty or a clinical trial slot goes unfilled, we call it non-compliance. Financially, they are the same. Both represent revenue leakage caused by process design.</p>\n<p><strong>The last mile problem in clinical trials</strong></p>\n<p>Clinical trials make this even clearer. Recruitment delays affect most trials. When a participant drops out because they cannot navigate reimbursement or afford parking, the site loses time, capital, and future value. Every day of delay reduces the net present value of the eventual product. Organizations invest heavily in trial infrastructure but often fail to fund the last mile: the systems that help patients stay engaged. It is the equivalent of building a factory and refusing to pave the road to the loading dock.</p>\n<p><strong>Navigation as revenue protection</strong></p>\n<p>To correct the 2026 budget, we must stop treating patient experience as a courtesy and start treating it as an operational requirement. That shift requires structural empathy, the deliberate design of systems that reduce administrative burden for patients.</p>\n<p>Navigation is not overhead. Navigation is revenue protection. If a navigator spends two hours securing a prior authorization for a $10,000 procedure, the return on that labor is immediate. Without that intervention, the chair stays empty and the fixed costs remain. A navigated patient arrives. A navigated patient stays in the trial. A navigated patient completes the care plan.</p>\n<p>At the research level, the stakes are even higher. A one-month delay in a phase III trial can cost millions in extended burn rates and lost opportunity. Funding patient support is not a soft investment. It is a hedge against trial failure.</p>\n<p>If CFOs want to protect their margins, they must audit the humanity of their operations with the same rigor they apply to cash flow.</p>\n<p><strong>Auditing the access pathway</strong></p>\n<p>The first step is to audit the days to access. New data shows that <a data-wpel-link=\"external\" href=\"https://ir.amnhealthcare.com/news-releases/news-release-details/amn-healthcare-survey-physician-appointment-wait-times-8-2017-24\" rel=\"noopener nofollow external noreferrer\" target=\"_blank\">physician appointment wait times have surged</a>, creating a lead-time crisis that our financial models fail to predict. That is not a patient problem. It is a process problem. Every day in the referral queue is a day of revenue at risk.</p>\n<p>The second step is to audit the digital experience. If a patient needs multiple logins to view results and schedule a follow-up, the system is creating friction, not efficiency. Digital tools should reduce cognitive load, not layer code on top of fear.</p>\n<p>The third step is to walk the patient pathway. Executives should attempt to schedule an appointment or resolve a billing issue using only the tools available to a standard patient. If leadership cannot navigate the system easily, a patient in crisis certainly cannot. Eliminating non-value-add steps increases capacity without adding a single square foot of space.</p>\n<p>Good intentions do not reduce disparities or protect the bottom line. Strong systems do.</p>\n<p>As we enter the 2026 fiscal year, the Silent Variance is hiding in the gaps between our departments. It is the cost of the patient who gave up, the infusion chair that sat empty, the clinical trial delayed by months, and the revenue we projected but never realized.</p>\n<p>If we want to protect our margins, we must first protect the path to the door. Identify the friction. Quantify its cost. Build the systems that eliminate it.</p>\n<p>Empathy is not a line item. The absence of it is the most expensive mistake in the budget.</p>\n<p><em><a data-wpel-link=\"exclude\" href=\"https://www.linkedin.com/in/donna-harvin-graham/\" rel=\"follow noopener noreferrer\" target=\"_blank\">Donna Harvin‑Graham</a> is a patient advocate.</em></p>\n<p class=\"swp-content-locator\"></p>\n</div>\n</div></body></html>",
+    "lang": "zh",
+    "created_at": "2026-03-28T16:43:25.374405+00:00"
+  },
+  {
     "id": "43259973-e55c-4a09-8f0d-4d6ac5a22284",
     "title": "聚焦明确硬核痛点的AIDD小模型",
     "source": "动脉网",
@@ -3298,24 +3316,6 @@
     "time": "2026-01-20T21:00:00+00:00",
     "url": "https://openai.com/index/horizon-1000",
     "summary": "OpenAI and the Gates Foundation launch Horizon 1000, a $50M pilot advancing AI capabilities for healthcare in Africa. The initiative aims to reach 1,000 clinics by 2028....",
-    "full_content": "",
-    "lang": "zh",
-    "created_at": "2026-03-24T07:19:56.07413+00:00"
-  },
-  {
-    "id": "d3b0d374-2a1b-44f4-ae74-37c43ecc8dce",
-    "title": "Cisco and OpenAI redefine enterprise engineering with AI agents",
-    "source": "OpenAI News",
-    "category": "Product",
-    "level": "B",
-    "tags": [
-      "大模型",
-      "AI工作流",
-      "医学影像"
-    ],
-    "time": "2026-01-20T11:00:00+00:00",
-    "url": "https://openai.com/index/cisco",
-    "summary": "Cisco and OpenAI redefine enterprise engineering with Codex, an AI software agent embedded in workflows to speed builds, automate defect fixes, and enable AI-native development....",
     "full_content": "",
     "lang": "zh",
     "created_at": "2026-03-24T07:19:56.07413+00:00"
