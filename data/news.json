@@ -1,5 +1,39 @@
 [
   {
+    "id": "0c731eb4-d698-49b0-9ab3-12b4901cd58b",
+    "title": "How digital tools are reshaping hospital and clinic operations across India",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [
+      "医学影像"
+    ],
+    "time": "2026-04-03T11:26:00+00:00",
+    "url": "https://medium.com/@eazycare814/how-digital-tools-are-reshaping-hospital-and-clinic-operations-across-india-05ed72fa1e89",
+    "summary": "India&#x2019;s healthcare sector is undergoing one of its most significant transformations in decades. With a rapidly growing patient population&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@eazycare814/how-digital-tools-are-reshaping-hospital-and-clinic-operations-across-india-05ed72fa1e89?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2600/1*VpOjPC74vWuYpzv0oNnAMg.jpeg\" width=\"3292\" /></a></p><p class=\"medium-feed-snippet\">India&#x2019;s healthcare sector is undergoing one of its most significant transformations in decades. With a rapidly growing patient population&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@eazycare814/how-digital-tools-are-reshaping-hospital-and-clinic-operations-across-india-05ed72fa1e89?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-04-03T13:19:06.554739+00:00"
+  },
+  {
+    "id": "e66719e7-2d27-4c1a-a114-730055e71bf2",
+    "title": "The real problem with AI in medicine and drug development",
+    "source": "KevinMD",
+    "category": "Policy",
+    "level": "A",
+    "tags": [
+      "医院运营",
+      "监管合规",
+      "医学影像"
+    ],
+    "time": "2026-04-03T11:00:00+00:00",
+    "url": "https://kevinmd.com/2026/04/the-real-problem-with-ai-in-medicine-and-drug-development.html",
+    "summary": "Artificial intelligence is rapidly acquiring a reputation as an unreliable, even dangerous, force in medicine and drug development. Hallucinations, opaque decision-making, and high-profile failures ha...",
+    "full_content": "<html><body><div><div class=\"entry-content clear\" itemprop=\"text\">\n<p class=\"swp_social_panel swp_horizontal_panel swp_flat_fresh swp_default_full_color swp_other_full_color swp_individual_full_color scale-100 scale-full_width\" data-float=\"top\" data-float-mobile=\"top\" data-min-width=\"1100\" data-post-id=\"497024\" data-transition=\"slide\"></p><p>Artificial intelligence is rapidly acquiring a reputation as an unreliable, even dangerous, force in medicine and drug development. Hallucinations, opaque decision-making, and high-profile failures have fueled resistance to its adoption across health care systems. But this backlash reflects not an inherent flaw in AI itself, it reflects how we are choosing to use it.</p>\n<p>The dominant mistake is conceptual. We are treating AI as a replacement for human reasoning rather than as a cognitive tool designed to operate alongside it. In doing so, we are asking AI systems to generate original insight, resolve biological uncertainty, and substitute for scientific judgment, roles they were never designed to fulfill. When AI inevitably fails at these tasks, it is blamed for shortcomings that originate in human misuse.</p>\n<p>AI is not a thinking entity. It does not reason, hypothesize, or innovate in the way humans do. It is a system constrained by its training data and underlying assumptions. When deployed to explore unknown biological mechanisms or black-box problems without validated reference frameworks, AI models can reinforce confirmation bias, generate false confidence, and amplify error.</p>\n<p>These outcomes are not evidence that AI is dangerous; they are evidence that it is being deployed outside its epistemic limits.</p>\n<p><strong>Reframing AI as a cognitive adjunct</strong></p>\n<p>The more productive framing is to treat AI as a cognitive adjunct, a tool that accelerates pattern recognition, screening, and optimization within human-validated systems. Much like calculators did not replace mathematical reasoning but enhanced it, AI should not be positioned as an autonomous decision-maker. Its value lies in augmenting human logic, not substituting for it.</p>\n<p>In drug discovery, this distinction is particularly critical. The failure of AI-driven drug development efforts is often framed as a technological shortcoming, when it is more accurately a failure of experimental context. AI models trained on incomplete, biased, or poorly validated biological data cannot resolve fundamental uncertainty about human physiology. When these models are asked to predict outcomes in systems that lack causal grounding, their outputs become speculative at best.</p>\n<p><strong>Reversing the hierarchy in drug discovery</strong></p>\n<p>A more robust approach is to reverse the hierarchy: Build human-validated simulation environments first, grounded in meta-analyses of biological success and failure, mechanistic understanding, and real-world clinical data.</p>\n<p>Within these constrained and vetted environments, AI can then function as a powerful screening and prioritization tool by being able to identify promising compounds, flagging risk, and optimizing experimental design. This preserves human responsibility for defining biological truth while allowing AI to operate where it is strongest: scale, speed, and pattern detection.</p>\n<p>The current backlash against AI in medicine is not a sign that we should abandon it, it is a signal that we must mature in how we use it. Poor implementation has generated poor outcomes, and poor outcomes have generated fear. But fear-driven rejection risks forfeiting one of the most powerful scientific tools we have.</p>\n<p>AI does not need to be an oracle to be valuable. It needs to be positioned correctly: as a tool embedded within human judgment, validated systems, and ethical responsibility. If we continue to treat it as a substitute for thinking rather than an aid to it, we will continue to get the failures we designed for and miss the benefits we could have achieved.</p>\n<p><em><a data-wpel-link=\"exclude\" href=\"https://www.linkedin.com/in/jarelis-cabrera-5338b0177/\" rel=\"noopener noreferrer follow\" target=\"_blank\">Jarelis Cabrera</a> is a biotechnology researcher.</em></p>\n<p class=\"alignrightfp\">\n</p>\n<p class=\"swp-content-locator\"></p>\n</div>\n</div></body></html>",
+    "lang": "zh",
+    "created_at": "2026-04-03T13:19:06.554739+00:00"
+  },
+  {
     "id": "7c7728f6-2b5a-4313-b226-68b81fdae3eb",
     "title": "国家医保局新规实施：精准打击“赠送米面油”诱导式骗保，破解DRG\\u002FDIP监管难题",
     "source": "动脉网",
@@ -3269,38 +3303,6 @@
     "summary": "Every difficult patient is not dangerous. But every high-conflict encounter carries risk. Doctors like to think clinical skill will protect them: It will not. In modern practice, a physician can make ...",
     "full_content": "<html><body><div><div class=\"entry-content clear\" itemprop=\"text\">\n<p class=\"swp_social_panel swp_horizontal_panel swp_flat_fresh swp_default_full_color swp_other_full_color swp_individual_full_color scale-100 scale-full_width\" data-float=\"top\" data-float-mobile=\"top\" data-min-width=\"1100\" data-post-id=\"498400\" data-transition=\"slide\"></p><p>Every difficult patient is not dangerous. But every high-conflict encounter carries risk. Doctors like to think clinical skill will protect them: It will not. In modern practice, a physician can make a sound decision, communicate it poorly, and still walk into a complaint, a licensing problem, a lawsuit, or public reputational damage. That risk becomes even sharper in the care of chronic pain, substance misuse, insurance-driven visits, and patients whose real goals stay hidden until the visit turns ugly.</p>\n<p>The first mistake is to focus only on the medical request. A patient asks for opioids, benzodiazepines, a disability note, or MRI testing. The physician hears the request and responds. But the real agenda may be different. The patient may want income protection, legal leverage, validation, withdrawal relief, a faster insurance payout, proof for a workplace dispute, or simply someone to absorb years of social and economic frustration. That hidden layer changes everything.</p>\n<p>Patients with chronic pain often arrive exhausted, scared, and angry. Some have substance misuse problems. Some have been dismissed elsewhere. Some carry trauma, unemployment, housing strain, family stress, and failed insurance claims into the clinic. By the time they reach the doctor, they may no longer be seeking only treatment. They may be seeking rescue, endorsement, or a witness for their suffering. When those expectations stay unspoken, conflict grows teeth.</p>\n<p>Doctors need to get ahead of that. Early in the visit, ask direct questions: “What are you hoping happens today?” “Is this visit related to pain relief, paperwork, insurance, legal issues, work status, or something else?” “What would feel like a successful visit for you?” Those questions expose the real mission before the visit becomes a trap.</p>\n<p>The second mistake is a vague refusal. A soft fog of “I do not do that” inflames people. Precision cools them down. Explain why you disagree. Explain what you can do. Explain what comes next. If opioids are not appropriate, say why. If a note cannot honestly be written, say why. If substance misuse is a concern, name the risk clearly and calmly. A patient may dislike the answer, but clarity beats ambiguity every time.</p>\n<p>Third, document like your career matters, because it does. Record symptoms, requests, red flags, your reasoning, alternatives offered, informed refusal, follow-up plan, and any concerning behavior. Do not chart anger. Chart facts. Clean documentation is not paranoia. It is survival. Fourth, never examine or manage high-risk situations casually. Use chaperones when appropriate. Keep boundaries explicit. Avoid improvisation. Avoid joking in tense encounters. Avoid being alone in reputational quicksand.</p>\n<p>Finally, do not confuse empathy with surrender. You can care deeply and still say no. You can protect a patient and protect yourself at the same time. That is not cold medicine. That is mature medicine. A difficult patient does not destroy a doctor in one moment. Usually, the damage starts earlier: unclear agendas, loose boundaries, weak documentation, and false confidence that good intentions will be enough. Good intentions are not enough. Structure is what helps.</p>\n<p><em><a data-wpel-link=\"exclude\" href=\"https://www.linkedin.com/in/olu-b-baa79b18b/\" rel=\"noopener noreferrer follow\" target=\"_blank\">Olumuyiwa Bamgbade</a> is an accomplished health care leader with a strong focus on value-based health care delivery. A specialist physician with extensive training across Nigeria, the United Kingdom, the United States, and South Korea, Dr. Bamgbade brings a global perspective to clinical practice and health systems innovation.</em></p>\n<p><em>He serves as an adjunct professor at academic institutions across Africa, Europe, and North America and has published <a data-wpel-link=\"external\" href=\"https://orcid.org/0000-0002-8228-9260\" rel=\"nofollow external noopener noreferrer\" target=\"_blank\">45 peer-reviewed scientific papers</a> in PubMed-indexed journals. His <a data-wpel-link=\"exclude\" href=\"https://www.researchgate.net/profile/Olumuyiwa-Bamgbade\" rel=\"noopener noreferrer follow\" target=\"_blank\">global research collaborations</a> span more than 20 countries, including Nigeria, Australia, Iran, Mozambique, Rwanda, Kenya, Armenia, South Africa, the U.K., China, Ethiopia, and the U.S.</em></p>\n<p><em>Dr. Bamgbade is the director of <a data-wpel-link=\"external\" href=\"https://salempainclinic.net/about-us/\" rel=\"nofollow external noopener noreferrer\" target=\"_blank\">Salem Pain Clinic</a> in Surrey, British Columbia, Canada—a specialist and research-focused clinic. His work at the clinic centers on pain management, health equity, injury rehabilitation, neuropathy, insomnia, societal safety, substance misuse, medical sociology, public health, medicolegal science, and perioperative care.</em></p>\n<p class=\"swp-content-locator\"></p>\n</div>\n</div></body></html>",
     "lang": "zh",
-    "created_at": "2026-03-24T02:42:20.132002+00:00"
-  },
-  {
-    "id": "ea8ac048-aee0-48d5-8957-6531ac643847",
-    "title": "Rich Data, Poor Insight: Rethinking Process Excellence in Healthcare",
-    "source": "Medium",
-    "category": "Market",
-    "level": "B",
-    "tags": [
-      "监管合规"
-    ],
-    "time": "2026-03-20T16:21:00+00:00",
-    "url": "https://medium.com/@albertaduseibrobbey/rich-data-poor-insight-rethinking-process-excellence-in-healthcare-4129d270366e",
-    "summary": "There&#x2019;s a particular kind of frustration that lives in healthcare operations.Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@albertaduseibrobbey/rich-data-poor-insight-rethinking-process-excellence-in-healthcare-4129d270366e?source=rss------ai_in_healthcare-5\"><img src=\"https://cdn-images-1.medium.com/max/700/0*w26V5HMaxbVM-DQ0.png\" width=\"700\" /></a></p><p class=\"medium-feed-snippet\">There&#x2019;s a particular kind of frustration that lives in healthcare operations.</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@albertaduseibrobbey/rich-data-poor-insight-rethinking-process-excellence-in-healthcare-4129d270366e?source=rss------ai_in_healthcare-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-03-24T02:42:20.132002+00:00"
-  },
-  {
-    "id": "d57c0018-b9be-4a03-803a-290ed8e26ce4",
-    "title": "Rich Data, Poor Insight: Rethinking Process Excellence in Healthcare",
-    "source": "Medium",
-    "category": "Market",
-    "level": "B",
-    "tags": [
-      "监管合规"
-    ],
-    "time": "2026-03-20T16:09:00+00:00",
-    "url": "https://medium.com/@aduseialbert1/rich-data-poor-insight-rethinking-process-excellence-in-healthcare-eeacaaba0d37",
-    "summary": "There&#x2019;s a particular kind of frustration that lives in healthcare operations.Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@aduseialbert1/rich-data-poor-insight-rethinking-process-excellence-in-healthcare-eeacaaba0d37?source=rss------ai_in_healthcare-5\"><img src=\"https://cdn-images-1.medium.com/max/2600/1*b_fWi0ScB9RYoggdOKTdcA.png\" width=\"2797\" /></a></p><p class=\"medium-feed-snippet\">There&#x2019;s a particular kind of frustration that lives in healthcare operations.</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@aduseialbert1/rich-data-poor-insight-rethinking-process-excellence-in-healthcare-eeacaaba0d37?source=rss------ai_in_healthcare-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
     "created_at": "2026-03-24T02:42:20.132002+00:00"
   }
 ]
