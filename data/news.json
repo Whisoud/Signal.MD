@@ -1,5 +1,37 @@
 [
   {
+    "id": "3c4b7d45-8722-4a02-96d2-685f701ce655",
+    "title": "How to Build a Successful Medicine Delivery App",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "B",
+    "tags": [
+      "监管合规"
+    ],
+    "time": "2026-04-06T19:33:00+00:00",
+    "url": "https://medium.com/science-for-life/how-to-build-a-successful-medicine-delivery-app-95615b72185f",
+    "summary": "The rise of digital healthcare solutions has revolutionized the way patients access medicines. Medicine delivery apps have gained massive&#x2026;Continue reading on Science For Life »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/science-for-life/how-to-build-a-successful-medicine-delivery-app-95615b72185f?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1080/1*VwUwZ9-HU4j0jbguIzowaQ.png\" width=\"1080\" /></a></p><p class=\"medium-feed-snippet\">The rise of digital healthcare solutions has revolutionized the way patients access medicines. Medicine delivery apps have gained massive&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/science-for-life/how-to-build-a-successful-medicine-delivery-app-95615b72185f?source=rss------digital_health-5\">Continue reading on Science For Life »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-04-06T20:45:41.307283+00:00"
+  },
+  {
+    "id": "ba897915-01a4-4f92-818c-03c970c767d3",
+    "title": "From Property to Patients: A Curious Data Story in Singapore",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [
+      "监管合规"
+    ],
+    "time": "2026-04-06T17:25:00+00:00",
+    "url": "https://medium.com/@barryanseng/from-property-to-patients-a-curious-data-story-in-singapore-13928050c319",
+    "summary": "How might property prices and healthcare demand be related? &#x1f914;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@barryanseng/from-property-to-patients-a-curious-data-story-in-singapore-13928050c319?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1536/1*R6GEeLJwpuenNwk3ScvlGQ.png\" width=\"1536\" /></a></p><p class=\"medium-feed-snippet\">How might property prices and healthcare demand be related? &#x1f914;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@barryanseng/from-property-to-patients-a-curious-data-story-in-singapore-13928050c319?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-04-06T20:45:41.307283+00:00"
+  },
+  {
     "id": "7e42a13f-8f35-446b-9b87-ffd05beca2c9",
     "title": "Digital Transformation in Healthcare: Denmark Digital Care Software Market Insights",
     "source": "Medium",
@@ -12,6 +44,20 @@
     "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@royn28599/digital-transformation-in-healthcare-denmark-digital-care-software-market-insights-596074a85676?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1920/1*YHi2GFoDT34h9KIRPmP8og.png\" width=\"1920\" /></a></p><p class=\"medium-feed-snippet\">The Denmark Digital Care Software Market is expanding rapidly as healthcare digitization, policy support, and innovation drive demand&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@royn28599/digital-transformation-in-healthcare-denmark-digital-care-software-market-insights-596074a85676?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
     "lang": "en",
     "created_at": "2026-04-06T13:25:26.748007+00:00"
+  },
+  {
+    "id": "30d4b32b-cd55-43e1-946e-a050db721483",
+    "title": "医疗AI中的交互体验",
+    "source": "人人都是产品经理",
+    "category": "Product",
+    "level": "A",
+    "tags": [],
+    "time": "2026-04-06T09:00:00+00:00",
+    "url": "http://www.woshipm.com/pd/6370968.html",
+    "summary": "想到的唯一解法就是我的这套交互逻辑，说下我的整体思考和功能的一些明确的限制。\r\n功能限制\r\n首先AI无法提供医疗级别的诊断信息，诊断是医生的事情，所以任何生成诊断性质的报告都需要医生签字，如果没有这种诊断对于企业来说是很灾难的打击，你无法判断提供的诊断是否正确",
+    "full_content": "<html><body><div><div v-pre=\"\">\n<blockquote><p>当AI遇上医疗诊断，如何平衡效率与责任成为关键挑战。一位产品经理回顾了自己设计的医疗AI辅助系统，通过‘人造摩擦力’与数据可视化方案，巧妙解决了黑盒信任与权责划分问题。这个案例揭示了优秀交互设计的本质：不是追求炫技，而是构建多方共赢的服务闭环。</p>\n</blockquote><p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2023/04/13/dc4c06bc-d9e1-11ed-889f-00163e0b5ff3.jpg\"/></p>\n<p>最近沉溺于工作无法自拔，工作内容逐渐偏向更底层与数据、安全、上链相关，好久没有动过我的脑子做设计相关的事情了，前两天面试的时候面试官提到了一个问题，关于我之前做的交互体验中我自己认为我做的比较优秀的交互有什么我是如何思考的？</p>\n<p>很可惜在我面试之前我没有想过这个问题，所以可想而知这个问题我回答的非常的差劲，我是一个秩序性很强的人，所以对于这种好坏的问题我很需要明确的参考系，我才能确定什么样的设计是好的设计，直到过了两天我的医生朋友跟我吐槽他们的软件，我突然发现了一个问题，我有做过一个很不错的交互设计，且在我完成他的时候我的思考不是做一个优秀的设计而是做一个优质的服务流程。</p>\n<p>简单聊一下这个交互是什么样子的，这个需求的是“我们用公司的AI让AI来生成诊断报告这样医生就不用全部数据都看了”，其实我现在的思考中也不知道还有什么其他的方式来设计这个业务线，我当时和现在想到的唯一解法就是我的这套交互逻辑，说下我的整体思考和功能的一些明确的限制。</p>\n<h2 class=\"jltoc--item\" id=\"toc-1\">功能限制</h2>\n<p>首先AI无法提供医疗级别的诊断信息，诊断是医生的事情，所以任何生成诊断性质的报告都需要医生签字，如果没有这种诊断对于企业来说是很灾难的打击，你无法判断提供的诊断是否正确，责任会蔓延，任何一个错误的诊断信息都可能会导致患者的风险甚至死亡</p>\n<p class=\"js-star yyp--fancyPost\" data-id=\"45\"></p>\n<p>AI本身是一个黑盒，这个黑盒不可见，在一个不可见的状态下如何能确定Ai提供的处理结果是有价值的呢？</p>\n<p>如果不用Ai来做让医生自己处理，庞大的数据量会拖垮医生他们无法完成其他的事情全部的时间被拖在处理这些数据上，医生的价值变得局限，软件功能的价值就消失了</p>\n<p>所有给出的诊断信息在医学上是一定要有指南和已有的被验证的临床试验做背书的，如果这些都没有的话那也意味着你的诊断是不合规的</p>\n<h2 class=\"jltoc--item\" id=\"toc-2\">整体思考</h2>\n<p>基于以上的种种限制问题，我得到了一个非常明确的结论，这个功能的核心其实不是生成诊断报告而是让AI为医生减负，这种减负不能是无脑的确认的生成打印，这种高度流水化的减负，而应该是保证各个节点的主力都有对应的思考，在生成报告这个环节需要医生思考，在辅助提供建议和数据处理的环节AI要提供思考，但是到此AI是黑盒的问题依旧没有解决，AI给出了他认为的诊断建议，但是医生是不清楚这个诊断建议AI是如何判断的，我们需要在这个环节加入一些东西让AI的诊断建议有根有据，权责划分问题，这份用户直接读到的报告，究竟应该是AI给出还是医生给出，这个我思考了很久我觉得尊重医学和医疗本身我们应该让专业的人来完成如此专业的事情，他只能是医生给出，因为简单的一句本报告由AI生成是无法提升企业的公信力的，并且我们本身也有医生完成这个专业的事情没必要承担如此巨大的企业风险。</p>\n<h2 class=\"jltoc--item\" id=\"toc-3\">解决方式</h2>\n<p>之所以会想到这个功能设计确实很好，是因为我在跟我的医生朋友聊天的时候发现他们有很多报告的内容在他们的系统中是模版化的，医生确实就是点几下就好了，但是回过头来这个点几下的报告会成为他们沟通的阻碍，存在巨大的信息空白，医生有时候事情太多也不记得这中间他在判断的时候做了什么思考。</p>\n<p>但在当时我设计这个交互时的想法是，既然我不希望医生完全不思考那我需要十分明确各个节点上的主要角色完成的内容是什么，针对AI，AI作为我公司的核心，他在处理大量的心电数据上有着十分卓越的能力，我们的训练数据的质量十分的高，已有数据集中的数据来源明确的疾病人群，通过造影得到的明确的病变位置，所以这个AI的精度其实是很达标的，在这个业务线上主要就负责处理大量的数据并对数据进行标注，提供建议辅助医生，医生看AI提供的这些信息最终得出一个诊断结果，帮助医生完成这个报告的输出。最终用户拿到医生提供的报告并根据医生的建议看是否需要医院进行进一步的影像检查。</p>\n<h2 class=\"jltoc--item\" id=\"toc-4\">两个功能完成需求</h2>\n<h3>AI辅诊/散点图配置</h3>\n<p>将患者数据导入软件之后AI会提供全部数据的预览针对问题数据进行标注，整合标注的数据将AI的诊断建议与AI标注的的数据片段一并提供给医生（解决黑盒问题），医生可以快速的浏览不同标注的数据判断标注是否正确，通过散点图的图形判断异常数据的位置，偏离中轴线的数据需要着重查看，在中轴线上的数据可以整体浏览，并对AI提供的建议进行选择，医生可以快速的完成这数据的浏览和报告的生成</p>\n<h3>人造摩擦力</h3>\n<p>如果医生今天状态不好或者说他在使用的过程中对Ai的信任程度大大提升选择不看直接采纳怎么办？我做了一个限制，在生成报告的时候医生需要手动选择展现给病人的数据作为你提供的诊断依据，在生成报告的时候医生是需要一定的思考的这一段的异常数据是否能佐证我对这位患者的诊断，这种摩擦力可以让医生又好用的工具但不会完全依赖工具</p>\n<p>回到开头，我觉得这个问题是一个很不错的问题，他让我重新思考我的工作内容中做过的事情，原来会有这些关注点可以去考虑，我在这种角度上对我之前的工作做了很多的复盘，当然我现在还是会认为这是一个基本的交互解法，并没有觉得这个解法有多惊艳，不过回想一下这个解法确实在多个角色多个角度为不同的人提供了不同的边界保障和便利，确实可以算作一个不错的交互并且提供了一个不错的服务，保证了多方的便利和利益。</p>\n<div class=\"article--copyright\"><p>本文由 @来都来了 原创发布于人人都是产品经理。未经作者许可，禁止转载</p>\n<p>题图来自 Unsplash，基于CC0协议</p>\n<p>该文观点仅代表作者本人，人人都是产品经理平台仅提供信息存储空间服务</p>\n</div> </div>\n</div></body></html>",
+    "lang": "zh",
+    "created_at": "2026-04-06T20:45:41.307283+00:00"
   },
   {
     "id": "3bf0233b-2ab8-4d82-a083-17d60cf8a30b",
@@ -3262,52 +3308,5 @@
     "full_content": "<html><body><div><div v-pre=\"\">\n<blockquote><p>当买猫500元、治病5000元的现实摆在面前，年轻人正在用脚投票抛弃传统宠物医院。在1.26亿只宠物撑起的千亿市场中，四成宠物医院利润率不足10%，设备投入与低价竞争将行业拖入恶性循环。本文通过一线从业者真实案例，揭示宠物医疗行业从'设备竞赛'到'主动降级'的生存路径，探讨专科化与分级诊疗如何重构行业生态。</p>\n</blockquote><p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2025/06/13/a67c39a2-4817-11f0-be57-00163e09d72f.png\"/></p>\n<p>“头一天还在听诊，第二天招牌就拆了。”听着新客人为一家口碑宠物诊所的消失而惋惜，李毅心底五味杂陈。</p>\n<p>他很想告诉对方，挣不出下个月租金，自己也要“连夜撤退”了。</p>\n<p>一年前，他和朋友凑出80万开了这家宠物医院，以为凭着一身医术和满腔热血，定能在千亿市场里分一杯羹。但现实是，他干着双倍的活，拿着基础的工资，全程为爱发电。</p>\n<p>从“良心医院”，到高不可攀的“宠物三甲”，李毅眼见着宠物诊疗机构一路攀上2万家高峰，又目睹同行们接二连三倒下，连一声再见都来不及说。</p>\n<p>据《2025中国宠物医疗行业白皮书》，国内四成宠物医院利润率不足10%，闭店率居高不下。连资本大鳄也难逃此劫，新瑞鹏上市失利、瑞派着急赴港IPO续命。</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/0fab3436-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>李毅知道，雪崩之时没有一片雪花是无辜的，“风口一到，所有人蜂拥而上，行业被做烂只是时间问题。”</p>\n<p>然而，宠物医疗远没达到真正的“拥挤”：国内猫犬突破1.26亿只，数量超过4岁以下婴幼儿，铲屎官像养娃一样“精致养宠”，市场大盘仍在高速增长。</p>\n<p>生意还在，钱却没了。宠物医疗的困局，究竟从何而来？</p>\n<h2 class=\"jltoc--item\" id=\"toc-1\">01 猫狗看病比人贵，医院却说不赚钱</h2>\n<p>邢小胖每次看到宠物店门前，停着的一排理想，便不胜唏嘘——刚开业那阵子，这里停的可全是劳斯莱斯、宾利。</p>\n<p>他的店开在本地顶奢住宅区旁，“十几年前，养宠物的多是有钱中产。”邢小胖说，那时上千元的进口粮、三千的充值卡，客人闭着眼拎走。而如今，他们只充四五百的洗澡卡，口粮统统网购。</p>\n<p>“老钱”勒紧了口袋，渴望治愈的大城市年轻打工人，则成了养宠人群的主流。</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/1091aa7e-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>“职场新人月入3K，一次诊费可能就要掏空半个月工资。”当了十年兽医的杨光遇见不少人，带着宠物来做完检查、记下药方，然后转身回去买药自己治。</p>\n<p>这种家长已经算负责，更有甚者直接丢下一句：“按最低方案治，活不了就算了。”</p>\n<p>杨光提到，随着宠物繁育的泛滥，品种猫狗的价格从神坛被打到了菜市场，前两年两三万抢爆头的可卡犬，如今一两千甩卖；烂大街的英短、美短猫，更是跌到五六百。</p>\n<p>“买宠物才几百，治病要几千，还不如重新买一只划算。”这话很残酷，却是杨光不得不直面的现实，“当下许多年轻人养宠并非出于‘深爱’，而是一时冲动，弃养率较高。”</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/116ce13e-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>不仅铲屎官在变，宠物流行病也换了一批。</p>\n<p>杨光刚入行那会儿，每天都在和死神赛跑——彼时，猫瘟、细小等传染病高发，“星期猫/狗”（回家只能活一周）屡见不鲜。“一旦确诊，治疗费动辄上万。”他回忆，不少宠物医院，单靠治传染病就能赚得盆满钵满。</p>\n<p>而现在，随着繁育规范和疫苗普及，传染病的“暴利时代”落幕，取而代之的是心脏病、肝肾衰竭等老年慢性病。</p>\n<p>“中国正迎来宠物老龄化浪潮。”杨光说，老年病也需要精细检查、长期用药，本该是医院的“现金流”，可那些愿意一掷千金的宠物主，对医生竖起了防备心。</p>\n<p>邢小胖数不清听过多少次吐槽：团购199元的套餐，到店后被推荐加做彩超、CT、生化检查等，一套加下来费用破千。“基础检查该做。”他强调，宠物不会说话，一个呕吐都有好多种病因，检查能降低误诊率。</p>\n<p class=\"js-star yyp--fancyPost\" data-id=\"45\"></p>\n<p>但在部分医院手里，不对称的信息成了收割的镰刀。前几天，邢小胖朋友的猫咪上吐下泻，去医院做了一堆检查，被诊断为猫瘟，要求留院输液三天。</p>\n<p>可他瞅一眼报告，立刻发现有猫腻：血常规显示白细胞剧增，如果是猫瘟指标应该降低，再加上猫已经打过疫苗，肠胃炎的概率更大。</p>\n<p>朋友请医生开肠胃药，没想到对方恼羞成怒，怪他“质疑专业”。最后猫被抱给了邢小胖，打针、喂药，花费不过20元，第二天就恢复活蹦乱跳。</p>\n<p>过度医疗，叠加很多缺乏经验的兽医被资本“赶鸭子上架”，宠物主的信任在一次次“宰客”“庸医”的负面争议中被消耗。体现在数据上，就是国内宠物诊疗的平均客单价始终在500元以下徘徊。</p>\n<p>而宠物医疗本就低频，宠物医生知其坦言，“一只宠物可能终生只生一两次病，一家医院又只能覆盖附近几公里，许多机构经营十几年也就积累几千份病例。”</p>\n<p>量价齐齐承压，门店却越开越密，宠物医院便陷入了“痛苦螺旋”：一边，是宠物主纷纷抱怨“猫狗看病比人贵”；另一边，是收入增长缓慢，55%的机构月营业额低于10万元。</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/12419bfe-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>但为了撑起这微薄流水，老板们已经砸入了百万级的真金白银。</p>\n<h2 class=\"jltoc--item\" id=\"toc-2\">02 医院投入几百万回不了本，还要被骂黑心</h2>\n<p>人做一次核磁共振，每个部位300-500元；宠物做一次，2000-3000元。</p>\n<p>几倍差价，看似暴利，在开了大型全科宠物医院的顺淇眼里，却是“连电费都挣不回来”的苦涩。</p>\n<p>她掐着手指算：早期兽用的核磁设备几乎没有国产平替，进口一台一百万起步；为了环评与防辐射，要专门腾一块场地；机器一旦开机就不能停，24小时不间断燃烧人民币，每月电费好几万。</p>\n<p>“但核磁检查一个月最多十几二十单。”顺淇苦笑，再算上CT、DR、麻醉机等一系列昂贵装备，她前前后后砸进去几百万，至今仍不敢奢望盈利。</p>\n<p>如此不计代价“卷设备”，并非顺淇刻意追求高大上，而是她不上，有的是人上——随着宠物精准治疗需求提升以及资本涌入，医院被迫玩起了设备竞赛，谁条件差就会面临被淘汰的风险。</p>\n<p>哪怕是李毅这样的小诊所，也得投入近一百万去拼设备：如今养仓鼠、鹦鹉的年轻人越来越多，异宠对设备的要求只高不低。</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/13320c06-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>不止是机器，宠物药也卖出了人用药价格的十倍。</p>\n<p>医药代表来找李毅推销，一粒兽用阿莫西林单价3元，他听得面无波澜。要知道，这价格快够买一整盒人用药了。</p>\n<p>“没办法，国产药品与疫苗种类单一、疗效有限。目前宠物七成以上的药品、九成的疫苗，都依赖外资品牌。”李毅解释道，宠物药没有集采，只能靠市场消化高价。</p>\n<p>他店里的阿莫西林，卖6元一粒，看似毛利率高达50%，实际扔进设备、房租、水电的巨大亏空里，根本听不见响。更别提，许多药他还得赔本卖：进价43元的妙三多疫苗，只卖18元，卖一针亏一针。</p>\n<p>如今的宠物医院，遍地“9.9元疫苗”和“199元绝育”的套餐。把刚需项目做成廉价“诱饵”，再寄希望于后期转化，几乎成了行业心照不宣的生存法则。</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/14193932-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>李毅也是这么做的，但他很快发现低价团购是饮鸩止渴，它正将行业拖入深渊。</p>\n<p>有顾客第一次来，他主动送上三包益生菌，被夸“热情”；顾客第二次来，拿起六包益生菌，李毅按正常价格扫码收费，对方却当场黑了脸，出去逢人便说他黑心。</p>\n<p>老兽医崔明明深有同感：“一台手术正常报价五六千，总有医院敢喊两千，宠物主人选了便宜的，转头还骂其他医院割韭菜。”可实际上，宠物医疗也讲究一分价钱一分货。</p>\n<p>那些报价高的医院，高昂的设备不是摆设，操刀的医生也得百里挑一。</p>\n<p>据崔明明观察，目前本科以上学历的兽医占比近半，但农业院校本科课程远达不到临床标准，大多知识要到工作中或硕士阶段才学，高学历执业兽医占比不到10%。</p>\n<p>巨大人才缺口下，优质兽医被各家机构高价争抢，月入两三万稀松平常。这些开支，最后都得摊到诊疗费里。“但宠物主不看这些，大家只认价格。”崔明明无奈道。</p>\n<p>于是，入不敷出的宠物医院开始降本增效。基层兽医和助理首当其冲，他们拿着三四千的薪水，干着三四个人的活，还得随时承受客人的质疑。一份本该治愈的职业，却让不少人陷入抑郁。</p>\n<p>“现在毕业生都考公考编去了，40人的班级入行者只有2人。”崔明明叹息道，人才的流失像一把回旋镖，进一步影响服务质量，形成恶性循环，最终催生出了宠物医院的倒闭潮。</p>\n<p>好在整个行业并非全军覆没，仍有许多医院顽强坚挺着。</p>\n<h2 class=\"jltoc--item\" id=\"toc-3\">03 大批宠物医院，正主动给自己“降级”</h2>\n<p>2025年，60%宠物医院日均接诊量不足10例，崔明明的中医院每天却要接待三四十份病历。</p>\n<p>“尽管当下许多宠物主不负责任，但年轻一代整体素质是更高的。”崔明明说，4亿养宠大军里，有许多铲屎官真心将毛孩子视为“孩子”，愿意付出金钱、精力去挽救小动物的生命。</p>\n<p>他举例，“老年猫狗得了糖尿病，普通的西医、内科控制不好，宠物主就会来挂中医，做长期干预与调理。”</p>\n<p>除了中医，眼、牙、骨、肿瘤等专科医院也如雨后春笋，这些医院有一整套预防、诊断、治疗、康复方案，让宠物医疗从一门“生意”逐渐回归“医疗”本色。</p>\n<p>顺淇对此深有感触，她至今记得两年前在欧洲看到的一幕：一家顶尖骨科医生的医院，住院部居然空荡荡，一位病人都没有。</p>\n<p>面对她的疑惑，主刀医生一脸傲娇：“我的病历从来都不住院”。原来，哪怕是髋关节置换这样的大动作，只要手术精度和疼痛管理做到极致，宠物也不会痛苦、感染，当天就可以回家。</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/1516449c-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>在那家医院里，顺淇看不到贵成“祖宗”的核磁，省下来的钱都花在了C形臂、碳纤维手术床、消毒设备以及骨科器械等“刀刃”上。</p>\n<p>她新开的轻医疗康复中心便借鉴了这一经验，店里购置的宠物水下跑步机，价格只要核磁机零头，实用性却高了一个档次：给大型犬减肥，水下跑步温和有效；做了骨科手术，也可以通过水下跑步来做术后运动能力恢复。</p>\n<p>“不做全科，我们也能聚焦到中医、洗美等跟宠物主频繁接触、比较容易完成的日常养宠服务。”顺淇坦言，自己压力减轻不少。</p>\n<p>当然，押注康复中心，也是因为她在欧美，看到宠物行业已经形成了从基础门诊、全科医院、转诊中心、专科医院、康复理疗机构到研究院等全套分工体系。</p>\n<p>“专科正在推动行业走向分级诊疗。”杨光直言，现在小而美的社区医院和“大而全”的全科/专科医院能挣钱，中间地带全是炮灰。</p>\n<p>前者做的是回头客生意，正如他开的社区猫科医院，疑难杂症转诊出去、每天到点就下班，靠着老会员也能月入过万；后者则用顶尖的设备，服务金字塔尖的客群，一单手术高达5-10万，月流水以百万计。</p>\n<p>如今，无论是新瑞鹏、瑞派等连锁巨头，还是单体宠物医院，都在跟进分级诊疗。</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/15d1430a-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>邢小胖就主动把自己的全科医院，降级成了社区诊所。尽管如此一来，本就不富裕的客单价，进一步降低至几十元，但那种“每天睁眼就要填平两千元成本”的焦虑消失了。</p>\n<p>现在，他在社区搞宠物外卖、洗护，因为毛利较高，收入并没有缩水太多。</p>\n<p><img class=\"aligncenter\" data-action=\"zoom\" decoding=\"async\" src=\"https://image.woshipm.com/2026/03/23/167b4f80-2671-11f1-9761-00163e4b86a1.png\"/></p>\n<p>“以后大家各司其职，资源不浪费，医生不内耗，家长也不白跑。”邢小胖认为，因人才不足、过度医疗产生的行业乱象，会在专业化、标准化的过程中被修正。</p>\n<p>宠物医疗的故事还没讲完，只是重启了开头。而他要做的，就是在新世界里，尽快找准自己的坐标。</p>\n<p>（特别鸣谢博主邢小胖不胖、开宠物医院的顺淇（莘若改名版）、啊嘞、子知其、南城兽医、Vet杨对本文的支持。）</p>\n<div class=\"article--copyright\"><p>作者 | 陈梓洁 杨晓庆  编辑 | 曹宾玲<br/>\n本文由人人都是产品经理作者【表外表里】，微信公众号：【表外表里】，原创/授权 发布于人人都是产品经理，未经许可，禁止转载。</p>\n<p>题图来自Unsplash，基于 CC0 协议。</p>\n</div> </div>\n</div></body></html>",
     "lang": "zh",
     "created_at": "2026-03-24T08:12:14.581624+00:00"
-  },
-  {
-    "id": "e50c79bb-f4b0-42ed-a998-9667b06ec8d1",
-    "title": "The Future of Healthcare Industry Services: How Technology is Transforming Patient Care",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "B",
-    "tags": [
-      "监管合规"
-    ],
-    "time": "2026-03-24T07:33:00+00:00",
-    "url": "https://medium.com/@sakshigehlot7907/the-future-of-healthcare-industry-services-how-technology-is-transforming-patient-care-2603ec6460b4",
-    "summary": "The healthcare industry is undergoing a massive transformation.Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@sakshigehlot7907/the-future-of-healthcare-industry-services-how-technology-is-transforming-patient-care-2603ec6460b4?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2048/1*45PNEtTQd3WGEsBxWTiayQ.png\" width=\"2048\" /></a></p><p class=\"medium-feed-snippet\">The healthcare industry is undergoing a massive transformation.</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@sakshigehlot7907/the-future-of-healthcare-industry-services-how-technology-is-transforming-patient-care-2603ec6460b4?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-03-24T09:12:20.844379+00:00"
-  },
-  {
-    "id": "6f729ffe-8e31-4b0f-9abb-104e06641938",
-    "title": "7 Real-World AI Use Cases in Healthcare That Drive Patient Outcomes",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [],
-    "time": "2026-03-24T06:16:00+00:00",
-    "url": "https://medium.com/@emma.pentest/7-real-world-ai-use-cases-in-healthcare-that-drive-patient-outcomes-1cb64f484f9e",
-    "summary": "Healthcare today is drowning in data but starving for insights. Every hospital generates mountains of information &#x2014; patient records&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@emma.pentest/7-real-world-ai-use-cases-in-healthcare-that-drive-patient-outcomes-1cb64f484f9e?source=rss------ai_in_healthcare-5\"><img src=\"https://cdn-images-1.medium.com/max/1536/1*vgGpU4ISX5C2rElp52UURQ.png\" width=\"1536\" /></a></p><p class=\"medium-feed-snippet\">Healthcare today is drowning in data but starving for insights. Every hospital generates mountains of information &#x2014; patient records&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@emma.pentest/7-real-world-ai-use-cases-in-healthcare-that-drive-patient-outcomes-1cb64f484f9e?source=rss------ai_in_healthcare-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-03-24T06:57:25.355126+00:00"
-  },
-  {
-    "id": "bb5f0c0f-71d2-42b7-bb27-4c46ff4e9e15",
-    "title": "Why Indian Hospitals and Clinics Can’t Afford to Ignore Smart Software in 2026",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [
-      "监管合规",
-      "医学影像"
-    ],
-    "time": "2026-03-24T05:46:00+00:00",
-    "url": "https://medium.com/@eazycare814/why-indian-hospitals-and-clinics-cant-afford-to-ignore-smart-software-in-2026-9b8ca18db484",
-    "summary": "India&#x2019;s healthcare sector is undergoing one of its most significant transformations in decades. With a population exceeding 1.4 billion&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@eazycare814/why-indian-hospitals-and-clinics-cant-afford-to-ignore-smart-software-in-2026-9b8ca18db484?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2600/1*ASkgMfJ8uoKPB3XEPE1Ixw.jpeg\" width=\"5384\" /></a></p><p class=\"medium-feed-snippet\">India&#x2019;s healthcare sector is undergoing one of its most significant transformations in decades. With a population exceeding 1.4 billion&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@eazycare814/why-indian-hospitals-and-clinics-cant-afford-to-ignore-smart-software-in-2026-9b8ca18db484?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-03-24T09:12:20.844379+00:00"
   }
 ]
