@@ -1,5 +1,19 @@
 [
   {
+    "id": "f3478e10-dc11-4e3c-9447-22c45c8aeef0",
+    "title": "An update on our mental health work",
+    "source": "Google Health",
+    "category": "Product",
+    "level": "A",
+    "tags": [],
+    "time": "2026-04-07T10:00:00+00:00",
+    "url": "https://blog.google/innovation-and-ai/technology/health/mental-health-updates/",
+    "summary": "\"Google Safety Updates: AI & Mental Health\" is overlaid on an image of three Googlers....",
+    "full_content": "<img src=\"https://storage.googleapis.com/gweb-uniblog-publish-prod/images/MentalHealth_042026_hero.max-600x600.format-webp.webp\">We’re sharing an update on our mental health work, including some new changes to better connect people with the right information.",
+    "lang": "en",
+    "created_at": "2026-04-07T13:46:02.385323+00:00"
+  },
+  {
     "id": "b6b8b91d-a378-4989-9025-30245763405b",
     "title": "健适收购国产内窥镜硬科技企业图格医疗",
     "source": "动脉网",
@@ -3291,22 +3305,6 @@
     "url": "https://medium.com/@paridhipurohit02/how-voice-technology-is-making-healthcare-feel-personal-again-07d067f6928d",
     "summary": "Healthcare has become efficient. But somewhere along the way, it lost its warmth.Continue reading on Medium »...",
     "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@paridhipurohit02/how-voice-technology-is-making-healthcare-feel-personal-again-07d067f6928d?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1536/1*lPThcQmGhI1c92x47O2yeg.png\" width=\"1536\" /></a></p><p class=\"medium-feed-snippet\">Healthcare has become efficient. But somewhere along the way, it lost its warmth.</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@paridhipurohit02/how-voice-technology-is-making-healthcare-feel-personal-again-07d067f6928d?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-03-24T13:29:26.287712+00:00"
-  },
-  {
-    "id": "588e37da-3f79-4bde-8431-d926d6fe8f41",
-    "title": "The Algorithmic Physician: Why the Chief AI Medical Officer is the New Backbone of Healthcare",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [
-      "监管合规"
-    ],
-    "time": "2026-03-24T11:27:00+00:00",
-    "url": "https://medium.com/@healthai_official/the-algorithmic-physician-why-the-chief-ai-medical-officer-is-the-new-backbone-of-healthcare-9e3667d3a01d",
-    "summary": "The landscape of healthcare is undergoing a seismic shift, driven by the rapid advancements in Artificial Intelligence (AI). From early&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@healthai_official/the-algorithmic-physician-why-the-chief-ai-medical-officer-is-the-new-backbone-of-healthcare-9e3667d3a01d?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1536/1*KhrpVA6XAWhmBrcvonhAhw.png\" width=\"1536\" /></a></p><p class=\"medium-feed-snippet\">The landscape of healthcare is undergoing a seismic shift, driven by the rapid advancements in Artificial Intelligence (AI). From early&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@healthai_official/the-algorithmic-physician-why-the-chief-ai-medical-officer-is-the-new-backbone-of-healthcare-9e3667d3a01d?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
     "lang": "en",
     "created_at": "2026-03-24T13:29:26.287712+00:00"
   }
