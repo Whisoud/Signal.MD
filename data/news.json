@@ -1,5 +1,39 @@
 [
   {
+    "id": "ebbcf043-0856-4c6b-bde9-327a6fe02ad5",
+    "title": "AI models for life sciences",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [
+      "监管合规",
+      "医学影像",
+      "药物研发"
+    ],
+    "time": "2026-04-11T14:04:00+00:00",
+    "url": "https://arie-m-prasetyo.medium.com/ai-models-for-life-sciences-dcebf4d42eb9",
+    "summary": "A practical map of the models reshaping drug discovery, protein design, and medical AI &#x2014; and what they mean for researchers and builders&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://arie-m-prasetyo.medium.com/ai-models-for-life-sciences-dcebf4d42eb9?source=rss------medical_ai-5\"><img src=\"https://cdn-images-1.medium.com/max/2600/0*lcIWx42lN_y2AfJ5\" width=\"5184\" /></a></p><p class=\"medium-feed-snippet\">A practical map of the models reshaping drug discovery, protein design, and medical AI &#x2014; and what they mean for researchers and builders&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://arie-m-prasetyo.medium.com/ai-models-for-life-sciences-dcebf4d42eb9?source=rss------medical_ai-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-04-11T16:46:44.734522+00:00"
+  },
+  {
+    "id": "c7469b10-50c5-4c3e-a12f-d4d6dfbd9e3e",
+    "title": "Digital Care Software Market Growth: Trends, Innovations, and Future Outlook 2025–2035",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "B",
+    "tags": [
+      "监管合规"
+    ],
+    "time": "2026-04-11T13:05:00+00:00",
+    "url": "https://medium.com/@nishanta591/digital-care-software-market-growth-trends-innovations-and-future-outlook-2025-2035-04201220139a",
+    "summary": "The Digital Care Software Market is expanding rapidly, driven by healthcare IT solutions and artificial intelligence in healthcare&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@nishanta591/digital-care-software-market-growth-trends-innovations-and-future-outlook-2025-2035-04201220139a?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2160/1*618u-G7yCxSyToRxmzgg4A.png\" width=\"2160\" /></a></p><p class=\"medium-feed-snippet\">The Digital Care Software Market is expanding rapidly, driven by healthcare IT solutions and artificial intelligence in healthcare&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@nishanta591/digital-care-software-market-growth-trends-innovations-and-future-outlook-2025-2035-04201220139a?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-04-11T16:46:44.734522+00:00"
+  },
+  {
     "id": "380105c1-a82d-473c-be88-0e3f4eecfe28",
     "title": "在Adobe、Google、Airbnb、Slack都干过之后，他总结了让用户爱上产品的三个维度",
     "source": "人人都是产品经理",
@@ -3299,34 +3333,6 @@
     "url": "https://www.mobihealthnews.com/news/asia/severance-hospital-develop-online-tool-calculating-early-liver-metastasis",
     "summary": "An AI model developed at Severance Hospital of the Yonsei University College of Medicine in South Korea is set to be translated into an online clinical tool to help doctors estimate the risk of early ...",
     "full_content": "<html><body><div><p class=\"field field--name-field-subheader field--type-string field--label-hidden field--item\" data-component-id=\"radix:field\">It will be based on an AI model that achieved high accuracy in predicting liver metastasis using patients' routine blood tests.</p>\n<div class=\"field field--name-body field--type-text-with-summary field--label-hidden field--item\" data-component-id=\"radix:field\"><p dir=\"ltr\">An AI model developed at Severance Hospital of the Yonsei University College of Medicine in South Korea is set to be translated into an online clinical tool to help doctors estimate the risk of early liver metastasis in pancreatic cancer patients using routine blood tests.</p><p dir=\"ltr\"><strong>WHAT IT'S ABOUT</strong></p><p dir=\"ltr\">The model, called LiMPC, was trained on blood test data from approximately 2,657 patients with pancreatic cancer treated at Severance Hospital. </p><p dir=\"ltr\">The research team at Severance Hospital externally validated the model on 272 patients across five other Korean hospitals, including Gangnam Severance Hospital and Yongin Severance Hospital. </p><p dir=\"ltr\">Findings published in BMC Cancer showed the model correctly flagged about 81% of patients who actually had liver metastasis as high risk. It also showed that among patients labelled as low risk, 87% did not have liver metastasis, suggesting it could help doctors confidently rule out the condition.</p><p dir=\"ltr\"><strong>WHY IT MATTERS</strong></p><p dir=\"ltr\">\"It is often difficult to accurately determine metastasis in pancreatic cancer based solely on early imaging tests,\" Severance Hospital professor Lee Hee-seung, one of the researchers, was quoted as saying in a media release. Pancreatic cancer is often diagnosed at a stage when metastasis has already occurred, with liver involvement being a key factor in determining surgical treatment and prognosis.</p><p dir=\"ltr\">The AI model developed to assess liver metastasis risk, according to the researchers, could serve as a complementary method to conventional imaging, particularly in early-stage assessments where metastases are difficult to detect.</p><p dir=\"ltr\">Because the model relies only on standard blood tests already performed at diagnosis, the team highlighted its potential applicability in resource-limited settings without access to advanced imaging or specialised equipment.</p><p dir=\"ltr\">The research team plans to release an online calculator based on the model, allowing clinicians to assess liver metastasis risk without ordering additional tests or using other equipment. </p><p dir=\"ltr\">Further studies are also planned to refine the model and support its integration into routine clinical workflows.</p><p dir=\"ltr\"><strong>THE LARGER TREND</strong></p><p dir=\"ltr\">The National Taiwan University Hospital (NTUH) has also utilised AI to catch pancreatic cancer, one of the deadliest cancers, early. Recently, its researchers developed <a href=\"https://www.mobihealthnews.com/news/asia/national-taiwan-university-hospital-develops-ai-pancreatic-cancer-metabolic-profiling\">PanMETAI</a>, which integrates AI and nuclear magnetic resonance metabolomics through liquid biopsy, for screening pancreatic cancer. NTUH is also offering a self-pay AI-powered diagnostic imaging service for pancreatic cancer – called <a href=\"https://www.healthcareitnews.com/news/asia/national-taiwan-university-hospital-fully-deploys-pancreatic-cancer-imaging-ai\">PANCREASaver</a> – which screens CT scans for suspicious lesions on the pancreas.</p><p>In 2022, <a href=\"https://www.mobihealthnews.com/news/asia/fujitsu-begins-research-develop-ai-early-pancreatic-cancer-detection-japan\">Southern Tohoku General Hospital</a> in Japan collaborated with Fujitsu to also apply AI in screening pancreatic cancer on CT scans. </p></div>\n</div></body></html>",
-    "lang": "en",
-    "created_at": "2026-03-27T13:21:54.756812+00:00"
-  },
-  {
-    "id": "70b9ed43-3b14-4d1d-b73d-780319680c51",
-    "title": "The Role of Clinical Decision System in Healthcare",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [],
-    "time": "2026-03-27T11:50:00+00:00",
-    "url": "https://medium.com/@shubham.bhartal/the-role-of-clinical-decision-system-in-healthcare-a1a153625cba",
-    "summary": "Medical professionals make countless decisions every day, from diagnosing illnesses to determining the best treatments. As healthcare&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-snippet\">Medical professionals make countless decisions every day, from diagnosing illnesses to determining the best treatments. As healthcare&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@shubham.bhartal/the-role-of-clinical-decision-system-in-healthcare-a1a153625cba?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-03-27T13:21:54.756812+00:00"
-  },
-  {
-    "id": "c5699585-dcb9-40bc-9b23-48cb21799f77",
-    "title": "10 Real-World Clinical Decision Support System Examples Transforming Modern Healthcare",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [],
-    "time": "2026-03-27T11:39:00+00:00",
-    "url": "https://medium.com/@shubham.bhartal/10-real-world-clinical-decision-support-system-examples-transforming-modern-healthcare-130d39890ce1",
-    "summary": "TL;DR:Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-snippet\">TL;DR:</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@shubham.bhartal/10-real-world-clinical-decision-support-system-examples-transforming-modern-healthcare-130d39890ce1?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
     "lang": "en",
     "created_at": "2026-03-27T13:21:54.756812+00:00"
   }
