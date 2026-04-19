@@ -1,5 +1,22 @@
 [
   {
+    "id": "bf2851a9-dd18-4503-812e-94b1a58a908a",
+    "title": "What Happens When Doctors Start Referring Other Doctors to a Startup",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [
+      "商业融资",
+      "医学影像"
+    ],
+    "time": "2026-04-19T06:01:00+00:00",
+    "url": "https://carebeyondclinic.medium.com/what-happens-when-doctors-start-referring-other-doctors-to-a-startup-93adf6894a41",
+    "summary": "Two conversations in one week revealed exactly where the healthcare communication market is right now.Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://carebeyondclinic.medium.com/what-happens-when-doctors-start-referring-other-doctors-to-a-startup-93adf6894a41?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1536/1*AusIH73cMb2YmsJldKAufQ.png\" width=\"1536\" /></a></p><p class=\"medium-feed-snippet\">Two conversations in one week revealed exactly where the healthcare communication market is right now.</p><p class=\"medium-feed-link\"><a href=\"https://carebeyondclinic.medium.com/what-happens-when-doctors-start-referring-other-doctors-to-a-startup-93adf6894a41?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-04-19T06:04:25.344668+00:00"
+  },
+  {
     "id": "4d01a868-25ff-4155-a1ff-cb53044a72c0",
     "title": "16万元！福建医科大学拟转让一项手术拉钩装置",
     "source": "动脉网",
@@ -3327,23 +3344,6 @@
     "url": "https://medium.com/@aahanabisoi2020/google-just-released-gemma-4-heres-what-it-actually-means-for-brain-computer-interfaces-c56dbde8c55e",
     "summary": "Not every AI release matters. This one might &#x2014; but not for the reasons most people are talking about.Continue reading on Medium »...",
     "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-snippet\">Not every AI release matters. This one might &#x2014; but not for the reasons most people are talking about.</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@aahanabisoi2020/google-just-released-gemma-4-heres-what-it-actually-means-for-brain-computer-interfaces-c56dbde8c55e?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-04-04T02:44:56.134669+00:00"
-  },
-  {
-    "id": "10d722f9-22b7-4964-b75b-bdb39fd9dbc3",
-    "title": "Insight Health raises $11M to scale clinical AI agents",
-    "source": "MobiHealthNews",
-    "category": "Market",
-    "level": "S",
-    "tags": [
-      "AI工作流",
-      "商业融资"
-    ],
-    "time": "2026-04-03T20:49:00+00:00",
-    "url": "https://www.mobihealthnews.com/news/insight-health-raises-11m-scale-clinical-ai-agents",
-    "summary": "Insight Health, which offers a clinical agent platform, has secured $11 million in Series A funding.The round was led by Standard Capital, with participation from Kindred Ventures, Pear VC, Eudemian, ...",
-    "full_content": "<html><body><div><p class=\"field field--name-field-subheader field--type-string field--label-hidden field--item\" data-component-id=\"radix:field\">The company will use the funds to expand its clinical agent platform and grow its partnerships with care organizations. </p>\n<div class=\"field field--name-body field--type-text-with-summary field--label-hidden field--item\" data-component-id=\"radix:field\"><p dir=\"ltr\">Insight Health, which offers a clinical agent platform, has secured $11 million in Series A funding.</p><p dir=\"ltr\">The round was led by Standard Capital, with participation from Kindred Ventures, Pear VC, Eudemian, 43 and ElevenLabs.  </p><p dir=\"ltr\"><strong>WHAT IT DOES</strong></p><p dir=\"ltr\">The New York-based company offers a patient-facing virtual care AI assistant, Lumi, as well as AI agents for clinical workflows for clinical teams.</p><p dir=\"ltr\">Through the AI virtual care assist, patients receive an invitation via automated text or email before their appointment, complete an interview conducted by AI, medical history documentation is generated into a clinical note for the care team and the note is then integrated into the EHR.</p><p dir=\"ltr\">Clinical teams can use the AI for follow-up appointments, check-ins and symptom monitoring between visits; for medication adherence; for behavioral health screening; and for health screenings and preventative care reminders.</p><p dir=\"ltr\">The  company will use the funds to speed up product development and grow its partnerships with healthcare organizations.</p><p dir=\"ltr\">\"2026 will be the year patient-facing AI truly takes off,\" Jaimal Soni, cofounder and CEO of Insight Health, said in a statement.</p><p dir=\"ltr\">\"Healthcare organizations are stuck in the impossible position of meeting rising patient demand among budget constraints and mounting administrative burdens, which means patients will ultimately fall through the cracks. Something has to change, and the healthcare organizations that embrace the power of AI to alleviate these challenges will be the ones that thrive and better serve their patients.\"</p><p dir=\"ltr\"><strong>MARKET SNAPSHOT</strong></p><p dir=\"ltr\">Insight Health launched out of stealth last year with $4.6 million in seed funding.</p><p dir=\"ltr\">That same year, the company announced it would be available through the athenahealth Marketplace. Insight Health's Aura AI Scribe and Virtual Care Assistant were integrated into the Marketplace to help with automated clinical documentation and pre-visit patient engagement.</p><p dir=\"ltr\">The company also announced a strategic partnership with pediatric EHR provider Office Practicum. Insight's AI technology was integrated with Office Practicum's clinical dataset to provide AI documentation for pediatric workflows.</p></div>\n</div></body></html>",
     "lang": "en",
     "created_at": "2026-04-04T02:44:56.134669+00:00"
   }
