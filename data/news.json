@@ -14,6 +14,20 @@
     "created_at": "2026-05-07T14:38:09.455698+00:00"
   },
   {
+    "id": "aceed1f6-3999-4b0e-9a73-217842716d30",
+    "title": "HiBaby: High-Risk Pregnancy App Built on Clinical Remote Patient Monitoring",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "B",
+    "tags": [],
+    "time": "2026-05-07T14:23:00+00:00",
+    "url": "https://medium.com/@melihgoz/hibaby-the-high-risk-pregnancy-app-1-4ce3b1e4dab3",
+    "summary": "How we closed the care gap that puts 70,000 mothers at risk every year and why high-risk pregnancy needs a fundamentally different kind of&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@melihgoz/hibaby-the-high-risk-pregnancy-app-1-4ce3b1e4dab3?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1284/1*mNtSnKcEIVVRMVx1lR6sOQ.png\" width=\"1284\" /></a></p><p class=\"medium-feed-snippet\">How we closed the care gap that puts 70,000 mothers at risk every year and why high-risk pregnancy needs a fundamentally different kind of&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@melihgoz/hibaby-the-high-risk-pregnancy-app-1-4ce3b1e4dab3?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-05-07T18:00:56.036982+00:00"
+  },
+  {
     "id": "940febef-e937-4245-b3c3-faca3afdda71",
     "title": "Healthcare Without Waiting Rooms: How TeleDoc Is Transforming Virtual Healthcare",
     "source": "Medium",
@@ -3315,23 +3329,5 @@
     "full_content": "<html><body><div><p class=\"field field--name-field-subheader field--type-string field--label-hidden field--item\" data-component-id=\"radix:field\">This comes as injewelme prepares to deploy its proprietary technology following trials with SingHealth Polyclinics.  </p>\n<div class=\"field field--name-body field--type-text-with-summary field--label-hidden field--item\" data-component-id=\"radix:field\"><p dir=\"ltr\">A Singapore-based startup developing contactless health monitoring technology has raised $1.2 million in a funding round led by Temasek Trust's catalytic vehicle, Catalytic Capital for Climate and Health. </p><p dir=\"ltr\">The United Kingdom-based family-owned investment company Richardson Family also joined the round. </p><p dir=\"ltr\"><strong>WHAT IT DOES</strong></p><p dir=\"ltr\">Founded in 2020 in South Korea, injewelme utilises AI and data to develop preventive and personalised healthcare solutions. </p><p dir=\"ltr\">This includes its proprietary contactless health monitoring technology – dubbed DeepHealthVision. It uses remote photoplethysmography to analyse more than 20 vital health parameters, such as blood pressure and oxygen saturation, in 30 seconds via a camera. </p><p dir=\"ltr\">According to the company, DHV demonstrated 95% detection accuracy in real-world pilots with SingHealth Polyclinics and private partners.</p><p dir=\"ltr\">injewelme also develops the predictive AI, DeepHealthNet, which collects and analyses personal health data to predict changes and identify risks, and Gamified Health Management, an app for children and adolescents that gamifies health tracking. </p><p dir=\"ltr\"><strong>WHAT'S IT FOR </strong></p><p dir=\"ltr\">Based on a media release, injewelme will use its fresh funds to develop further its contactless health monitoring technology by testing more parameters, such as blood glucose, stress index, fatigue, and hydration monitoring. </p><p dir=\"ltr\">The new funds will also go to efforts to acquire new customers in Singapore and expand into other markets across Southeast Asia. </p><p dir=\"ltr\">The company said DHV is now being evaluated for deployment across healthcare, eldercare, insurance, and workforce safety, including its use for monitoring physiological stress linked to rising climate-related heat exposure. </p><p dir=\"ltr\"><strong>THE LARGER TREND</strong></p><p dir=\"ltr\">Similar Asia-Pacific health tech startups developing contactless monitoring solutions have raised significant funding in recent years. <a href=\"https://www.mobihealthnews.com/news/asia/dozee-raises-8m-explore-new-markets-and-more-briefs\">Dozee</a>, in March last year, bagged $8 million in a funding round also led by Temasek Trust for its global expansion. <a href=\"https://www.mobihealthnews.com/news/asia/sky-labs-maker-ring-type-bp-monitor-bags-15m-series-c-funding\">Sky Labs</a> from South Korea raked in $15 million in Series C funding in 2023, which went to its efforts to obtain market clearances for its blood pressure ring. </p><p>Last year saw at least two health tech startups in Singapore attracting investments. <a href=\"https://www.mobihealthnews.com/news/asia/singaporean-healthcare-b2b-e-commerce-platform-raises-3m-southeast-asia-expansion\">Kyberlife</a>, which runs an online marketplace for sourcing critical healthcare equipment, raised $3 million. <a href=\"https://www.mobihealthnews.com/news/asia/hong-kong-robotics-maker-scores-70m-series-c-funding-and-more-funding-briefs\">Aevice Health</a>, which is known for its AI-powered smart stethoscope, received undisclosed funding from global chemical manufacturer Denka.</p></div>\n</div></body></html>",
     "lang": "en",
     "created_at": "2026-04-20T10:06:00.809996+00:00"
-  },
-  {
-    "id": "0af28727-58ab-4702-bba6-5016ea7eabaa",
-    "title": "医渡科技发布首次盈利预告：预计2026财年净利润为5500万至7000万",
-    "source": "动脉网",
-    "category": "Market",
-    "level": "S",
-    "tags": [
-      "AI工作流",
-      "商业化",
-      "商业融资"
-    ],
-    "time": "2026-04-20T03:35:00+00:00",
-    "url": "https://www.vbdata.cn/1519072791",
-    "summary": "4月20日，医疗AI龙头医渡科技发布正面盈利预告，预计2026财年净利润5500万至7000万元，首次扭亏为盈，得益于新订单增加与毛利率改善。临床循证智能体“医渡智循”发布后获市场认可，内测吸引超6000名医疗人士参与，APP版上线后启动“中国临床循证智能能力建设计划”，已落地40余家三甲医院，参与超50万次诊疗决策。业务拓展上，医渡科技接连中标北京肿瘤医院人工智能建设银医合作项目、海南省统筹区域...",
-    "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p>4月20日，医疗AI龙头企业医渡科技（2158.HK）发布正面盈利预告，根据初步评估，公司预计2026财年将实现净利润约5500万元至7000万元人民币，首次实现扭亏为盈。公告指出，这一关键业绩拐点主要得益于新订单的显著增加与整体毛利率的持续改善，随着集团产品融入 AI 能力后持续升级，有效提升了产品价值主张及市场竞争力，带动核心业务板块新订单显著增长，而毛利率的提升则源于升级后融入AI的产品具备更高附加值、营运效率提升及规模经济效应共同作用。</p><p> </p><p>消息面上，临床循证智能体“医渡智循”自发布以来接连斩获重磅认可与市场突破。3月10日，医渡科技正式推出这款医生专属循证AI助手，内测阶段便迅速吸引超6000名医疗人士积极参与，收获近2000份专业有效反馈。3月26日，医渡智循APP版在2026中关村论坛年会期间重磅上线，同步启动由多家顶尖医疗机构联合发起、医渡科技提供核心AI支撑的“中国临床循证智能能力建设计划”，进一步夯实其在医疗循证AI领域的领先地位。4月初，医渡智循凭借硬核技术实力与成熟落地能力，成功登榜“2026行业级智能体TOP100”以及“2026全国企业‘人工智能+’行动创新案例”，目前以其循证引擎为底座的解决方案已落地40余家三甲医院，深度参与超50万次诊疗决策，获得北京协和医院、中山大学肿瘤防治中心等多家权威机构的高度认可。</p><p> </p><p>业务拓展方面，医渡科技近日接连发布中标公告：4月8日，公告中标北京肿瘤医院人工智能建设银医合作项目，该项目被视为医疗AI大模型在肿瘤专科落地的关键里程碑，为行业规模化应用树立标杆。仅5天后，公司再公告以近1289万元中标海南省统筹区域传染病监测预警与应急指挥信息平台（二期）项目，进一步巩固在省级公共卫生数字化领域的领先优势。两大项目的落地，充分印证公司AI技术在临床与公卫场景的核心竞争力，推动ToB与ToG业务协同发力。</p><p> </p><p>资本市场与权威机构亦持续释放积极信号，为公司发展注入强劲信心。近日，花旗银行发布研报，重申对医渡科技的“买入”评级，目标价为11港元，研报指出，医渡智循的推出将有效深化公司与医生群体的连接，强化大数据平台与解决方案业务。此外，东北证券等多家机构亦给予“增持”评级，认可公司技术壁垒与商业化加速的发展态势。</p><p> </p><p>随着医渡智循的规模化推广、标杆项目的持续落地、盈利能力的全面改善，医渡科技正加速从技术领先迈向盈利兑现的高质量发展新阶段。</p><p><br/></p></div> </div></body></html>",
-    "lang": "zh",
-    "created_at": "2026-04-20T03:35:57.097173+00:00"
   }
 ]
