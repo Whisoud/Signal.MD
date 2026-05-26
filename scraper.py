@@ -252,9 +252,15 @@ AUTO_TAGS_DICT = {
 }
 
 # --- Translation Helpers ---
+def is_article_fresh(time_str, source_name, days=90):
+    try:
+        dt = datetime.datetime.strptime(time_str, "%Y-%m-%d %H:%M")
+        delta = datetime.datetime.now() - dt
+        return delta.days <= days
+    except Exception:
+        return True
+
 def process_translations(items):
-    # 翻译功能已移除，直接返回原数据
-    # print("🌍 翻译功能已禁用，跳过翻译步骤...")
     return items
 
 def generate_tags(title, summary, base_category):
