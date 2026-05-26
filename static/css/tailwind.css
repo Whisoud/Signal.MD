@@ -1785,8 +1785,8 @@ video {
     width: 16rem;
   }
 
-  .md\:w-\[520px\] {
-    width: 520px;
+  .md\:w-\[640px\] {
+    width: 640px;
   }
 
   .md\:w-auto {
@@ -1859,10 +1859,6 @@ video {
 @media (min-width: 1024px) {
   .lg\:inline-flex {
     display: inline-flex;
-  }
-
-  .lg\:w-\[640px\] {
-    width: 640px;
   }
 
   .lg\:grid-cols-3 {
