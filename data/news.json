@@ -1,5 +1,35 @@
 [
   {
+    "id": "02aabb2a-75c7-44fe-9ded-e150997f5a83",
+    "title": "VCs Spent $10 Billion on Healthcare AI",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [],
+    "time": "2026-06-29T14:25:00+00:00",
+    "url": "https://solutionsbyjewel.medium.com/vcs-spent-10-billion-on-healthcare-ai-1b4efc73f808",
+    "summary": "Hospitals Are Paying Extra Just to Use It SafelyContinue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://solutionsbyjewel.medium.com/vcs-spent-10-billion-on-healthcare-ai-1b4efc73f808?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2160/1*mvfcoMyio4ZGCBxgJAFRdA.png\" width=\"2160\" /></a></p><p class=\"medium-feed-snippet\">Hospitals Are Paying Extra Just to Use It Safely</p><p class=\"medium-feed-link\"><a href=\"https://solutionsbyjewel.medium.com/vcs-spent-10-billion-on-healthcare-ai-1b4efc73f808?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-06-29T18:20:46.715115+00:00"
+  },
+  {
+    "id": "3a290bc7-2da2-43d9-94fe-13b40925f8ef",
+    "title": "Why Do Most Medical Image Segmentation Vendors Struggle with Quality Control (QC)?",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [
+      "监管合规"
+    ],
+    "time": "2026-06-29T13:08:00+00:00",
+    "url": "https://medium.com/@pariedoliasystem/why-do-most-medical-image-segmentation-vendors-struggle-with-quality-control-qc-45d979b5aca0",
+    "summary": "Artificial intelligence is reshaping healthcare, but even the most advanced AI models are only as reliable as the data they learn from&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-snippet\">Artificial intelligence is reshaping healthcare, but even the most advanced AI models are only as reliable as the data they learn from&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@pariedoliasystem/why-do-most-medical-image-segmentation-vendors-struggle-with-quality-control-qc-45d979b5aca0?source=rss------medical_ai-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-06-29T18:20:46.715115+00:00"
+  },
+  {
     "id": "0601ae1d-5841-4991-b111-29625405abd0",
     "title": "3亿元，溢价约400%！安徽这家CRO被收购了",
     "source": "动脉网",
@@ -3294,37 +3324,5 @@
     "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/open-intelligence/clinical-text-intelligence-without-compromise-openmed-brings-on-device-medical-nlp-to-the-world-69cc9846c5e5?source=rss------medical_ai-5\"><img src=\"https://cdn-images-1.medium.com/max/1024/1*xZipqZg-Y2C7sOSaKgUHWQ.png\" width=\"1024\" /></a></p><p class=\"medium-feed-snippet\">Clinical text is among the most sensitive data that exists. Every patient note, discharge summary, lab result, and medication record&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/open-intelligence/clinical-text-intelligence-without-compromise-openmed-brings-on-device-medical-nlp-to-the-world-69cc9846c5e5?source=rss------medical_ai-5\">Continue reading on Open Intelligence »</a></p></div></p></div>",
     "lang": "en",
     "created_at": "2026-06-09T15:26:04.345989+00:00"
-  },
-  {
-    "id": "ed251c10-c12f-4f7a-9ea9-db573c5862f6",
-    "title": "Why Healthcare Organizations Need Middleware Today",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [
-      "药物研发"
-    ],
-    "time": "2026-06-09T06:48:00+00:00",
-    "url": "https://medium.com/@ajay.singh_91430/why-healthcare-organizations-need-middleware-today-f311611ef738",
-    "summary": "Modern healthcare systems depend on multiple digital platforms working together seamlessly. Hospitals, clinics, laboratories, pharmacies&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@ajay.singh_91430/why-healthcare-organizations-need-middleware-today-f311611ef738?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/826/1*M9KqWXKKQwZM4z05sqFrgg.jpeg\" width=\"826\" /></a></p><p class=\"medium-feed-snippet\">Modern healthcare systems depend on multiple digital platforms working together seamlessly. Hospitals, clinics, laboratories, pharmacies&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@ajay.singh_91430/why-healthcare-organizations-need-middleware-today-f311611ef738?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-06-09T11:31:19.711795+00:00"
-  },
-  {
-    "id": "a8571943-ba44-44b7-b540-d7c61e7df241",
-    "title": "North America Digital Therapeutics Market: Transforming Healthcare Through Software-Driven…",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "B",
-    "tags": [
-      "数字疗法"
-    ],
-    "time": "2026-06-09T06:28:00+00:00",
-    "url": "https://medium.com/@patilarchana22052001/north-america-digital-therapeutics-market-transforming-healthcare-through-software-driven-baedd2eead1d",
-    "summary": "North America Digital Therapeutics Market Set to Reach USD 38.2 Billion by 2035Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@patilarchana22052001/north-america-digital-therapeutics-market-transforming-healthcare-through-software-driven-baedd2eead1d?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1536/1*DAjZGzYQHA09dz8FHABR4g.jpeg\" width=\"1536\" /></a></p><p class=\"medium-feed-snippet\">North America Digital Therapeutics Market Set to Reach USD 38.2 Billion by 2035</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@patilarchana22052001/north-america-digital-therapeutics-market-transforming-healthcare-through-software-driven-baedd2eead1d?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-06-09T11:31:19.711795+00:00"
   }
 ]
