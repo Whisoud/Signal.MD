@@ -1,5 +1,23 @@
 [
   {
+    "id": "39a7f980-4e52-4aad-9bec-f375fa6e1401",
+    "title": "Patient Engagement in Clinical Practice: what are the key differences between the UK and the USA?",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "B",
+    "tags": [
+      "监管合规",
+      "医院运营",
+      "医学影像"
+    ],
+    "time": "2026-07-07T15:09:00+00:00",
+    "url": "https://medium.com/@mgibson_99548/patient-engagement-in-clinical-practice-what-are-the-key-differences-between-the-uk-and-the-usa-1bb3342f2425",
+    "summary": "I work regularly in the USA and I even wrote this article in Boston. I started it because I never fully had the measure of the US health&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@mgibson_99548/patient-engagement-in-clinical-practice-what-are-the-key-differences-between-the-uk-and-the-usa-1bb3342f2425?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/800/1*u6D6wwA-UuqR_h8Xi66RWg.png\" width=\"800\" /></a></p><p class=\"medium-feed-snippet\">I work regularly in the USA and I even wrote this article in Boston. I started it because I never fully had the measure of the US health&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@mgibson_99548/patient-engagement-in-clinical-practice-what-are-the-key-differences-between-the-uk-and-the-usa-1bb3342f2425?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-07-07T18:13:57.436406+00:00"
+  },
+  {
     "id": "b323fcba-4bfb-463b-b2df-3b6bb4e7bf6a",
     "title": "超1亿美元！浙江药企买了一款镇痛药",
     "source": "动脉网",
@@ -3310,22 +3328,6 @@
     "summary": "讯飞医疗发布星火医疗大模型V3.5，在多模态能力、长文本推理效率及智能体自主执行上实现关键突破，超越国际主流大模型，突破真实医疗场景下的临床实用门槛，可嵌入临床工作流。讯飞医疗构想规模化应用分两阶段：先赋能医院搭建区域健康管理平台，后延伸至居民全周期健康管理。当前院外健康管理市场挑战大，传统人工管理成本高、难规模化且易断层，此次技术升级将AI能力贯穿医疗服务全流程并延伸至院外，解决痛点，挖掘增量空...",
     "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p>距上次发布仅4个月，讯飞医疗最新版本的星火医疗大模型V3.5，在多模态能力、长文本推理效率及智能体自主执行三大维度实现关键突破，再度刷新医疗大模型的能力天花板。</p><p> </p><p>模型在多模态能力方面大幅升级，深度融合医疗语音识别、影像辅诊和医学语义理解。</p><p><br/></p><p>长文本训练与推理效率亦有提升，在国产算力平台上实现DSA与MTP技术，医疗长上下文场景推理吞吐量提升4.5倍。</p><p><br/></p><p>具体到执行维度，模型已在医疗知识问答、医疗语言理解等多类关键任务上显著超越GPT-5.5、DeepSeek-V4-Pro和Qwen3.7-Max等国际主流大模型。</p><p><br/></p><p><img alt=\"d5b5d8736ee46f2897a07c8ac3928fb0.jpg\" data-ratio=\"1\" src=\"http://cdn.vcbeat.top/upload/image/07/06/16/40/1781595643765454.jpg/dmw\"/></p><p><br/></p><p>与其他行业模型不同，星火医疗大模型V3.5此次的升级突破了真实医疗场景下的临床实用门槛，远场多说话人语音识别与病历文书、影像报告生成、辅助诊断等能力均在临床之中实现高调用。</p><p><br/></p><p>这意味着医疗大模型不再停留于技术演示，而是真正能够嵌入临床工作流，为规模化应用和商业化拓展打开空间。</p><p><br/></p><p>回到讯飞医疗的构想。规模化应用落地的第一阶段，是以 AI 能力赋能等级医院与基层医疗机构，搭建区域健康管理平台，实现医疗服务提质增效。第二阶段则是延伸服务边界，落地覆盖面更广的居民全周期健康管理。</p><p> </p><p>过去的十年，讯飞医疗将AI深度嵌入院内诊疗全流程，为医护人员提质增效的同时，夯实了医疗AI的院内应用基础。</p><p> </p><p>当前，院外健康管理市场更具挑战性。成熟AI技术尚未普及时，各级医院的院后随访、康复方案落地、用药依从性管控、健康风险预警等工作均重度依赖人工运营，不仅人力成本居高不下、业务模式无法规模化拓展，还极易出现“患者出院即失联”的服务断层。</p><p> </p><p>本次技术升级实现关键突破，核心是将AI能力贯穿医疗服务全流程并延伸至院外场景。凭借语音交互、长文本全域解析、智能体自主执行等核心技术，针对性解决传统人工管理的诸多痛点，落地居民全生命周期智能化健康管理，挖掘行业全新增量空间。</p><p> </p><p><br/></p><p>2025年，讯飞医疗拿下9.15亿元营收，实现24.7%的同比增长。其中，医院解决方案营收1.73亿元，基层与区域方案合计4.69亿元，面向居民的健康管理服务营收2.73亿元。</p><p> </p><p>作为基层业务核心抓手的智医助理，截至目前已覆盖全国806个区县、超7.7万家基层医疗机构，累计提供AI辅诊建议超12亿次，基本完成全国医疗AI的基层基础设施铺设。同时，院端业务表现亮眼，同比增速达31%，持续深耕院内数智化场景，稳步夯实高端医疗市场布局。</p><p> </p><p>在基层市场全面落地、院端业务稳步增长的基础上，公司发力居民健康管理赛道，打造全新第二增长曲线。相较于成熟的政企医疗业务，面向大众的健康管理市场更广阔，长期成长潜力突出，将持续打开公司业绩增长空间。</p><p> </p><p>一方面，赛道盈利韧性突出。公司患者管理服务毛利率达62.3%，盈利质量持续优化；另一方面，市场空间广阔。仅患者管理单一细分场景，我国每年便有2.5亿出院患者，若按20%付费意愿、人均300元/年的消费标准测算，对应市场规模可达150亿元。讯飞医疗若能拿下10%的市场份额，即可实现营收量级的实质性突破。</p><p> </p><p>纵观行业发展，科技医疗企业从医院端切入居民端的落地案例向来稀缺、成功率极低，而讯飞医疗已具备赛道扩容的两大核心先决条件。</p><p> </p><p>第一，成熟的院端服务入口。公司患者管理平台已落地全国400余家医院，涵盖华西医院、齐鲁医院等顶级三甲机构。其中仅齐鲁医院单院，就依托平台完成超16万名出院患者随访，患者满意度达91.91%。稳定的院端场景嵌入，让患者在出院环节自然承接健康管理服务，实现B端诊疗与C端服务无缝联动，形成完整业务闭环。</p><p> </p><p>第二，扎实的AI医疗能力背书。公司依托16亿人次脱敏医疗语音数据、12亿次真实诊疗数据构建核心数据库，且每日新增超220万份语音、影像、病历数据，持续迭代优化AI模型、夯实数据飞轮。目前，公司病历生成医生采纳率达91%，影像报告采纳率达75%。这套经过三甲临床场景真实验证、获得医患双重认可的技术能力，是居民信任健康管理服务、支撑业务规模化落地的核心基石。</p><p><br/></p><p><br/></p><p>有基础设施作为支撑，讯飞医疗的下一步，是要将技术与需求无缝结合起来。</p><p> </p><p>过去基于互联网医疗的患者管理很难做出规模，本质是因为供给端有两个根本性的局限。</p><p> </p><p>首先，<strong>智能推送很难促成患者行动</strong>。一个出院的心脏支架患者，手机上装了三个健康App，每天收到七八条用药提醒，该漏服还是漏服，该不复查还是不复查。患者行为背后，本质是因为冷冰冰的推送解决不了人性的遗忘、忽视和侥幸，他们需要的是共情、监督和陪伴。</p><p> </p><p>其次，<strong>院内数据与院外数据割裂</strong>。互联网健康应用只能拿到碎片化的院外数据，关键的诊断结论、手术记录、检查检验结果、出院带药方案，全部锁在医院的HIS系统里。没有完整的诊疗基线，AI只能给出宽泛的康复建议；医生看不到患者的院外数据，随访时只能重复问同样的问题，效率低下且体验糟糕。</p><p> </p><p>面对上述问题，讯飞医疗的解法不是做一个更聪明的提醒工具，而是以星火医疗大模型为核心技术底座，叠加深耕多年的医院合作场景入口、海量临床数据与落地经验沉淀，系统性补足医患双方在院外场景的真实需求。</p><p> </p><p>星火医疗大模型V3.5的核心突破之一，是超拟人语音技术。医疗场景语音识别准确率超96%，支持方言口音及医疗术语识别，并能实现智能打断、反问、识别多重意图。这意味着患者接到的不是机器录音，而是一个可以自然对话的AI健康管理师。</p><p> </p><p>在四川大学华西医院，这一能力已被规模化验证。诊后患者管理平台实现了年30万出院患者的自动化随访覆盖，随访率从48%提升到99%，节约31名医护人员全职随访工作量。权威背书加之高度拟人，患者自然愿意接听、愿意沟通、愿意按照建议将管理计划落实下来。</p><p> </p><p>此外，讯飞承建的国家级“AI+基层医疗”中试基地、覆盖多省的影像云平台，使其能够拥有脱敏的海量诊疗数据。患者入院时的病历、手术记录、检查检验结果、出院带药方案，与出院后的随访反馈、健康指标、复诊记录，在同一个平台上完成跨模态对齐。</p><p> </p><p>基于完整的健康画像，平台能够自动生成个性化康复计划（用药、饮食、运动、复诊提醒），融合覆盖35+科室、150个专病的管理路径。医护的工作从手动制定方案转为审核确认，单例耗时从10分钟以上压缩到4分钟。</p><p> </p><p>本质上，讯飞医疗能突破过往患者管理的行业瓶颈，核心在于真正打通了院内与院外的数据壁垒，让患者在院外也能与医生实现高效交互。</p><p> </p><p>同时，人工智能的加持还为医患双方提供了额外的医疗资源供给。当院外管理从 “成本项” 变成 “有效服务”，付费逻辑自然成立。</p><p> </p><p><br/></p><p>医疗 AI 的商业化终局，核心是解决“谁来付费、为何付费”的问题。</p><p> </p><p>过去四年，美国的OpenEvidence通过帮助医生快速检索临床证据，已吸引约74万名医生使用，2025年年化收入突破1亿美元。它的成功印证了一个朴素的商业逻辑：若能解决医生刚需问题，便有可能构建“大用户规模+可持续商业模式”的增长飞轮。</p><p> </p><p>中美医疗体系的底层差异，决定了这套商业模式无法直接复刻。但讯飞医疗具备比肩OpenEvidence的基础能力，同样拥有海量全球最前沿文献，高质量的大模型以及海量真实医疗数据，更手握有 OpenEvidence 尚未触及的B、G端医疗服务积淀与场景入口。</p><p> </p><p>但讯飞医疗没有止步于做医生端的检索工具，而是沿着医疗服务链条延伸，构建了从院内诊疗到院外康复再到日常健康管理的完整服务体系：面向医生，打造循证诊疗助理智能体，在诊疗各节点提供即时、可溯源的循证决策支持；面向患者，则实现千人千面、更专业个性化的健康建议与康复指导。</p><p> </p><p>闭环之下，讯飞医疗完成了医疗AI规模化支付的初步破局。</p><p> </p><p>对医疗机构而言，付费的核心逻辑是“可验证的提质增效”。医疗场景对准确性要求极为严苛，噪声插话等复杂医患对话识别、病历文书及影像报告辅助生成、临床辅助决策等能力，每一项都要在真实临床场景内经医生反复核验、建立充分信任后，才会持续使用并付费。讯飞医疗能够做到亿级规模付费，正是因为它拥有从数据、模型到临床反馈的完整闭环，让医生切实感受到AI带到的质效提升。</p><p> </p><p>对居民健康管理而言，付费的破局点是“规模化服务的经济可行性”。如今的星火医疗大模型以低边际成本将院后随访、康复指导、用药管理等环节全面智能化，重构了医生与患者之间的连接关系，让AI赋能患者管理首次在经济上可行、在服务上可及。</p><p> </p><p>当然，面对AI健康管理市场，讯飞医疗当前的相关业务仍有巨大的增长空间。若能持续迭代大模型能力，并在医患之间建立起一种新型的、可规模化的信任契约，有望在短时间内突破现有的营收量级，可率先窥见医疗AI的行业终局。</p></div> </div></body></html>",
     "lang": "zh",
-    "created_at": "2026-06-16T13:07:53.966776+00:00"
-  },
-  {
-    "id": "7436092c-faa5-4db9-aff2-42938b1c47d6",
-    "title": "Digital Health Records: Protecting Patient Privacy in 2026",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "B",
-    "tags": [
-      "医学影像"
-    ],
-    "time": "2026-06-16T10:52:00+00:00",
-    "url": "https://medium.com/@Suretek_infosoft/digital-health-records-protecting-patient-privacy-in-2026-363daafdfd47",
-    "summary": "Healthcare has changed dramatically over the past few years.Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@Suretek_infosoft/digital-health-records-protecting-patient-privacy-in-2026-363daafdfd47?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2600/1*7OtwsROR37XlvyXOTTkieA.jpeg\" width=\"5000\" /></a></p><p class=\"medium-feed-snippet\">Healthcare has changed dramatically over the past few years.</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@Suretek_infosoft/digital-health-records-protecting-patient-privacy-in-2026-363daafdfd47?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
     "created_at": "2026-06-16T13:07:53.966776+00:00"
   }
 ]
