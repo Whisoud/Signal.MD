@@ -1,5 +1,21 @@
 [
   {
+    "id": "9dd88ffe-989d-409e-b6e1-ad9abb0c9f11",
+    "title": "The Patient Capture Problem No One in Healthcare Marketing Talks About",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "B",
+    "tags": [
+      "医学影像"
+    ],
+    "time": "2026-07-30T06:24:00+00:00",
+    "url": "https://medium.com/@bhagyashreesurolia23/the-patient-capture-problem-no-one-in-healthcare-marketing-talks-about-2571eee98c92",
+    "summary": "Nine PM. Someone is scared about a symptom, searching alone in bed. They land on a clinic&#x2019;s site because the content actually answers the&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@bhagyashreesurolia23/the-patient-capture-problem-no-one-in-healthcare-marketing-talks-about-2571eee98c92?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1536/1*GUkQFHXUfbKaTa4EJ30UMg.png\" width=\"1536\" /></a></p><p class=\"medium-feed-snippet\">Nine PM. Someone is scared about a symptom, searching alone in bed. They land on a clinic&#x2019;s site because the content actually answers the&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@bhagyashreesurolia23/the-patient-capture-problem-no-one-in-healthcare-marketing-talks-about-2571eee98c92?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-07-30T06:40:55.83731+00:00"
+  },
+  {
     "id": "5f9df7df-2487-4929-8ef4-ffb4f4d2e016",
     "title": "【首发】健达九州完成数亿元人民币A轮融资，推进脑疾病的精准疗法加速上市",
     "source": "动脉网",
@@ -3308,24 +3324,6 @@
     "summary": "近日，跨国TechBio新星aiPTO TechBio发布最新一代AI模型DELPHAI预印本学术文章。该模型在两项权威独立基准测试中，差异表达基因还原度评分全球排名第一，超越现有主流虚拟细胞模型。当前生物医药与AI结合面临“尺度鸿沟”，多数AI模型停留在单细胞层面，无法准确预测药物在人体中的真实响应。DELPHAI突破这一局限，是真正意义上的“虚拟肿瘤”基础模型，首创性引入细胞特异性存活率，能模...",
     "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p>近日，全球领先的跨国TechBio新星 aiPTO TechBio 对外发布其最新一代AI虚拟细胞与组织扰动预测基础模型 —— DELPHAI（Deep Explainable Perturbation Heterogeneity-Aware Inference，深度可解释、扰动异质性感知推断）的预印本学术文章。</p><p><br/></p><p>在两项代表全球最高水准的权威独立基准测试框架（Wei et al., Nature Methods 2026; Radig et al., Genome Biology 2026）中，DELPHAI在最核心的差异表达基因（DEG）还原度评分上表现卓越，荣登全球排名第一（#1 Ranked），全面超越了现有的所有主流虚拟细胞模型。</p><p><br/></p><section class=\"_135editor\" data-id=\"86041\" data-tools=\"135编辑器\" draggable=\"true\"><section><section><section><p class=\"135brush\" data-brushtype=\"text\">从虚拟细胞（Virtual Cell）到虚拟肿瘤（Virtual Tumor）</p></section></section></section></section><p><br/></p><p>当前，生物医药与AI的结合正迎来“虚拟细胞”的研发热潮。然而，正如行业前沿观察所指出的，目前行业面临着一道巨大的“尺度鸿沟”：绝大多数成熟的AI模型仍停留在静态或孤立的“单细胞层面”。</p><p><br/></p><p>从单个细胞到复杂的组织、器官乃至人类个体，中间蕴含的生物学复杂性、空间异质性以及细胞间通讯呈指数级增长。如果仅停留在单细胞的模拟，AI将无法准确预测药物在复杂人体微环境中的真实功能响应。</p><p><br/></p><p>aiPTO的核心技术突破，正是在于彻底跨越了这道尺度鸿沟。DELPHAI并非传统意义上孤立、平面的“虚拟细胞（Virtual Cell）”，而是一个真正意义上的“虚拟肿瘤（Virtual Tumor）”基础模型。</p><p><br/></p><p>它首创性地将细胞特异性存活率（Fitness Gating）引入网络架构，不仅能模拟单个细胞受扰动后的基因变化，更能通过数据驱动，直接学习并预测在药物施加后，整个肿瘤组织内部不同细胞群体比例的动态重构。</p><p><br/></p><p>这使得DELPHAI具备了“组织层面（Tissue-level）”的宏观与微观融合推断能力，能够深度还原临床真实的肿瘤生态系统。</p><p><br/></p><p>DELPHAI 的核心技术优势与投资要点：</p><p><br/></p><p>• 权威基准双冠王：在 scPerturBench 与 scArchon 两大最新国际测试集下，颠覆了以往AI模型在复杂扰动下“落后于简单线性模型”的窘境，以绝对技术优势登顶。</p><p><br/></p><p>• 首创细胞特异性存活机制（Fitness Gating）：传统模型错误地假设扰动后所有细胞均存活。DELPHAI首次从单细胞数据中直接学习药物引起的细胞选择性死亡，完美保持了组织微环境中的“细胞身份（Cell Identity）”，预测精度断层领先。</p><p><br/></p><p>• 组织级闭环飞轮（High-Value TechBio Flywheel）：依托aiPTO专有的、已在300+临床患者身上验证的“活体个体化患者肿瘤类器官（IPTO）”平台，DELPHAI得以将真实的组织级功能响应数据与单细胞多组学深度融合，形成“临床样本 → 真实扰动数据 → 虚拟肿瘤学习 → 反哺精准医疗与新药研发”的独家闭环。</p><p><br/></p><p><br/></p><p>从投资角度看，aiPTO正在构建的不仅仅是一个单点算法，而是面向未来的底层AI基础设施与药物响应“世界模型”。</p><p><br/></p><p>当前新药研发面临临床前模型预测力不足、患者异质性巨大、以及少数耐药细胞导致复发的三大结构性痛点。aiPTO通过“虚拟肿瘤”在组织与细胞双重尺度上的精准推断，直击这些核心痛点。</p><p><br/></p><p>目前，aiPTO已获得包括德国癌症研究中心（DKFZ）在内的顶尖机构的深度背书与投资，基础研究部分获得了卡尔·蔡司基金会（Carl Zeiss Funding）500万欧元的AI突破性创新资助（AI-Care项目）。</p><p><br/></p><p>公司依托创新的TechBio飞轮商业模式，已在胶质母细胞瘤（GBM）等高难度实体瘤领域取得了显著的进展：包括联合德国海德堡大学医院（UKHD）开展由DFG SFB1389资助的临床精准医疗项目、正合作推进多款First-in-Class脑肿瘤新药管线，并与顶尖制药企业及学术泰斗展开多维度合作。</p><p><br/></p><p>伴随全新预印版论文的发布与DELPHAI模型的全球领先定位，aiPTO正加速推进新一轮的融资与产业国际化战略布局。</p><p><br/></p><p><span>论文来源：</span></p><p><span>https://doi.org/10.64898/2026.07.01.735965</span></p></div> </div></body></html>",
     "lang": "zh",
-    "created_at": "2026-07-09T11:19:07.792053+00:00"
-  },
-  {
-    "id": "97339e88-9fcc-4c7b-8d2a-4f6d083c6aff",
-    "title": "EHR Integration Services: Building Connected Healthcare Systems",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [
-      "医学影像",
-      "监管合规",
-      "电子病历"
-    ],
-    "time": "2026-07-09T10:05:00+00:00",
-    "url": "https://medium.com/science-for-life/ehr-integration-services-building-connected-healthcare-systems-bf26ebc783dc",
-    "summary": "The healthcare industry is undergoing a major digital transformation, with hospitals, clinics, and healthcare providers increasingly&#x2026;Continue reading on Science For Life »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-snippet\">The healthcare industry is undergoing a major digital transformation, with hospitals, clinics, and healthcare providers increasingly&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/science-for-life/ehr-integration-services-building-connected-healthcare-systems-bf26ebc783dc?source=rss------digital_health-5\">Continue reading on Science For Life »</a></p></div></p></div>",
-    "lang": "en",
     "created_at": "2026-07-09T11:19:07.792053+00:00"
   }
 ]
