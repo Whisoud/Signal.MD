@@ -1,5 +1,40 @@
 [
   {
+    "id": "639ae4b5-c235-48ca-ad0d-92897f361791",
+    "title": "数据要素产业黄金窗口期：《中国医疗影像数据平台建设白皮书》启动编撰，共建医疗影像数据平台标准化路径",
+    "source": "动脉网",
+    "category": "Policy",
+    "level": "S",
+    "tags": [
+      "医院运营",
+      "监管合规",
+      "医学影像"
+    ],
+    "time": "2026-07-31T17:55:00+00:00",
+    "url": "https://www.vbdata.cn/1519088201",
+    "summary": "医疗AI步入产业化关键阶段，但面临结构性矛盾，2030年国内医学影像检测规模将达1590亿元，智能医学影像细分赛道规模将突破400亿元，而医疗影像模型面临“找数据难、做数据标注难、做模型训练更难”的三重困境，产业规模化落地步履维艰。国家通过政策破除桎梏，医保影像互通体系铺开，《数据产权登记工作指引（试行）》施行，为影像数据资产化打通制度通道。政策红利窗口已开启，但行业缺少统一行动纲领，德适科技联合...",
+    "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p><span \"helvetica=\"\" \"hiragino=\"\" \"microsoft=\"\" -apple-system,=\"\" 15px;=\"\" 1px;=\"\" arial,=\"\" blinkmacsystemfont,=\"\" font-size:=\"\" gb\",=\"\" justify;\"=\"\" letter-spacing:=\"\" neue\",=\"\" new\",=\"\" pingfang=\"\" sans=\"\" sans-serif;=\"\" sc=\"\" system-ui,=\"\" text-align:=\"\" ui\",=\"\" yahei=\"\" yahei\",=\"\">随着大模型、数据要素和医疗场景加速融合，医疗AI正从技术探索迈向产业化发展的关键阶段。然而，在行业快速发展的背后，也呈现出鲜明的结构性矛盾：一边是千亿赛道蓝海空间的持续扩容，一边则是产业链深陷割裂内耗，庞大市场潜力无法快速兑现。<br/><br/></span></p><section class=\"_135editor\" data-id=\"7\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"_135editor\" data-id=\"7\"><section class=\"\"><section><p class=\"135brush\" data-autoskip=\"1\">据弗若斯特沙利文数据，2030年国内医学影像检测整体市场规模将攀升至1590亿元，智能医学影像细分赛道规模将突破400亿元；与此同时，全球累计落地超3000项医疗影像检测项目，然而，市场的繁荣并<span leaf=\"\">并未传导至产业底层——</span><span leaf=\"\">医疗影像模型则面临“找数据难、做数据标注难、做模型训练更难”的三重困境。整个产业链各环节各自为战：标注服务、算法研发、临床商业化相互割裂，鲜有机构能够真正打通“数据确权—智能标注—模型训练—临床验证—商业变现”的完整链路。影像数据被层层壁垒锁住无法流转，AI模型迭代缺少优质养料，产业规模化落地始终步履维艰。</span></p></section></section></section></section><p><br/>国家正通过利好政策的落地，破除产业发展桎梏，为影像数据资产化打通制度通道：<br/><br/><strong>一方面，是医保影像互通体系的全面铺开。</strong><strong>今年6月国家医保局正式印发《“医保影像云”基础规范》，跨院影像互认落地，</strong>让医院海量合规临床影像具备了对外开放、用于AI训练的基础条件。</p><p><strong><br/></strong></p><p><strong>另一方面，数据要素产权制度正式成型。</strong><strong>今年7月《数据产权登记工作指引（试行）》正式施行，全国统一数据产权登记体系搭建完成，医疗影像数据合规流转、资产化变现拥有了完整的政策依据。</strong></p><p><br/></p><p>前者打通了数据“可访问”的物理通道，后者解决了数据“可确权”的法律通道——两层制度叠加，才真正让沉睡的临床影像具备走向产业化的前提。</p><p><br/><img alt=\"图片1.png\" src=\"http://cdn.vcbeat.top/upload/image/09/07/31/40/1785490814523462.png/dmw\"/><br/><span>一张图看懂2020—2026年数据要素政策演进，医疗影像数据资产化迎来规模化落地窗口期；图表由《中国医疗影像数据平台建设白皮书》独家梳理</span></p><p><br/>政策红利窗口已然开启，但行业缺少统一行动纲领统筹各方资源。<strong>基于产业现实需求，德适科技联合动脉智库，汇聚多家行业权威机构共同发起《中国医疗影像数据平台建设白皮书》编撰工作，旨在破解全链条系统性痛点，搭建医疗影像AI一体化产业协同底座。</strong></p><p><br/></p><p><br/></p><p>白皮书的编撰，始于对产业核心矛盾的追问。在快速增长的医疗影像AI领域，以下五个问题始终悬而未决，也是本次白皮书研究的核心出发点：</p><p><br/></p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>①数据孤岛紧锁产业增长，全域数据流通何时得以实现？</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">医疗机构沉淀了海量合规临床影像资源，但全部封存于院内系统，AI企业、科研院所难以获取脱敏、权属清晰的可用训练数据源；加之省市之间、不同医疗机构之间数据互通壁垒高耸，优质临床数据无法反哺算法持续迭代，千亿赛道被数据隔断。医保影像云的建设正在助力隔阂的打破。但行业何时才能走出低效内耗？</p></section></section></section></section><p> </p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>②人工标注成本居高不下，高效智能标注体系何时普及？</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">行业长期依赖纯人工标注模式，不仅耗时漫长、人力成本高昂，各家机构标注质控标准更是参差不齐；行业缺少大模型驱动的自动化标注工具降本增效，模型迭代资金大半消耗在标注环节，研发投入性价比持续走低。高效智能标注体系何时才能普及？</p></section></section></section></section><p><br/></p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>③统一行业标准全域缺失，产业协同通用规则何时建立？</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">以往，影像数据存储格式、标注规范、数据产权登记、跨机构流转无全国通用准则，医院、AI企业、科研院所彼此对接成本极高，全行业缺少可复用的基础设施底座，碎片化协作难以凝聚产业合力。如今，数据要素产权制度正式成型。而其他产业协同通用规则何时才能建立？</p></section></section></section></section><p><br/></p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>④AI模型零散难以复用，一体化训练基座何时搭建完成？</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">当下市场主流产品均为单病种、单点式影像AI工具，通用性极差；每家企业从零搭建训练体系，重复研发造成资源浪费，训练出的模型又难以适配复杂真实临床场景，落地复用价值微弱。行业一体化训练基座何时搭建完成？</p></section></section></section></section><p><br/></p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>⑤全链路商业闭环未能成型，多方共赢盈利模式何时跑通？</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">医院手握海量数据却无数据资产变现渠道，同时欠缺AI应用工具；科技企业手握算法却欠缺临床落地场景；产业资本手握资金却难以筛选优质可落地项目。数据、算法、临床、资本四大核心要素四散分离，不存在统一协同载体。行业多方共赢模式何时才能跑通？</p></section></section></section></section><p><br/>显然，单一环节的服务难以破解系统性难题，行业亟须一份权威白皮书凝聚多方力量，共建统一规则与一体化产业底座——而这正是我们启动本次编撰的核心初心。</p><p><br/></p><p><br/></p><p>市面上绝大多数行业报告仅聚焦医保影像云搭建、单一病种AI应用拆解，尚未有完整白皮书梳理影像数据全链路落地体系。本白皮书旨在填补行业系统性实操指南空白。我们诚邀三甲医院、AI科技企业、科研院所、专业标注团队、产业投资机构、行业协会等各类机构参与共建。通过审核后，共建单位将深度参与专家访谈、内容联合编撰、企业案例收录等环节，并享有以下专属权益——</p><p><strong><br/></strong></p><p><strong><img alt=\"得失.png\" src=\"http://cdn.vcbeat.top/upload/image/15/07/31/35/1785512103106619.png/dmw\"/></strong></p><p><strong><br/></strong>围绕“影像数据平台驱动AI全链路闭环”这一核心逻辑，白皮书将从以下四个维度展开，共建方均可深度参与：</p><p><br/></p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>①搭建行业独家全链路研究框架，共建单位共同定义行业标准</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">作为国内首份以“影像数据平台驱动AI全链路闭环”为核心逻辑的系统性白皮书，我们设置时代背景、产业现状、平台体系、标杆实践、未来展望五大递进篇章，将完整复盘当下产业全貌、预判未来3—5年整体产业格局，填补国内医疗影像数据平台落地指南空白。</p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">共建方可全程深度参与研究框架打磨、产业趋势研判，企业一线落地实践案例、核心行业观点均可收录至白皮书权威正文。并且可以共建单位身份共同定义产业未来规则，在全产业链树立标杆品牌地位。</p></section></section></section></section><p><br/></p><p><img alt=\"b5723d0c-0ccb-4cc6-97c4-de6061446c7b.png\" src=\"http://cdn.vcbeat.top/upload/image/15/07/31/29/1785511746478555.png/dmw\"/></p><p><span>注：《中国医疗影像数据平台建设白皮书》暂拟框架</span></p><p><span><br/></span></p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>②开展全域多主体深度产业调研，共建伙伴优先掌握一手行业核心情报</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">我们将面向监管主管部门、三甲医院、AI科技企业、产业投资机构等群体，开展20—30场一对一深度访谈，收录产业一线真实痛点、解决方案、落地诉求，构筑报告扎实的一手内容根基，客观还原产业全貌。</p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">共建单位可推荐行业专家参与访谈交流，优先获取报告访谈内容；并提前掌握监管导向、上下游合作需求，精准布局业务方向，抢占赛道先发优势。</p></section></section></section></section><p><br/></p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>③汇聚产学研医资多方联合编撰，打通跨圈层独家资源对接通道</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">我们将集结临床一线专家、高校科研院所、全国行业协会、头部科技企业、产业资本多方主体协同创作，基于专业、可信、可靠的专家资源，打磨可落地的行业标准化方法论，打破医疗、科研、企业、资本之间的圈层壁垒。</p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p class=\"135brush\" data-brushtype=\"text\">共建方可纳入白皮书共建名录，正式出版后署名展示；并参与线下研讨沙龙，直面医院端、投资方、同行企业对接合作资源，拓展商业版图与人脉圈层。</p></section></section></section></section><p><br/></p><section class=\"_135editor\" data-id=\"86456\" data-tools=\"135编辑器\" draggable=\"true\"><section class=\"layout\"><section data-bgless=\"lighten\" data-bglessp=\"15%\"><section><p class=\"135brush\" data-brushtype=\"text\"><strong>④输出可直接复用行业实操范本，共建伙伴优先落地标准化解决方案</strong></p><p class=\"135brush\" data-brushtype=\"text\"><br/></p><p><span leaf=\"\">白皮书将完整覆盖平台搭建方案、标杆落地案例，收录包括德适科技<span class=\"\" link-id=\"link-1785510443066-0.4168992449920652\">iMedLoop</span>™平台等成熟落地实践案例。白皮书发布后会向全行业开放核心章节，有望成为从业者通用参考范例。</span><span leaf=\"\"><br/></span></p><p><span leaf=\"\"><br/></span></p><p><span leaf=\"\">共建方可借鉴白皮书标准化落地体系优化自身产品与业务模式；并优先对接iMedLoop™平台底层技术底座，低成本搭建自身运营体系，缩短项目落地周期。</span></p></section></section></section></section><p><br/></p><section><p><span>随着医保影像云打通全域数据流通脉络，数据产权登记制度扫清资产化落地壁垒，曾经沉睡的临床影像数据，终将转化为可确权、可流通、可训练、可持续商业化的核心产业资产。<strong>德适科技iMedLoop™平台将以“大模型基座+数据训练引擎+全域应用闭环”为产业提供底层协同底座，而《中国医疗影像数据平台建设白皮书》将为行业提供行动指南。</strong><br/></span></p><p><br/></p><p><span>独行快，众行远。我们期待全产业链同仁携手共建这份行业重磅报告，共破数据困局、共建产业底座、共同加速医疗影像智能化时代的到来！</span></p></section></div> </div></body></html>",
+    "lang": "zh",
+    "created_at": "2026-07-31T17:55:44.292289+00:00"
+  },
+  {
+    "id": "eb4a66a0-246d-413f-a8e2-2c21b112e54d",
+    "title": "The Future of Medicine Is Predictive, Not Reactive",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "B",
+    "tags": [
+      "监管合规",
+      "医学影像"
+    ],
+    "time": "2026-07-31T16:22:00+00:00",
+    "url": "https://medium.com/@csteam7890/the-future-of-medicine-is-predictive-not-reactive-b26b78c2a8c3",
+    "summary": "Modern medicine has achieved remarkable success in treating disease, yet much of healthcare still begins after damage has already occurred&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@csteam7890/the-future-of-medicine-is-predictive-not-reactive-b26b78c2a8c3?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/600/1*HRNMCkiLIyom2nHx6wdFrg.png\" width=\"600\" /></a></p><p class=\"medium-feed-snippet\">Modern medicine has achieved remarkable success in treating disease, yet much of healthcare still begins after damage has already occurred&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@csteam7890/the-future-of-medicine-is-predictive-not-reactive-b26b78c2a8c3?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-07-31T17:55:44.292289+00:00"
+  },
+  {
     "id": "613e64f9-1b68-4e32-992f-9fcbc3bb3933",
     "title": "Advancing responsible AI across Europe",
     "source": "OpenAI News",
@@ -3288,40 +3323,6 @@
     "url": "https://medium.com/@Sharath-Srinivas/the-fragmented-patient-journey-why-healthcare-navigation-is-the-missing-link-in-uk-digital-health-ae670b40cdbe",
     "summary": "An analytical review of systemic gaps, digital health opportunities, and the case for integrated patient navigationContinue reading on Medium »...",
     "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@Sharath-Srinivas/the-fragmented-patient-journey-why-healthcare-navigation-is-the-missing-link-in-uk-digital-health-ae670b40cdbe?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1200/1*ZZZ4BtsXWdVclMKzeKZLQQ.png\" width=\"1200\" /></a></p><p class=\"medium-feed-snippet\">An analytical review of systemic gaps, digital health opportunities, and the case for integrated patient navigation</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@Sharath-Srinivas/the-fragmented-patient-journey-why-healthcare-navigation-is-the-missing-link-in-uk-digital-health-ae670b40cdbe?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-07-10T14:49:35.244226+00:00"
-  },
-  {
-    "id": "e0220ce9-f4f5-406c-9262-e047c0cf3479",
-    "title": "The Doctor Who Trusted a Machine: How AI Is Changing Healthcare",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [
-      "医学影像",
-      "监管合规"
-    ],
-    "time": "2026-07-10T12:58:00+00:00",
-    "url": "https://medium.com/@anumwaseem572014/the-doctor-who-trusted-a-machine-how-ai-is-changing-healthcare-95b0d84e637d",
-    "summary": "For centuries, doctors have relied on their knowledge, experience, and instincts to save lives. Medicine has always been a field built on&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@anumwaseem572014/the-doctor-who-trusted-a-machine-how-ai-is-changing-healthcare-95b0d84e637d?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1573/1*0INHAQKZl4mZZYlNevKxlg.jpeg\" width=\"1573\" /></a></p><p class=\"medium-feed-snippet\">For centuries, doctors have relied on their knowledge, experience, and instincts to save lives. Medicine has always been a field built on&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@anumwaseem572014/the-doctor-who-trusted-a-machine-how-ai-is-changing-healthcare-95b0d84e637d?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-07-10T14:49:35.244226+00:00"
-  },
-  {
-    "id": "09493445-9c3b-41d1-a000-290de5e52d26",
-    "title": "10th Remote Patient Monitoring Summit 2026",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [
-      "医院运营",
-      "可穿戴/IoT"
-    ],
-    "time": "2026-07-10T11:21:00+00:00",
-    "url": "https://medium.com/the-iot-magazine/10th-remote-patient-monitoring-summit-2026-ea130c29863f",
-    "summary": "Where healthcare&#x2019;s biggest names in RPM, wearables, and AI-driven care are gathering this September and why your team should be there tooContinue reading on The IOT Magazine »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/the-iot-magazine/10th-remote-patient-monitoring-summit-2026-ea130c29863f?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1920/1*l6Pq2rKkZXInSH4j_CFNOg.png\" width=\"1920\" /></a></p><p class=\"medium-feed-snippet\">Where healthcare&#x2019;s biggest names in RPM, wearables, and AI-driven care are gathering this September and why your team should be there too</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/the-iot-magazine/10th-remote-patient-monitoring-summit-2026-ea130c29863f?source=rss------digital_health-5\">Continue reading on The IOT Magazine »</a></p></div></p></div>",
     "lang": "en",
     "created_at": "2026-07-10T14:49:35.244226+00:00"
   }
