@@ -1,5 +1,22 @@
 [
   {
+    "id": "513e9645-a691-4f09-8ddb-b695b28829b6",
+    "title": "Applications of Voice AI in Healthcare: 10 Use Cases Delivering Real Results",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "S",
+    "tags": [
+      "监管合规",
+      "AI工作流"
+    ],
+    "time": "2026-08-14T10:26:00+00:00",
+    "url": "https://raftlabs.medium.com/applications-of-voice-ai-in-healthcare-10-use-cases-delivering-real-results-33d5e0b193f0",
+    "summary": "Voice AI is helping healthcare organizations reduce administrative work, improve patient engagement, and streamline clinical workflows&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://raftlabs.medium.com/applications-of-voice-ai-in-healthcare-10-use-cases-delivering-real-results-33d5e0b193f0?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2600/0*aBRO4MEIZNlSSCEc\" width=\"4016\" /></a></p><p class=\"medium-feed-snippet\">Voice AI is helping healthcare organizations reduce administrative work, improve patient engagement, and streamline clinical workflows&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://raftlabs.medium.com/applications-of-voice-ai-in-healthcare-10-use-cases-delivering-real-results-33d5e0b193f0?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-08-14T13:26:52.910691+00:00"
+  },
+  {
     "id": "25a4d615-e6b8-4680-8168-cce703b95ed1",
     "title": "研发费用激增208%！西藏药业最新业绩公布",
     "source": "动脉网",
@@ -3326,22 +3343,5 @@
     "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-snippet\">Healthcare systems track a lot of things &#x2014; patient satisfaction scores, readmission rates, wait times. What most don&#x2019;t track&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@ruleexpert.info/the-trust-deficit-hospitals-arent-measuring-what-patient-privacy-surveys-are-actually-telling-us-d4c2d38565d1?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
     "lang": "en",
     "created_at": "2026-07-25T06:31:00.975207+00:00"
-  },
-  {
-    "id": "855747b0-173d-4eed-a488-947fb73986a3",
-    "title": "150万，浙大二院转化一款心脏纤维化细胞药物，成果曾登上Nature杂志",
-    "source": "动脉网",
-    "category": "Clinical",
-    "level": "A",
-    "tags": [
-      "医学影像",
-      "临床研究"
-    ],
-    "time": "2026-07-25T03:25:00+00:00",
-    "url": "https://www.vbdata.cn/1519087203",
-    "summary": "2026年4月，浙大二院胡新央与徐洋团队在《Nature》发表重磅研究，首创工程化免疫抑制性树突状细胞（iCDC）疗法，证实病灶靶向免疫调控可有效控制心脏纤维化。该成果源于对年轻扩心病患者治疗困境的深刻反思，旨在解决传统抗炎疗法效果短暂或易致感染的难题。通过给树突状细胞装上“导航”和“刹车”，该疗法在小鼠及非人灵长类模型中均验证了卓越疗效与安全性。目前，相关专利及PCT申请已完成转化公示，以150...",
-    "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p>2026年4月，一篇题为\"Engineered immunosuppressive dendritic cells protect against cardiac remodelling\"的研究上线《Nature》，来自<strong>浙大二院胡新央/徐洋团队</strong>的<strong>工程化免疫抑制性树突状细胞（iCDC）疗法</strong>，<strong>首次证明病灶靶向免疫调控可以有效控制心脏纤维化。</strong>这项在小鼠和非人灵长类模型中均验证了疗效与安全性的心衰治疗新策略，刚刚走完了成果转化的公示流程。</p><p><br/></p><p>根据浙江大学技术转化研究院发布的公示，<strong>\"一种免疫抑制性树突状细胞及其制备方法和应用\"两项成果拟以协议定价方式转让，打包转化价格150万元，其中浙江大学对应50%份额价格为105万元。</strong>两件成果共享同一技术体系，分别对应中国专利（成果号CN202510285966.2）和国际PCT专利申请（成果号PCT/CN2026/081857）。</p><p><br/></p><h2><span #000000;=\"\" 400;=\"\" arial,=\"\" color:=\"\" font-style:=\"\" font-weight:=\"\" microsoft=\"\" none;\"=\"\" normal;=\"\" sans-serif;=\"\" text-decoration:=\"\" yahei\",=\"\"></span></h2><p><span #000000;=\"\" 400;=\"\" arial,=\"\" color:=\"\" font-style:=\"\" font-weight:=\"\" microsoft=\"\" none;\"=\"\" normal;=\"\" sans-serif;=\"\" text-decoration:=\"\" yahei\",=\"\"><br/></span></p><p><strong>故事的起点在浙大二院的门诊。</strong></p><p><br/></p><p><strong>胡新央</strong>是浙大二院心血管内科教授，也是经血管植入器械全国重点实验室副主任。她记得很清楚，几年前在门诊接待了一位年轻扩张型心肌病患者的父亲——小伙子二十多岁，心衰反复发作，传统药物治疗效果不佳，心脏移植又等不到合适的供体。\"这位父亲一遍遍咨询，在我的门诊痛哭。\"胡新央在一篇报道中提到，<strong>\"我那时候反复问自己，治疗终末期心衰，究竟能不能有别的方法？\"</strong></p><p><br/></p><p>作为心内科专家，胡新央深知持续的免疫炎症反应是心衰进展的关键推手。心梗后或慢性心衰患者体内过度激活的免疫炎症，就像\"失控的卫士\"，持续攻击自身心肌，加速心脏重构和纤维化。而传统抗炎治疗要么效果短暂，要么因为破坏了保护性的炎症反应，反而增加全身感染风险。</p><p><br/></p><p>2026年4月8日，这项历经近五年攻关的成果正式发表于《Nature》，胡新央与免疫学专家徐洋教授共同担任通讯作者。</p><p><br/></p><h2><span #000000;=\"\" 400;=\"\" arial,=\"\" color:=\"\" font-style:=\"\" font-weight:=\"\" microsoft=\"\" none;\"=\"\" normal;=\"\" sans-serif;=\"\" text-decoration:=\"\" yahei\",=\"\"></span></h2><p><br/></p><p><strong>树突状细胞（DC）是免疫系统的\"指挥官\"，负责启动、调控并维持免疫应答。</strong><span #000000;=\"\" 400;=\"\" arial,=\"\" color:=\"\" font-style:=\"\" font-weight:=\"\" microsoft=\"\" none;\"=\"\" normal;=\"\" sans-serif;=\"\" text-decoration:=\"\" yahei\",=\"\">DC的研</span>究早在2011年就获得了诺贝尔奖，但全球范围内，DC的临床应用始终很难找到合适的场景——<strong>其激活功能可用于癌症治疗，但在心力衰竭中需要反其道而行，利用的是DC的抑制功能。</strong></p><p><br/></p><p><strong>徐洋</strong>深耕免疫学基础研究30余年，1970年生，1989年获武汉大学生物系学士学位，1994年获哈佛大学博士学位，随后在麻省理工学院跟随诺贝尔奖得主David Baltimore从事博士后研究，2008年晋升为加州大学圣地亚哥分校终身正教授，2011年在《Nature》发表\"诱导多能干细胞分化的细胞有免疫原性\"的发现引起再生医学领域轰动。现任浙大二院教授、浙江省心脏功能重建重点实验室主任。</p><p><br/></p><p>团队选择<strong>树突状细胞</strong>作为突破口，<strong>创新性地开发了工程化免疫抑制及病灶靶向的树突状细胞干预策略</strong>，相当于\"从0到1，开辟了治疗心衰的全新赛道\"。</p><p><br/></p><p>这项技术的核心设计可以概括为两件事：<strong>精准定位和免疫抑制。</strong></p><p><br/></p><p>心脏损伤后，成纤维细胞活化蛋白α（FAP）在纤维化区域大量表达，而正常组织中几乎不表达。团队将靶向FAP的嵌合抗原受体（CAR）安装到树突状细胞表面，相当于给细胞装上了一个\"导航系统\"，使其能够精准归巢到受损心脏的纤维化区域。</p><p><br/></p><p>同时，团队让树突状细胞过表达三种关键免疫抑制分子——<strong>CTLA4-Ig、PD-L1和IL-10</strong>。这三者分别通过不同通路抑制免疫细胞的激活：CTLA4-Ig阻断T细胞活化和B细胞功能，PD-L1通过结合PD-1受体传导抑制信号，IL-10则下调单核细胞的抗原呈递作用并抑制炎症因子合成。通俗地说，就是给这些\"指挥官\"下达了明确指令：进入心脏，把持续损伤心肌的慢性炎症\"关掉\"，给心脏创造修复的环境。</p><p><br/></p><p>这种设计避免了传统系统性抗炎方案的\"地毯式轰炸\"，只在病灶局部重建免疫耐受微环境，不引起全身免疫抑制。</p><p><br/></p><h2><span #000000;=\"\" 400;=\"\" arial,=\"\" color:=\"\" font-style:=\"\" font-weight:=\"\" microsoft=\"\" none;\"=\"\" normal;=\"\" sans-serif;=\"\" text-decoration:=\"\" yahei\",=\"\"></span></h2><p><br/></p><p><span #000000;=\"\" 400;=\"\" arial,=\"\" color:=\"\" font-style:=\"\" font-weight:=\"\" microsoft=\"\" none;\"=\"\" normal;=\"\" sans-serif;=\"\" text-decoration:=\"\" yahei\",=\"\">在专利文件中，团队在三种心脏纤维化小鼠模型中系统验证了CP-IL10-CAR-DCs药物的</span>疗效。</p><p><br/></p><p>在心肌缺血再灌注模型中，造模后第三天单次尾静脉注射，药物浓度仅为1.2×10⁴个/μL，28天后检测显示，治疗组小鼠射血分数（LVEF）较模型组改善约12%，较空载体对照组改善约8%。心脏天狼星红染色显示，治疗组未见弥漫性纤维化，病变部位呈局灶性分布，纤维化标志物蛋白（α-SMA、Collagen-I、Periostin）表达水平显著下降。炎症基因检测显示，促炎因子IL-6、MCP-1、TNF-α表达显著下调，抑炎因子IL-10、FOXP3表达升高。</p><p><br/></p><p>在急性心肌梗死模型中，同样低剂量的单次给药使LVEF较模型组改善约11%，较对照组改善约9%，纤维化蛋白表达显著下降。</p><p><br/></p><p>在主动脉弓缩窄模型（模拟扩张型心肌病的压力超负荷病理过程）中，治疗组LVEF较模型组改善幅度更大，达到约23%，较对照组改善约13%。</p><p><br/></p><p>更值得关注的是，<strong>团队还验证了异体来源的CP-IL10-CAR-DCs的治疗效果。</strong>异体细胞治疗同样显著改善了心脏缺血再灌注后的心功能（改善约10%），减轻了纤维化程度，且血清细胞因子检测（IFN-γ、IL-6、IL-17a、IL-1β、TNF等）未见升高，未引起炎症因子风暴，证明异体治疗具有良好的安全性。这意味着该药物未来有望实现\"现货型\"细胞药物的开发路径，而不必局限于自体细胞治疗。</p><p><br/></p><p>在非人灵长类心肌梗死模型中，iCDC疗法同样展现出良好的疗效与安全性，减少了心脏纤维化，改善了心肌灌注和收缩功能，且未观察到全身毒性、肝肾损伤或心律失常风险。</p><p><br/></p><h2><span #000000;=\"\" 400;=\"\" arial,=\"\" color:=\"\" font-style:=\"\" font-weight:=\"\" microsoft=\"\" none;\"=\"\" normal;=\"\" sans-serif;=\"\" text-decoration:=\"\" yahei\",=\"\"></span></h2><p><br/></p><p>权利人除浙江大学外，还包括嘉兴珈安华钰生物科技有限公司。据企查查信息，该公司成立于2024年3月，徐洋持股80%并担任总经理，是典型的由核心发明人参与创办的成果承接主体。</p><p><br/></p><p>从门诊里一位父亲的哭泣，到《Nature》上的原创突破，再到成果转化的落地推进，iCDC疗法正沿着\"临床问题驱动科研，科研成果反哺临床\"的路径向前推进。胡新央团队表示，将继续完善临床级工程化DC细胞的制备工艺，加速推进此项研究的临床转化。</p></div> </div></body></html>",
-    "lang": "zh",
-    "created_at": "2026-07-25T03:26:04.949549+00:00"
   }
 ]
