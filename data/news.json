@@ -1,5 +1,22 @@
 [
   {
+    "id": "582d4884-772e-44bd-960b-1f67b3a34f14",
+    "title": "NVIDIA Taught a 4B Model to Read CT Scans in 3D Like a Radiologist",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "B",
+    "tags": [
+      "医学影像",
+      "监管合规"
+    ],
+    "time": "2026-09-29T10:51:00+00:00",
+    "url": "https://www.towardsdeeplearning.com/nvidia-taught-a-4b-model-to-read-ct-scans-in-3d-like-a-radiologist-0e1e1b623217",
+    "summary": "NV-Reason-CT explained simply: 13,824 tiny cubes, recorded radiologist voice notes and a reinforcement learning trick, plus what the&#x2026;Continue reading on Towards Deep Learning »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://www.towardsdeeplearning.com/nvidia-taught-a-4b-model-to-read-ct-scans-in-3d-like-a-radiologist-0e1e1b623217?source=rss------medical_ai-5\"><img src=\"https://cdn-images-1.medium.com/max/1536/1*L-j_-HJ1KW_R1ew-aNf64w.png\" width=\"1536\" /></a></p><p class=\"medium-feed-snippet\">NV-Reason-CT explained simply: 13,824 tiny cubes, recorded radiologist voice notes and a reinforcement learning trick, plus what the&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://www.towardsdeeplearning.com/nvidia-taught-a-4b-model-to-read-ct-scans-in-3d-like-a-radiologist-0e1e1b623217?source=rss------medical_ai-5\">Continue reading on Towards Deep Learning »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-09-29T18:06:27.375147+00:00"
+  },
+  {
     "id": "2bc3d635-aff1-4286-bc94-25c5d050fa14",
     "title": "医学AI能力生成与应用服务平台，助力提升临床科研流程的效率和产出，寻求全国经销商",
     "source": "动脉网",
@@ -3356,22 +3373,6 @@
     "summary": "2026年9月17日，“蓉汇港澳 聚力同行”——2026蓉港生物医药产业合作对话会将在天府锦城实验室举行。本次活动由成都市政府港澳办、香港贸易发展局及香港科学园联合主办，旨在推动成都生物医药外向型企业“走出去”。会议聚焦医疗器械、医疗服务及中医药等重点领域，深度解析香港在国际药品认证、临床试验、跨境投融资及知识产权保护等方面的政策优势。通过结合成都“蓉企蓉品出川出海”计划与香港“内地企业出海专班”...",
     "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p><img alt=\"图片1.png\" src=\"http://cdn.vcbeat.top/upload/image/03/09/03/20/1788405643333235.png/dmw\"/></p><p><strong>一、活动名称：</strong>“蓉汇港澳 聚力同行”——2026蓉港生物医药产业合作对话会</p><p><br/></p><p><strong>二、活动时间：</strong>2026年9月17日（星期四）上午9:00-12:00</p><p><br/></p><p><strong>三、活动地点：</strong>天府锦城实验室报告厅</p><p><br/></p><p><strong>四、目的意义：</strong></p><p>本场活动聚焦推动成都生物医药外向型企业“走出去”，围绕医疗器械、医疗服务、中医药等重点领域，深度宣介香港在国际药品认证、临床试验、跨境投融资及知识产权保护等方面的独特政策与服务优势。将成都市“蓉企蓉品出川出海”计划与香港特区政府“内地企业出海专班”安排相结合，助力成都生物医药企业通过香港“超级联系人”“超级增值人”角色，参与国际竞争。</p><p><br/></p><p><strong>五、组织架构</strong></p><p>主办单位：市政府港澳办、香港贸易发展局、香港科学园</p><p>承办单位：成都市民营经济发展促进中心、成都高新区国际合作和投资促进局、成都高新区生物产业局</p><p>支持单位：香港特区政府投资推广署、成都市对外开放合作促进中心、天府锦城实验室</p><p><br/></p><p><strong>六、参会人员</strong></p><p>主办单位、承办单位代表；香港科学园、香港投资机构、专业服务机构、香港/粤港澳大湾区、长三角生物医药企业代表；成都生物医药园区代表，成都生物医药外向型企业代表。</p><p><br/></p><p><strong><span>七、活动流</span></strong><strong><span>程 </span><span>（待定）</span></strong></p><p><br/></p><section class=\"_135editor\" data-id=\"154436\" data-tools=\"135编辑器\" draggable=\"true\"><section><section class=\"box-edit\"><section><section data-width=\"100%\"><section><section class=\"135brush\" data-autoskip=\"1\"><p>09:25-09:45   成都生物医药产业发展、合作机遇介绍</p></section></section></section></section></section></section></section><section class=\"_135editor\" data-id=\"154436\" data-tools=\"135编辑器\" draggable=\"true\"><section><section class=\"box-edit\"><section><section data-width=\"100%\"><section><section class=\"135brush\" data-autoskip=\"1\"><p>09:45-10:10   香港特区政府投资推广署介绍香港生物医药产业的发展前景</p></section></section></section></section></section><section class=\"box-edit\"><section><section data-width=\"100%\"><section><section class=\"135brush\" data-autoskip=\"1\"><p>10:10-10:35   香港科学园分享园区内生物医药创新情况及内地企业入园安排</p></section></section></section></section></section><section class=\"box-edit\"><section><section data-width=\"100%\"><section><section class=\"135brush\" data-autoskip=\"1\"><p>10:35-11:05   香港特区政府投资推广署、中国医药创新促进会驻港联络代表分享香港药品注册“1+”机制及粤港澳大湾区跨境合作案例           </p></section></section></section></section></section></section></section><section class=\"_135editor\" data-id=\"154436\" data-tools=\"135编辑器\" draggable=\"true\"><section><section class=\"box-edit\"><section><section data-width=\"100%\"><section><section class=\"135brush\" data-autoskip=\"1\"><p>11:05-11:25   中金公司介绍生物医疗企业在港上市策略</p></section></section></section></section></section><section class=\"box-edit\"><section><section data-width=\"100%\"><section><section class=\"135brush\" data-autoskip=\"1\"><p>11:25-12:00   企业互动交流</p><p>A：成都企业“走出去”及合作需求</p><p>B：香港的生物医药企业、初创机构、投资机构如何利用成都在产业、人才、市场方面的优势</p></section></section></section></section></section></section></section><p><strong><span><br/></span></strong></p><p><strong><span>八、报名链接</span></strong></p><p><a href=\"https://v.eqxiu.com/s/jsudgumS?bt=yxy&amp;eip=true&amp;share_level=2&amp;from_user=20260827eaa06e32&amp;from_id=2fc71d37-8&amp;share_time=1787822747431\" target=\"_self\"><span>https://v.eqxiu.com/s/jsudgumS?bt=yxy&amp;eip=true&amp;share_level=2&amp;from_user=20260827eaa06e32&amp;from_id=2fc71d37-8&amp;share_time=1787822747431</span></a></p></div> </div></body></html>",
     "lang": "zh",
-    "created_at": "2026-09-03T08:58:09.454355+00:00"
-  },
-  {
-    "id": "1bcbde24-c969-4820-9a96-537674625db1",
-    "title": "Making Clinical Research More Accessible for People With Disabilities",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "B",
-    "tags": [
-      "监管合规"
-    ],
-    "time": "2026-09-03T06:26:00+00:00",
-    "url": "https://medium.com/@DecenTrialz0/making-clinical-research-more-accessible-for-people-with-disabilities-5b9834ad0f2b",
-    "summary": "Accessibility is an important part of healthcare, but it goes beyond ramps, elevators, and accessible entrances. For people with&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@DecenTrialz0/making-clinical-research-more-accessible-for-people-with-disabilities-5b9834ad0f2b?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2000/1*fNKMWDoWkuP1cOtr0ZeqbA.jpeg\" width=\"2000\" /></a></p><p class=\"medium-feed-snippet\">Accessibility is an important part of healthcare, but it goes beyond ramps, elevators, and accessible entrances. For people with&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@DecenTrialz0/making-clinical-research-more-accessible-for-people-with-disabilities-5b9834ad0f2b?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
     "created_at": "2026-09-03T08:58:09.454355+00:00"
   }
 ]
