@@ -1,5 +1,73 @@
 [
   {
+    "id": "8a419747-b951-4726-b2ee-8c17e7f9afe9",
+    "title": "18亿美元，一家AI药物平台被收购！  ",
+    "source": "动脉网",
+    "category": "Policy",
+    "level": "S",
+    "tags": [
+      "监管合规",
+      "AI工作流"
+    ],
+    "time": "2026-10-30T15:08:00+00:00",
+    "url": "https://www.vbdata.cn/1519102419",
+    "summary": "10月28日，法国工业软件巨头达索系统宣布完成对AI原生企业软件公司ArisGlobal的收购交割。交易基础对价18亿美元现金，另设最高2亿美元追加对价。此次收购旨在整合达索旗下MEDIDATA、BIOVIA与ArisGlobal的LifeSphere平台，打通药物研发、临床、生产及上市后数据孤岛，构建面向药企的AI原生一体化全生命周期管理平台。同时，Ashwini Zenooz博士被任命为新事业...",
+    "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p><strong>10月28日，法国工业软件巨头达索系统（Dassault Systèmes）宣布，完成对ArisGlobal（一家专注于生命科学领域的AI原生企业软件公司）的收购交割。本次交易基础对价为18亿美元现金，同时设置最高2亿美元的追加对价，兑付条件绑定长期AI相关收入里程碑。</strong></p><p><strong> </strong></p><p>这一次收购的意义，远不止一笔软件企业并购。达索原有的MEDIDATA聚焦临床开发，BIOVIA聚焦科学建模与仿真；ArisGlobal的LifeSphere则覆盖监管、药物安全、质量和医学事务。三者协同可搭建起一套面向药企的AI原生一体化平台，尝试打通药物全生命周期中长期割裂的数据孤岛。</p><p> </p><p>在公告中，达索系统管理层也多次强调，生命科学行业最大的痛点，就是研发、临床、生产、上市后患者数据相互隔绝，信息流转滞后，而这套整合平台正是为了解决该问题。</p><p> </p><p>交割同步落地的还有一项关键人事调整。Ashwini Zenooz博士被任命为全新生命科学与健康事业部执行副总裁兼CEO，进入达索系统执行委员会，统筹管理MEDIDATA、BIOVIA、ArisGlobal三条业务线，直接向董事会主席兼CEO Pascal Daloz汇报。</p><p> </p><p><strong>该意味着，达索系统旗下的AI医疗业务不再是各自独立运营的业务单元，将逐步向“科学、医学、患者打通”的平台战略靠拢。</strong></p><p> </p><h3><br/></h3><p>这笔收购的消息最早在今年7月对外披露，彼时达索系统已经和ArisGlobal签署最终收购协议，董事会全票通过交易方案。时隔三个月，交易顺利完成交割。</p><p> </p><p>被收购企业ArisGlobal，并不是赛道的新玩家。这家公司1987年成立，是全球较早推出商业化药物警戒系统的厂商，核心产品LifeSphere历经数十年迭代，覆盖注册申报、药物安全监测、医学事务、质量管理等药企上市后必备的合规场景。</p><p> </p><p>达索系统报道显示，ArisGlobal服务客户超过200家，全球Top 50药企中有半数在列，客户还包括大量生物技术公司、医疗器械企业、CRO乃至部分监管机构；全球员工超1300人，平台每年处理的患者安全报告超过1200万份。</p><p> </p><p><strong>真正让达索系统出手的，是ArisGlobal在AI上的积累。</strong>其NavaX AI引擎主打受监管环境下的生产级自动化，官方数据显示可帮助客户提升流程效率30%以上，自动处理文档、校验数据、生成符合监管要求的决策信息，满足药监体系严苛的追溯与审计要求。<strong>这类经过药企和监管反复验证的AI系统，与实验室里的模型不同，落地门槛极高，才是真正的稀缺资产。</strong></p><p> </p><p>放在达索现有资产里看，这次收购的补位逻辑非常清晰：BIOVIA负责药物早期发现与分子建模，服务临床前研发；MEDIDATA深耕临床试验数字化，累计支撑超过4.2万项试验、覆盖1300万名受试者；而药物获批上市之后的持续注册维护、不良反应上报、风险监测、医学沟通，此前一直是达索体系内的短板。</p><p> </p><p>ArisGlobal恰好补上临床之后、面向真实世界监测的这一环。</p><p> </p><p>不过，达索为这一环付出的代价并不算低：18亿美元现金之外，还设置了最高2亿美元的AI业绩对赌。ArisGlobal预计2026年收入约1.75亿美元，单看静态收入，这笔估值并不便宜。</p><p> </p><p>其溢价空间本质押在NavaX AI的商业化潜力上。达索希望依托这套AI底座，让临床试验数据与真实世界安全数据回流，反向指导早期分子设计与方案优化，形成持续迭代的证据闭环。换言之，18亿美元买的不只是当下的合规收入，而是把上市后数据接进全生命周期平台、让每一步产生的数据都能反哺下一步的能力。</p><p> </p><h3><br/></h3><p>回溯达索系统布局生命科学的路径，本次收购不是临时起意，而是长达十余年战略投入的延续。</p><p> </p><p>达索系统起家于工业三维设计与仿真软件，虚拟孪生是其底层核心能力，早期客户集中在航空、汽车与高端制造。大约2010年之后，公司开始把虚拟孪生的思路迁移到生命科学赛道，逐步搭建产品线。</p><p> </p><p>这条路上最重要的里程碑是2019年收购Medidata Solutions。当时达索以58亿美元拿下这家全球头部临床试验云平台，标志着工业软件巨头正式深度入局医药数字化。</p><p> </p><p>MEDIDATA此前已把临床试验从纸质记录推向云端，达索则把虚拟孪生理念从零部件延伸到生物分子与人体生理过程；收购完成后，MEDIDATA独立运营多年，成为达索生命科学板块的收入支柱，同期BIOVIA持续深耕计算化学与生物建模，守住临床前研发入口。</p><p> </p><p>但很长一段时间里，BIOVIA与MEDIDATA是两条相对独立的管线，前端仿真数据与后端临床数据打通有限，上市后真实世界环节更是空白。</p><p> </p><p><strong>正是这个缺口，解释了两件事：为什么达索单独成立统一事业部统筹三大品牌？它想要的不再是分散的单点工具集合，而是一套统一底座；为什么管理层在最新季度沟通中把ArisGlobal收购定义为板块的阶跃式升级？虽然并表短期带来的收入增量有限，战略权重却很高。</strong></p><p><strong> </strong></p><p><strong>把镜头拉远，这笔交易折射的是生命科学数字化赛道正在发生的结构性变化。</strong></p><p><strong> </strong></p><p>ArisGlobal报道显示，药企合规软件市场保持双位数增长，机构预测2030年市场规模可达75亿美元。驱动增长的底层原因很现实：全球新药管线持续扩容，跨国药企同步在多个国家和地区申报，各国药监对安全上报、风险管理、文档溯源的要求不断收紧，靠人工处理海量安全报告与注册卷宗的模式已难以为继，AI赋能的合规系统正从加分项变成刚需基础设施。</p><p> </p><p><strong>比合规自动化更大的趋势，是平台整合。</strong>过去，药企数字化采购，长期是碎片化的。系统接口不互通、标准不统一，大量有价值的临床与安全数据沉淀在孤立系统里，难以回流指导新药研发；单点工具厂商各自守着细分场景，很难靠自身完成跨周期打通。</p><p> </p><p><strong>从零搭建横跨研发、临床、上市后的全链路平台，投入周期长、合规风险高，并购因此成为头部玩家更高效的路径。</strong>达索的路线也很清晰：收购Medidata拿下临床端，收购ArisGlobal补齐上市后合规端，再配合自有的BIOVIA仿真能力，把工业领域打磨成熟的虚拟孪生与数据连续建模思路，整体移植到药物开发全流程。</p><p> </p><p>这套逻辑离国内并不远。国内药企数字化目前大多停留在单点替换阶段，EDC、PV、注册系统分开采购，全生命周期一体化平台的案例不多。达索的路径预示，未来医药数字化的竞争不再比拼单一模块的功能强弱，而是比拼跨阶段数据的互通能力、AI在监管场景中稳定落地的能力。</p><p> </p><p><strong>因此，18亿美元收购ArisGlobal，本质上是产业发出的信号：药物数字化的下半场，属于能打通从分子到患者结局的一体化AI平台。</strong></p></div> </div></body></html>",
+    "lang": "zh",
+    "created_at": "2026-10-30T15:08:29.860155+00:00"
+  },
+  {
+    "id": "be49d171-03d3-4f22-94dc-dcb78833064b",
+    "title": "【首发】砺博生物完成近亿元 A 轮融资，加速靶向RNA 小分子药物研发",
+    "source": "动脉网",
+    "category": "Market",
+    "level": "A",
+    "tags": [
+      "商业融资",
+      "商业化"
+    ],
+    "time": "2026-10-30T15:08:00+00:00",
+    "url": "https://www.vbdata.cn/1519102417",
+    "summary": "2026年10月30日，砺博生物宣布近日完成近亿元人民币 A 轮融资。本轮融资由正心谷资本，创新工场美元基金、某产业医疗基金联合领投、老股东元生创投继续追加。本轮融资将用于既有管线的临床研发及全球商业化布局。...",
+    "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p>2026 年10月30日，砺博生物宣布近日完成近亿元人民币 A 轮融资。本轮融资由正心谷资本，创新工场美元基金、某产业医疗基金联合领投、老股东元生创投继续追加。</p><p> </p><p>砺博生物成立于2022 年，专注AI4S赋能的靶向RNA小分子创新药研发。公司拥有全球顶尖的 RNA结构生物信息学与RNA 靶向小分子药物研发团队，在国际上率先建立人类基因组RNA三级结构 “自持发现引擎（SSDE）”AI4S 框架，掌握全球最大的经实验验证的人类 RNA 三级结构图谱，基本解决人类 mRNA 普适可靶性问题。首发管线 RP-0172 靶向亨廷顿舞蹈症（Huntington's disease，HD）的核心致病基因 HTT mRNA，从实验室概念到临床仅用时 3 年，正在开展 I 期临床试验。砺博生物围绕中枢神经系统、肿瘤与自身免疫疾病三大领域，布局了多条新靶点、新机制管线，并持续加快后续管线推进。本轮融资将用于既有管线的临床研发及全球商业化布局。</p><p><br/></p><p>砺博生物创始人兼CEO詹剑博士表示：“感谢新老投资方的持续信任与坚定支持。历经多轮资本助力，砺博生物已成为全球靶向RNA小分子药物领域的领先企业，基本解决了人类mRNA的普适可靶性难题。首个进入临床试验阶段的药物，充分证明了公司团队卓越的从0到1药物研发能力。依托AI4S自持发现引擎（SSDE），公司研发能力实现质的飞跃。在本轮融资助力下，我们将全速推进新靶点、新机制管线，加速商业化落地。砺博生物致力于以先进的科学理念和卓越的技术能力，开拓靶向RNA小分子药物的广阔前景，为重大治疗领域提供高度创新的中国解决方案，惠及全球患者。”</p><p> </p><p><strong>正心谷资本表示：</strong></p><p>我们看好靶向RNA小分子药物对多种疾病的巨大治疗潜力。砺博生物创始团队具有国际领先的RNA研究和产业化经验，以及出色的AI技术能力，目前已构建具有全球竞争力的AI干湿闭环平台和创新研发管线，公司研发效率和成果令人印象深刻。我们期待与砺博同行，加速推动这一前沿技术惠及全球患者。</p><p> </p><p><strong>创新工场表示：</strong></p><p>AI4S一直是创新工场重点关注的方向。我们已在AI制药、AI4S基础设施等领域系统布局英矽智能、元思生肽、镁伽科技、镁睿化学等项目。砺博生物是我们在“AI+RNA”领域的重要布局，公司已从最初的技术平台已经发展为“平台+管线”双轮驱动，期待公司管线在国际上进一步取得商业化突破。</p><p> </p><p><strong>元生创投表示：</strong></p><p>\"非常荣幸作为老股东继续参与砺博生物本轮融资。近年来，随着多个国际靶向RNA小分子在研管线陆续披露积极的临床数据，这一领域重新获得业界的关注。砺博生物团队长期深耕RNA生物信息学、RNA结构计算与预测，从根本上夯实了管线开发的底层基础。我们期待在研管线在临床中展现出更优异的数据，持续验证这一赛道的价值。</p><p><br clear=\"all\"/></p><p>砺博生物成立于 2022 年，专注靶向 RNA 的小分子创新药。公司基于自主开发的 AI 大模型预测 RNA 三级结构，掌握全球最大的经实验验证的人源 RNA 结构图谱，并推进中枢神经系统、自身免疫、肿瘤三大领域的差异化管线——核心管线 RP-0172 已进入临床试验。</p><p> </p><p>正心谷始终坚持“长期、专注、利他”的投资价值观，致力于建立中国最优秀的投资研究团队和投后管理团队，覆盖医疗健康、科技制造和科技消费三大领域，通过深度产业研究和投后主动赋能，陪伴优秀的企业家，共同打造代表中国经济未来成长方向、为社会创造价值的伟大企业。</p><p><br/></p><p>创新工场由李开复博士创办于2009年9月，作为国内领先的技术型创业投资机构，创新工场深耕在人工智能、生命科学、机器人、半导体等前沿科技领域，管理规模超过200亿，拥有早期、VC和成长等不同阶段的双币基金。创新工场在早期同时践行领先的Venture Stuido模式，不断迭代多种孵化方式，全方位扶持各类创业者，努力打造世界级科技企业，已经成为多家AI独角兽企业的最早和最大的投资人。</p><p><br/></p><p>元生创投是一家专注于早期和成长期医疗健康领域的投资机构，立足苏州bioBAY，辐射全球。目前已经完成了200余家生命健康领域优秀企业的投资，涉及新药创制、医疗器械、体外诊断和精准医疗，以及医疗未来科技四大方向，取得了丰厚的投资回报，其中23家企业已经登陆港交所、科创板等资本市场。元生创投多次被评选为中国医疗健康领域创投基金Top10、中国最活跃医疗健康投资机构。汇聚资深职业投资人和全球顶尖的科学顾问团队，元生创投拥有生物医药等行业丰富的创业、风险投资及企业运营经验。凭借专业、专注和丰富的行业资源，我们立志于发展成为中国最为成功的医疗医药风险投资基金之一。</p><p> </p><p><em>前瞻性声明：本文涉及公司对在研产品的开发计划与临床试验进度的描述，其中包含前瞻性表述，受制于药物研发固有的不确定性，实际结果可能与上述表述存在重大差异；在研产品尚未获批上市。</em> </p></div> </div></body></html>",
+    "lang": "zh",
+    "created_at": "2026-10-30T15:08:29.860155+00:00"
+  },
+  {
+    "id": "700a5afe-b6e0-4b35-bb5b-b6d87e320806",
+    "title": "From Online Searches to Patient Enquiries: Helping Medical Practices Grow",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [
+      "监管合规",
+      "医学影像"
+    ],
+    "time": "2026-10-30T11:53:00+00:00",
+    "url": "https://medium.com/@growmypractice.wldm/from-online-searches-to-patient-enquiries-helping-medical-practices-grow-153c61b66925",
+    "summary": "Running a medical practice involves much more than providing excellent care. Doctors and healthcare professionals must also help potential&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@growmypractice.wldm/from-online-searches-to-patient-enquiries-helping-medical-practices-grow-153c61b66925?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/740/1*WVEj56MKYPeQSlxp4wO8zw.jpeg\" width=\"740\" /></a></p><p class=\"medium-feed-snippet\">Running a medical practice involves much more than providing excellent care. Doctors and healthcare professionals must also help potential&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@growmypractice.wldm/from-online-searches-to-patient-enquiries-helping-medical-practices-grow-153c61b66925?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-10-30T15:08:29.860155+00:00"
+  },
+  {
+    "id": "e7d1c55e-9285-4488-bc04-df7f3a183e45",
+    "title": "Healthcare AI: How Artificial Intelligence Is Reshaping Care Delivery",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [
+      "监管合规",
+      "医学影像"
+    ],
+    "time": "2026-10-30T11:02:00+00:00",
+    "url": "https://medium.com/@ajay.singh_91430/healthcare-ai-how-artificial-intelligence-is-reshaping-care-delivery-d8c9079cf551",
+    "summary": "Healthcare generates more data than almost any other industry, yet much of it sits unused in disconnected systems, scanned documents, and&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@ajay.singh_91430/healthcare-ai-how-artificial-intelligence-is-reshaping-care-delivery-d8c9079cf551?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/826/1*Zyjm3msirX-E8ZZLlUGLfA.jpeg\" width=\"826\" /></a></p><p class=\"medium-feed-snippet\">Healthcare generates more data than almost any other industry, yet much of it sits unused in disconnected systems, scanned documents, and&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@ajay.singh_91430/healthcare-ai-how-artificial-intelligence-is-reshaping-care-delivery-d8c9079cf551?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-10-30T15:08:29.860155+00:00"
+  },
+  {
     "id": "944893fb-cb13-4e00-b156-8611e2c3d472",
     "title": "从“长寿”到“康寿”：长寿医学需要回归医疗现场",
     "source": "动脉网",
@@ -3335,72 +3403,6 @@
     "summary": "9月28日，中国生物制药附属公司正大天晴与德国百年药企STADA达成重磅合作，就早期在研的帕博利珠单抗生物类似药TQB3570确立独家授权关系。正大天晴主导开发生产，STADA获欧盟等多地独家商业化权及美海湾地区选择权，交易总额最高达5300万欧元加双位数利润分成，并可扩展至其他三款药物。此举旨在挑战年销超300亿美元的全球肿瘤“药王”K药。值得注意的是，该合作在产品未进入临床阶段即锁定，凸显了生...",
     "full_content": "<html><body><div><div class=\"content\" data-v-3f76d679=\"\"><p>9月28日，港股龙头药企中国生物制药（SBP Group，简称“中生”）宣布，附属公司正大天晴药业集团与德国百年药企STADA Arzneimittel AG（以下简称STADA）已就在研的帕博利珠单抗生物类似药TQB3570达成独家合作，扩大生物类似药在欧盟等多个地区的患者可及性。正大天晴将主导该产品的开发、生产与供应；STADA获得欧盟、瑞士、英国及独立国家联合体的独家商业化权利，以及 美国及海湾阿拉伯国家合作委员会（GCC）成员国市场的相关选择权。根据协议，正大天晴将获得首付款+潜在开发、监管及销售里程碑付款，合计最高可达5300万欧元，同时在授权区域内所产生的利润享有双位数分成。双方还约定，可选择将最多三款覆盖肿瘤及免疫适应症的其他生物类似药纳入合作。</p><p><br/></p><p><strong><br/></strong></p><p>帕博利珠单抗是一种人源化抗PD-1单克隆抗体，已获批用于肺癌、胃癌、肝癌、子宫内膜癌等数十种癌症的治疗，是全球临床应用最为广泛的抗肿瘤药物之一。其原研产品KEYTRUDA<sup>®</sup>及KEYTRUDA QLEX<sup>®</sup>在2025年实现全球销售额约317亿美元，是目前全球销售额最高的肿瘤药物，已被世界卫生组织（WHO）纳入《基本药物标准清单》。</p><p><br/></p><p>帕博利珠单抗原研药相关专利将陆续到期。“超前卡位”背后，此次合作另一值得关注的细节是：TQB3570尚处于早期开发阶段，未进入临床，即与STADA敲定合作。STADA在项目极早期即锁定权益，看中的是中国生物制药整体的生物药开发与商业化生产能力 。</p><p><br/></p><p>这正是生物类似药行业的特殊之处。与化学仿制药相比，生物类似药从细胞株、发酵、纯化到质量控制的工艺复杂性呈数量级上升，单一商业化工厂的资本开支往往以数十亿元人民币计。对于欧美合作伙伴而言，更难判断、也更值钱的，是谁有能力把一款超级重磅药从工艺验证一路做到商业化规模的可靠供应。</p><p><br/></p><p>正大天晴拥有国内领先的12.6万升生物药产能（含4万升在建），和获得多个国家和地区GMP检查认证的质量体系，一整套能够承接全球级订单的供应链，并已有十余款生物创新药和类似药获批在中国上市，年销售额数十亿元。STADA首席商务官Bryan Kim在公告中直接点明了这一点：“经过对全球市场及潜在合作伙伴的系统评估，我们认为正大天晴是理想的长期合作伙伴。正大天晴拥有出色的研发能力与高度一体化的专业生产体系，具备出色的合规记录和大规模生物药商业化生产能力。结合STADA的商业化覆盖、招标、市场准入和医学事务等方面的能力，以及近20年的生物类似药经验和特立帕肽等药物在欧洲多款产品市场的领先地位，此次合作将使我们在未来生物类似药的市场竞争中占据有利位置。”</p><p><br/></p><p>STADA总部位于德国巴特菲尔贝尔，业务聚焦消费者健康产品、仿制药和专科药三大业务支柱， 2025年销售额达42.96亿欧元。其在生物类似药领域快速扩张，已建立起覆盖多个治疗领域、拥有11款已获批生物类似药的稳健产品组合。STADA首席执行官Peter Goldschmidt表示：“与中国生物制药和正大天晴就帕博利珠单抗及更多产品开展合作，将加速STADA在生物类似药业务的增长。中国生物制药和正大天晴已经在多个治疗领域达成国际合作并实现产品上市，这些经验将有力支持双方进一步提升患者用药可及性，尤其是在市场需求量极高的生物药领域。”</p><p><br/></p><p><strong><br/></strong></p><p>放在更大的产业坐标系里，这次合作更显得意义非同寻常。</p><p><br/></p><p>据IQVIA统计，过去10至12年间，欧洲生物类似药的使用量持续快速增长，带来的节省 （按标价计算）累计已达750亿欧元。在美国，2025年，生物类似药为美国医疗系统节省254亿美元。但美国可及药物协会（AAM）的报告警告，超100种生物药将在2034年前失去专利保护，但这些药物中目前仅有10%有生物类似药在研，未来将形成一个巨大的“真空期”。</p><p><br/></p><p>2016年前，欧美市场曾经历过一轮重磅小分子药物密集专利到期，催生了化学仿制药的黄金时代。今天的生物类似药行业，正站在类似的爆发周期起点。与化药仿制药不同的是，生物类似药生产工艺复杂、产线投入大、验证周期长，这使得除贝伐珠单抗等极少数品种外，全球生物类似药的供应仍存在巨大缺口。</p><p><br/></p><p>这也为生物类似药的全球爆发提供了契机。据IQVIA估算，2025年至2034年间，美国市场将有118种生物药失去专利保护，对应销售暴露超过2300亿美元；其中包括全球销售额最高的一批“超级大品种”：除帕博利珠单抗（2025年全球约317亿美元）外，还包括度普利尤单抗（约178亿美元）、达雷妥尤单抗（约144亿美元）、纳武利尤单抗（约111亿美元）等。</p><p><br/></p><p>随着全球多个巨头涌入，这场生物类似药“卡位战”已然打响。其中最受关注的，无疑是 “K药”为代表的超级大品种。而中国生物制药和STADA的合作，不仅定位精准，并且凭借正大天晴强势的研发生产能力，已经在“百抗大战”中占据领先身位。</p><p><br/></p><p><strong><br/></strong></p><p>对中国生物制药而言，此次合作的更大意义，在于其国际化版图从“创新药授权”进一步延伸至生物类似药的“开发—生产—供应”全链条体系。</p><p><br/></p><p>中国生物制药CEO谢承润表示：“中国生物制药近期达成的多个对外授权合作，体现了国际市场对我们创新能力日益提升的认可。此次与STADA的合作延续了这一发展势头，将我们在生物药开发、生产及质量管理方面的能力带向更加广阔的国际舞台。凭借长期建立的商业化基础设施、深入的市场洞察，以及在欧洲、欧亚和中东市场的广泛布局，STADA是帮助释放我们肿瘤免疫领域生物类似药产品潜力的理想合作伙伴。”</p><p><br/></p><p>2026年以来，中国生物制药创新药出海接连落子，与赛诺菲和阿斯利康达成两笔合计近35亿美元的重磅授权交易。8月31日，中生自主研发的全球首个HER2双抗ADC 创新药TQB2102授予Cipla在印度、南非及其他五个新兴市场开发及商业化的独家许可，正大天晴负责生产及供应。</p><p><br/></p><p>面对新一轮生物药专利悬崖，中国生物制药不仅有丰富的全球产品群，更凭借强大的研发生产能力，直接站在欧美主流玩家的牌桌上。公司此前已有8款生物类似药获批上市，在国内市场淬炼出的成本控制与质量体系，正通过“开发—生产—供应”的全体系合作转化为全球竞争力。</p><p><br/></p><p>与上一轮化药仿制药“先做出来、再打价格战”的路径不同，这一轮生物类似药比拼的是从细胞株构建、工艺放大到全球商业化可靠供应的体系能力。谁能在窗口期内把超级品种做到高度相似、稳定可控，并经得起欧美监管体系的检验，谁就能在这场超2000亿美元的市场重构中占据长期位置。STADA与正大天晴落下的这枚坐标，既是对生物类似药黄金十年的提前卡位，也是中国生物制药从创新药授权迈向生物药全体系出海的关键一步。</p><p><br/></p></div> </div></body></html>",
     "lang": "zh",
-    "created_at": "2026-09-28T16:48:39.232183+00:00"
-  },
-  {
-    "id": "9e502c9d-1c73-42f8-b7e1-c16b1011b1f9",
-    "title": "《医疗卫生机构托管云建设指南》：推动医疗云迈向核心业务承载与AI创新",
-    "source": "HIT专家网",
-    "category": "Policy",
-    "level": "A",
-    "tags": [
-      "监管合规"
-    ],
-    "time": "2026-09-28T16:48:00+00:00",
-    "url": "https://www.hit180.com/80719.html",
-    "summary": "2026-09-28HIT金子阅读(69)评论(0)赞(0)...",
-    "full_content": "<html><body><div><article class=\"article-content\">\n<p>来源：<a href=\"http://www.hit180.com\" rel=\"noreferrer noopener\" target=\"_blank\"><u>HIT专家网</u></a> 供稿：深信服</p>\n<p>近日，在第二届医学人工智能大会（MAIC2nd 2026）“智能临床诊疗决策支持——侧重专科临床辅助决策”论坛上，深信服科技云计算业务副总裁芦鑫围绕医疗行业云、AI应用及《医疗卫生机构托管云建设指南》团体标准发表主题演讲。</p>\n<figure class=\"wp-block-image size-full is-resized\"><a href=\"https://alicdn.hit180.com/wp-content/uploads/2026/09/7f88dbbcaa77a1d-2.png\"><img alt=\"\" class=\"wp-image-80720\" sizes=\"(max-width: 812px) 100vw, 812px\" src=\"https://alicdn.hit180.com/wp-content/uploads/2026/09/7f88dbbcaa77a1d-2.png\" srcset=\"https://alicdn.hit180.com/wp-content/uploads/2026/09/7f88dbbcaa77a1d-2.png 812w, https://alicdn.hit180.com/wp-content/uploads/2026/09/7f88dbbcaa77a1d-2-300x200.png 300w, https://alicdn.hit180.com/wp-content/uploads/2026/09/7f88dbbcaa77a1d-2-768x513.png 768w\"/></a><figcaption>深信服科技云计算业务副总裁芦鑫</figcaption></figure>\n<p>《医疗卫生机构托管云建设指南》由广东省人民医院发起，深信服作为核心参编单位之一深度参与标准研制。《指南》聚焦云基础设施、云服务能力、安全合规、业务连续性、运维保障及责任边界等关键议题，为医疗卫生机构托管云规划、建设、运营与使用提供参考。</p>\n<p>不同于以资源交付为主的传统云，医疗托管云面向医疗业务场景，不仅提供专属可控的云资源，还融合核心业务生态适配、AI算力与安全，以及迁移、数据库、灾备和7×24小时运维等专业服务。</p>\n<p>医院上云，不是把系统简单搬到云上，而是把连续运行、安全合规和专业服务一并带到云上。 随着HIS、EMR、PACS等核心系统持续演进，以及AI智能体、AI应用加速落地，医疗云不仅要“承载得了、稳得住”，还要让医疗AI“用得起、管得住”。《指南》将推动医疗云从通用资源供给向核心业务稳定承载、AI创新支撑和专业化持续运营进一步演进。</p>\n<div class=\"wp-block-image\"><figure class=\"aligncenter\"><img alt=\"此图片的alt属性为空；文件名为HIT%E4%B8%93%E5%AE%B6%E7%BD%91%E8%AE%A2%E9%98%85%E5%8F%B7.png\" src=\"https://alicdn.hit180.com/wp-content/uploads/2020/04/HIT%E4%B8%93%E5%AE%B6%E7%BD%91%E8%AE%A2%E9%98%85%E5%8F%B7.png\"/><figcaption>关注HIT专家网微信订阅号<br/>精彩不容错过！</figcaption></figure></div>\n<div class=\"wp-block-image\"><figure class=\"aligncenter\"><a href=\"https://alicdn.hit180.com/wp-content/uploads/2022/04/9fd96946f80198b.png\"><img alt=\"\" class=\"wp-image-56538\" loading=\"lazy\" src=\"https://alicdn.hit180.com/wp-content/uploads/2022/04/9fd96946f80198b.png\"/></a><figcaption>寻求“商务合作”请扫码填写需求<br/>我们将尽快与您联系！</figcaption></figure></div>\n<p class=\"has-text-align-right\">【责任编辑：陈曦 版式：蒙辉】</p>\n</article>\n</div></body></html>",
-    "lang": "zh",
-    "created_at": "2026-09-28T16:48:39.232183+00:00"
-  },
-  {
-    "id": "b6be87c8-368d-46cf-bf3b-1551776368d2",
-    "title": "Health AI Laws: 58 Enacted Across 27 Jurisdictions — What Healthcare AI Vendors Need to Know in…",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [
-      "医学影像",
-      "监管合规"
-    ],
-    "time": "2026-09-28T14:40:00+00:00",
-    "url": "https://medium.com/@dshihtzu/health-ai-laws-58-enacted-across-27-jurisdictions-what-healthcare-ai-vendors-need-to-know-in-7bae18eb4d82",
-    "summary": "While the cloud giants race into clinical AI, a compliance layer is building beneath them that most mid-size vendors haven&#x2019;t fully mapped.Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@dshihtzu/health-ai-laws-58-enacted-across-27-jurisdictions-what-healthcare-ai-vendors-need-to-know-in-7bae18eb4d82?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1200/1*R_UU6bGiQOXUXawXGWOCVA.png\" width=\"1200\" /></a></p><p class=\"medium-feed-snippet\">While the cloud giants race into clinical AI, a compliance layer is building beneath them that most mid-size vendors haven&#x2019;t fully mapped.</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@dshihtzu/health-ai-laws-58-enacted-across-27-jurisdictions-what-healthcare-ai-vendors-need-to-know-in-7bae18eb4d82?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-09-28T16:48:39.232183+00:00"
-  },
-  {
-    "id": "9c89dc5d-bc81-488c-9d69-46582b7de8ed",
-    "title": "Why Patient Access App Development Should Start With the Patient Journey",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "B",
-    "tags": [
-      "监管合规"
-    ],
-    "time": "2026-09-28T10:36:00+00:00",
-    "url": "https://medium.com/@wedowebappsuk/why-patient-access-app-development-should-start-with-the-patient-journey-69f1e2755f39",
-    "summary": "Digital healthcare is often discussed in terms of features.Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@wedowebappsuk/why-patient-access-app-development-should-start-with-the-patient-journey-69f1e2755f39?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1672/1*osIZcBxHVwC6VOe70taAhw.png\" width=\"1672\" /></a></p><p class=\"medium-feed-snippet\">Digital healthcare is often discussed in terms of features.</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@wedowebappsuk/why-patient-access-app-development-should-start-with-the-patient-journey-69f1e2755f39?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-09-28T16:48:39.232183+00:00"
-  },
-  {
-    "id": "7b90c84c-30aa-49ad-8fc7-3a9cd25d00cd",
-    "title": "The Doctor Will See You on Your Screen: How Remote Healthcare is Rewriting the Rules of Medicine",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "B",
-    "tags": [
-      "医学影像",
-      "医院运营"
-    ],
-    "time": "2026-09-28T07:35:00+00:00",
-    "url": "https://medium.com/@medremedy99/the-doctor-will-see-you-on-your-screen-how-remote-healthcare-is-rewriting-the-rules-of-medicine-5e1417491504",
-    "summary": "Picture this: It is midnight, and your toddler spike a sudden fever. Years ago, this meant a frantic scramble waking up a crying child&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@medremedy99/the-doctor-will-see-you-on-your-screen-how-remote-healthcare-is-rewriting-the-rules-of-medicine-5e1417491504?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/1376/1*J2SikYbpgXmKjtpTwNE6eQ.jpeg\" width=\"1376\" /></a></p><p class=\"medium-feed-snippet\">Picture this: It is midnight, and your toddler spike a sudden fever. Years ago, this meant a frantic scramble waking up a crying child&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@medremedy99/the-doctor-will-see-you-on-your-screen-how-remote-healthcare-is-rewriting-the-rules-of-medicine-5e1417491504?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
     "created_at": "2026-09-28T16:48:39.232183+00:00"
   }
 ]
