@@ -1,5 +1,37 @@
 [
   {
+    "id": "00754f1d-9a2f-4618-a3ae-4f589d737343",
+    "title": "Why Healthcare Systems Struggle to Share Patient Data: Understanding FHIR, ABDM, and the Future of…",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "A",
+    "tags": [
+      "数据治理"
+    ],
+    "time": "2026-11-05T14:55:00+00:00",
+    "url": "https://medium.com/@sandeeppatel_in/why-healthcare-systems-struggle-to-share-patient-data-understanding-fhir-abdm-and-the-future-of-2c71f94c07a8",
+    "summary": "How healthcare standards, consent-based data exchange, and better system integration can help India&#x2019;s digital health ecosystem move beyond&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@sandeeppatel_in/why-healthcare-systems-struggle-to-share-patient-data-understanding-fhir-abdm-and-the-future-of-2c71f94c07a8?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2600/0*HUGhM5u_GRbRCsaG\" width=\"3840\" /></a></p><p class=\"medium-feed-snippet\">How healthcare standards, consent-based data exchange, and better system integration can help India&#x2019;s digital health ecosystem move beyond&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@sandeeppatel_in/why-healthcare-systems-struggle-to-share-patient-data-understanding-fhir-abdm-and-the-future-of-2c71f94c07a8?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-11-05T22:03:30.809602+00:00"
+  },
+  {
+    "id": "b3200d6d-8a91-4dcf-9034-520d94643500",
+    "title": "Care Coordination in Long-Term Care: How Better Information Sharing Supports Patient Care",
+    "source": "Medium",
+    "category": "Insights",
+    "level": "B",
+    "tags": [
+      "医学影像"
+    ],
+    "time": "2026-11-05T12:27:00+00:00",
+    "url": "https://medium.com/@mdopslog/care-coordination-in-long-term-care-how-better-information-sharing-supports-patient-care-41f1d0e2397c",
+    "summary": "Long-term care practitioners often work with patients who have complex medical conditions, ongoing treatment needs, and frequent&#x2026;Continue reading on Medium »...",
+    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@mdopslog/care-coordination-in-long-term-care-how-better-information-sharing-supports-patient-care-41f1d0e2397c?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/935/1*le7MynNYIsn7tB-7zEgzuA.png\" width=\"935\" /></a></p><p class=\"medium-feed-snippet\">Long-term care practitioners often work with patients who have complex medical conditions, ongoing treatment needs, and frequent&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@mdopslog/care-coordination-in-long-term-care-how-better-information-sharing-supports-patient-care-41f1d0e2397c?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
+    "lang": "en",
+    "created_at": "2026-11-05T22:03:30.809602+00:00"
+  },
+  {
     "id": "afceef0d-ba8e-4cda-b792-c5bd0185e25c",
     "title": "今年北京第5款创新药落地，加速领跑细胞与基因治疗赛道",
     "source": "动脉网",
@@ -3356,40 +3388,5 @@
     "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-snippet\">Healthcare is often designed around appointments, diagnoses, prescriptions, and clinical procedures. But patients do not experience health&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@ciominds82/beyond-the-clinic-why-healthcare-must-adapt-to-patients-real-lives-8f43d00b4cb0?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
     "lang": "en",
     "created_at": "2026-10-07T21:19:42.055396+00:00"
-  },
-  {
-    "id": "cd34a409-5418-4c6c-8ff9-241ae09fc360",
-    "title": "Why Healthcare Apps Cost More (And Why That Matters)",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "A",
-    "tags": [
-      "电子病历",
-      "医学影像",
-      "监管合规"
-    ],
-    "time": "2026-10-07T03:16:00+00:00",
-    "url": "https://medium.com/@raftlabs/why-healthcare-apps-cost-more-and-why-that-matters-1daa6c8de27c",
-    "summary": "Healthcare app development costs $25K-$200K depending on HIPAA compliance, EHR integration, and device connectivity. Here&#x2019;s what actually&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-image\"><a href=\"https://medium.com/@raftlabs/why-healthcare-apps-cost-more-and-why-that-matters-1daa6c8de27c?source=rss------digital_health-5\"><img src=\"https://cdn-images-1.medium.com/max/2600/0*wInJe1Y2MdDyOoSY\" width=\"4608\" /></a></p><p class=\"medium-feed-snippet\">Healthcare app development costs $25K-$200K depending on HIPAA compliance, EHR integration, and device connectivity. Here&#x2019;s what actually&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@raftlabs/why-healthcare-apps-cost-more-and-why-that-matters-1daa6c8de27c?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-10-07T05:31:55.626901+00:00"
-  },
-  {
-    "id": "f36ade91-37b3-4e4a-abb3-7ed1e1734aca",
-    "title": "Dai’s View: Why Speed-to-Lead Matters More Than Ever in Healthcare",
-    "source": "Medium",
-    "category": "Insights",
-    "level": "B",
-    "tags": [
-      "医学影像",
-      "监管合规"
-    ],
-    "time": "2026-10-06T18:35:00+00:00",
-    "url": "https://medium.com/@harper10870/dais-view-why-speed-to-lead-matters-more-than-ever-in-healthcare-6f87f2fbe5f5",
-    "summary": "For Manish Dai, one of the most overlooked factors in healthcare marketing is speed-to-lead. A healthcare practice can invest heavily in&#x2026;Continue reading on Medium »...",
-    "full_content": "<div class='medium-fallback'><p><em>Note: This article is behind Medium's Paywall. Here is the summary:</em></p><br><p><div class=\"medium-feed-item\"><p class=\"medium-feed-snippet\">For Manish Dai, one of the most overlooked factors in healthcare marketing is speed-to-lead. A healthcare practice can invest heavily in&#x2026;</p><p class=\"medium-feed-link\"><a href=\"https://medium.com/@harper10870/dais-view-why-speed-to-lead-matters-more-than-ever-in-healthcare-6f87f2fbe5f5?source=rss------digital_health-5\">Continue reading on Medium »</a></p></div></p></div>",
-    "lang": "en",
-    "created_at": "2026-10-06T23:53:30.621317+00:00"
   }
 ]
